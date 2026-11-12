@@ -1,0 +1,1092 @@
+{
+  "lang": "en",
+  "audio": "audio/voice.en.mp3",
+  "source": "elevenlabs",
+  "durationSec": 86.831,
+  "videoDurationSec": 88.331,
+  "beats": [
+    {
+      "id": "b01",
+      "start": 0,
+      "end": 4.54,
+      "words": [
+        {
+          "text": "Barely",
+          "start": 0,
+          "end": 0.418
+        },
+        {
+          "text": "four",
+          "start": 0.534,
+          "end": 0.824
+        },
+        {
+          "text": "feet",
+          "start": 0.906,
+          "end": 1.103
+        },
+        {
+          "text": "of",
+          "start": 1.138,
+          "end": 1.196
+        },
+        {
+          "text": "bow.",
+          "start": 1.265,
+          "end": 1.834
+        },
+        {
+          "text": "It",
+          "start": 2.194,
+          "end": 2.345
+        },
+        {
+          "text": "outshoots",
+          "start": 2.392,
+          "end": 2.868
+        },
+        {
+          "text": "a",
+          "start": 2.914,
+          "end": 2.937
+        },
+        {
+          "text": "longbow",
+          "start": 3.007,
+          "end": 3.506
+        },
+        {
+          "text": "taller",
+          "start": 3.587,
+          "end": 3.913
+        },
+        {
+          "text": "than",
+          "start": 3.959,
+          "end": 4.075
+        },
+        {
+          "text": "you.",
+          "start": 4.122,
+          "end": 4.54
+        }
+      ]
+    },
+    {
+      "id": "b02",
+      "start": 5.027,
+      "end": 11.9,
+      "words": [
+        {
+          "text": "You",
+          "start": 5.027,
+          "end": 5.201
+        },
+        {
+          "text": "fight",
+          "start": 5.341,
+          "end": 5.596
+        },
+        {
+          "text": "on",
+          "start": 5.654,
+          "end": 5.759
+        },
+        {
+          "text": "horseback,",
+          "start": 5.828,
+          "end": 6.571
+        },
+        {
+          "text": "so",
+          "start": 6.734,
+          "end": 6.885
+        },
+        {
+          "text": "a",
+          "start": 6.954,
+          "end": 6.989
+        },
+        {
+          "text": "six-foot",
+          "start": 7.082,
+          "end": 7.593
+        },
+        {
+          "text": "bow",
+          "start": 7.651,
+          "end": 7.93
+        },
+        {
+          "text": "won't",
+          "start": 8.034,
+          "end": 8.243
+        },
+        {
+          "text": "fit.",
+          "start": 8.313,
+          "end": 8.835
+        },
+        {
+          "text": "Cut",
+          "start": 9.323,
+          "end": 9.509
+        },
+        {
+          "text": "a",
+          "start": 9.555,
+          "end": 9.578
+        },
+        {
+          "text": "wooden",
+          "start": 9.625,
+          "end": 9.868
+        },
+        {
+          "text": "one",
+          "start": 9.938,
+          "end": 10.101
+        },
+        {
+          "text": "short,",
+          "start": 10.147,
+          "end": 10.681
+        },
+        {
+          "text": "and",
+          "start": 10.855,
+          "end": 10.995
+        },
+        {
+          "text": "it",
+          "start": 11.064,
+          "end": 11.134
+        },
+        {
+          "text": "snaps.",
+          "start": 11.204,
+          "end": 11.9
+        }
+      ]
+    },
+    {
+      "id": "b03",
+      "start": 12.318,
+      "end": 21.305,
+      "words": [
+        {
+          "text": "Bending",
+          "start": 12.318,
+          "end": 12.783
+        },
+        {
+          "text": "squeezes",
+          "start": 12.887,
+          "end": 13.363
+        },
+        {
+          "text": "a",
+          "start": 13.398,
+          "end": 13.421
+        },
+        {
+          "text": "bow's",
+          "start": 13.479,
+          "end": 13.781
+        },
+        {
+          "text": "inside",
+          "start": 13.839,
+          "end": 14.443
+        },
+        {
+          "text": "and",
+          "start": 14.547,
+          "end": 14.803
+        },
+        {
+          "text": "stretches",
+          "start": 14.884,
+          "end": 15.372
+        },
+        {
+          "text": "its",
+          "start": 15.441,
+          "end": 15.569
+        },
+        {
+          "text": "outside.",
+          "start": 15.615,
+          "end": 16.382
+        },
+        {
+          "text": "Short",
+          "start": 16.869,
+          "end": 17.16
+        },
+        {
+          "text": "wood",
+          "start": 17.206,
+          "end": 17.497
+        },
+        {
+          "text": "can't",
+          "start": 17.578,
+          "end": 17.833
+        },
+        {
+          "text": "take",
+          "start": 17.88,
+          "end": 18.089
+        },
+        {
+          "text": "both.",
+          "start": 18.135,
+          "end": 18.704
+        },
+        {
+          "text": "So",
+          "start": 19.064,
+          "end": 19.343
+        },
+        {
+          "text": "wood",
+          "start": 19.459,
+          "end": 19.842
+        },
+        {
+          "text": "is",
+          "start": 19.912,
+          "end": 20.074
+        },
+        {
+          "text": "just",
+          "start": 20.179,
+          "end": 20.469
+        },
+        {
+          "text": "the",
+          "start": 20.527,
+          "end": 20.597
+        },
+        {
+          "text": "core.",
+          "start": 20.655,
+          "end": 21.305
+        }
+      ]
+    },
+    {
+      "id": "b04",
+      "start": 21.572,
+      "end": 28.515,
+      "words": [
+        {
+          "text": "On",
+          "start": 21.572,
+          "end": 21.746
+        },
+        {
+          "text": "the",
+          "start": 21.781,
+          "end": 21.85
+        },
+        {
+          "text": "inside,",
+          "start": 21.897,
+          "end": 22.559
+        },
+        {
+          "text": "you",
+          "start": 22.756,
+          "end": 22.872
+        },
+        {
+          "text": "glue",
+          "start": 22.988,
+          "end": 23.395
+        },
+        {
+          "text": "water",
+          "start": 23.464,
+          "end": 23.882
+        },
+        {
+          "text": "buffalo",
+          "start": 24.01,
+          "end": 24.439
+        },
+        {
+          "text": "horn.",
+          "start": 24.532,
+          "end": 25.09
+        },
+        {
+          "text": "Squeeze",
+          "start": 25.461,
+          "end": 26.007
+        },
+        {
+          "text": "it,",
+          "start": 26.053,
+          "end": 26.274
+        },
+        {
+          "text": "and",
+          "start": 26.448,
+          "end": 26.599
+        },
+        {
+          "text": "it",
+          "start": 26.657,
+          "end": 26.715
+        },
+        {
+          "text": "pushes",
+          "start": 26.773,
+          "end": 27.121
+        },
+        {
+          "text": "back",
+          "start": 27.191,
+          "end": 27.412
+        },
+        {
+          "text": "like",
+          "start": 27.47,
+          "end": 27.621
+        },
+        {
+          "text": "a",
+          "start": 27.644,
+          "end": 27.667
+        },
+        {
+          "text": "spring.",
+          "start": 27.737,
+          "end": 28.515
+        }
+      ]
+    },
+    {
+      "id": "b05",
+      "start": 28.944,
+      "end": 35.481,
+      "words": [
+        {
+          "text": "On",
+          "start": 28.944,
+          "end": 29.083
+        },
+        {
+          "text": "the",
+          "start": 29.118,
+          "end": 29.188
+        },
+        {
+          "text": "outside",
+          "start": 29.246,
+          "end": 29.699
+        },
+        {
+          "text": "goes",
+          "start": 29.745,
+          "end": 30.001
+        },
+        {
+          "text": "sinew:",
+          "start": 30.059,
+          "end": 30.709
+        },
+        {
+          "text": "animal",
+          "start": 31.08,
+          "end": 31.475
+        },
+        {
+          "text": "tendon.",
+          "start": 31.533,
+          "end": 32.09
+        },
+        {
+          "text": "Stretch",
+          "start": 32.404,
+          "end": 32.787
+        },
+        {
+          "text": "it,",
+          "start": 32.833,
+          "end": 33.031
+        },
+        {
+          "text": "and",
+          "start": 33.228,
+          "end": 33.391
+        },
+        {
+          "text": "it",
+          "start": 33.46,
+          "end": 33.53
+        },
+        {
+          "text": "snaps",
+          "start": 33.588,
+          "end": 33.96
+        },
+        {
+          "text": "back",
+          "start": 34.018,
+          "end": 34.296
+        },
+        {
+          "text": "like",
+          "start": 34.354,
+          "end": 34.505
+        },
+        {
+          "text": "a",
+          "start": 34.54,
+          "end": 34.563
+        },
+        {
+          "text": "rubber",
+          "start": 34.633,
+          "end": 34.854
+        },
+        {
+          "text": "band.",
+          "start": 34.912,
+          "end": 35.481
+        }
+      ]
+    },
+    {
+      "id": "b06",
+      "start": 35.794,
+      "end": 45.57,
+      "words": [
+        {
+          "text": "But",
+          "start": 35.794,
+          "end": 35.957
+        },
+        {
+          "text": "under",
+          "start": 36.015,
+          "end": 36.235
+        },
+        {
+          "text": "load,",
+          "start": 36.294,
+          "end": 36.816
+        },
+        {
+          "text": "the",
+          "start": 36.967,
+          "end": 37.06
+        },
+        {
+          "text": "layers",
+          "start": 37.129,
+          "end": 37.617
+        },
+        {
+          "text": "slide",
+          "start": 37.698,
+          "end": 38.012
+        },
+        {
+          "text": "apart.",
+          "start": 38.035,
+          "end": 38.65
+        },
+        {
+          "text": "So",
+          "start": 39.242,
+          "end": 39.405
+        },
+        {
+          "text": "you",
+          "start": 39.451,
+          "end": 39.544
+        },
+        {
+          "text": "bond",
+          "start": 39.626,
+          "end": 39.951
+        },
+        {
+          "text": "them",
+          "start": 40.032,
+          "end": 40.171
+        },
+        {
+          "text": "with",
+          "start": 40.206,
+          "end": 40.334
+        },
+        {
+          "text": "glue",
+          "start": 40.403,
+          "end": 40.949
+        },
+        {
+          "text": "boiled",
+          "start": 41.007,
+          "end": 41.483
+        },
+        {
+          "text": "from",
+          "start": 41.53,
+          "end": 41.669
+        },
+        {
+          "text": "hide",
+          "start": 41.75,
+          "end": 42.04
+        },
+        {
+          "text": "or",
+          "start": 42.075,
+          "end": 42.145
+        },
+        {
+          "text": "fish",
+          "start": 42.215,
+          "end": 42.435
+        },
+        {
+          "text": "bladders.",
+          "start": 42.47,
+          "end": 43.109
+        },
+        {
+          "text": "Then",
+          "start": 43.608,
+          "end": 43.875
+        },
+        {
+          "text": "wait",
+          "start": 43.956,
+          "end": 44.153
+        },
+        {
+          "text": "a",
+          "start": 44.188,
+          "end": 44.223
+        },
+        {
+          "text": "year",
+          "start": 44.304,
+          "end": 44.537
+        },
+        {
+          "text": "while",
+          "start": 44.571,
+          "end": 44.746
+        },
+        {
+          "text": "it",
+          "start": 44.78,
+          "end": 44.838
+        },
+        {
+          "text": "dries.",
+          "start": 44.873,
+          "end": 45.57
+        }
+      ]
+    },
+    {
+      "id": "b07",
+      "start": 46.081,
+      "end": 56.275,
+      "words": [
+        {
+          "text": "Then",
+          "start": 46.081,
+          "end": 46.406
+        },
+        {
+          "text": "the",
+          "start": 46.487,
+          "end": 46.568
+        },
+        {
+          "text": "invisible",
+          "start": 46.626,
+          "end": 47.126
+        },
+        {
+          "text": "enemy:",
+          "start": 47.172,
+          "end": 47.671
+        },
+        {
+          "text": "damp",
+          "start": 48.356,
+          "end": 48.67
+        },
+        {
+          "text": "air.",
+          "start": 48.751,
+          "end": 49.273
+        },
+        {
+          "text": "The",
+          "start": 49.958,
+          "end": 50.075
+        },
+        {
+          "text": "glue",
+          "start": 50.133,
+          "end": 50.423
+        },
+        {
+          "text": "softens,",
+          "start": 50.481,
+          "end": 51.189
+        },
+        {
+          "text": "and",
+          "start": 51.282,
+          "end": 51.433
+        },
+        {
+          "text": "the",
+          "start": 51.479,
+          "end": 51.549
+        },
+        {
+          "text": "bow",
+          "start": 51.595,
+          "end": 51.897
+        },
+        {
+          "text": "peels",
+          "start": 52.048,
+          "end": 52.362
+        },
+        {
+          "text": "apart.",
+          "start": 52.408,
+          "end": 53.012
+        },
+        {
+          "text": "So",
+          "start": 53.511,
+          "end": 53.65
+        },
+        {
+          "text": "you",
+          "start": 53.72,
+          "end": 53.79
+        },
+        {
+          "text": "seal",
+          "start": 53.871,
+          "end": 54.092
+        },
+        {
+          "text": "it",
+          "start": 54.15,
+          "end": 54.208
+        },
+        {
+          "text": "in",
+          "start": 54.254,
+          "end": 54.301
+        },
+        {
+          "text": "bark",
+          "start": 54.37,
+          "end": 54.626
+        },
+        {
+          "text": "or",
+          "start": 54.684,
+          "end": 54.754
+        },
+        {
+          "text": "leather",
+          "start": 54.812,
+          "end": 55.102
+        },
+        {
+          "text": "and",
+          "start": 55.16,
+          "end": 55.264
+        },
+        {
+          "text": "keep",
+          "start": 55.323,
+          "end": 55.508
+        },
+        {
+          "text": "it",
+          "start": 55.555,
+          "end": 55.613
+        },
+        {
+          "text": "cased.",
+          "start": 55.659,
+          "end": 56.275
+        }
+      ]
+    },
+    {
+      "id": "b08",
+      "start": 56.843,
+      "end": 64.692,
+      "words": [
+        {
+          "text": "Unstrung,",
+          "start": 56.843,
+          "end": 57.563
+        },
+        {
+          "text": "the",
+          "start": 57.598,
+          "end": 57.691
+        },
+        {
+          "text": "bow",
+          "start": 57.761,
+          "end": 57.981
+        },
+        {
+          "text": "curls",
+          "start": 58.086,
+          "end": 58.399
+        },
+        {
+          "text": "backward",
+          "start": 58.469,
+          "end": 58.945
+        },
+        {
+          "text": "into",
+          "start": 58.991,
+          "end": 59.177
+        },
+        {
+          "text": "a",
+          "start": 59.247,
+          "end": 59.282
+        },
+        {
+          "text": "C.",
+          "start": 59.34,
+          "end": 59.874
+        },
+        {
+          "text": "Bend",
+          "start": 60.292,
+          "end": 60.57
+        },
+        {
+          "text": "it",
+          "start": 60.617,
+          "end": 60.675
+        },
+        {
+          "text": "the",
+          "start": 60.71,
+          "end": 60.779
+        },
+        {
+          "text": "other",
+          "start": 60.826,
+          "end": 61
+        },
+        {
+          "text": "way",
+          "start": 61.058,
+          "end": 61.267
+        },
+        {
+          "text": "to",
+          "start": 61.348,
+          "end": 61.453
+        },
+        {
+          "text": "string",
+          "start": 61.569,
+          "end": 61.847
+        },
+        {
+          "text": "it.",
+          "start": 61.905,
+          "end": 62.196
+        },
+        {
+          "text": "Now",
+          "start": 62.765,
+          "end": 62.997
+        },
+        {
+          "text": "it's",
+          "start": 63.066,
+          "end": 63.206
+        },
+        {
+          "text": "loaded",
+          "start": 63.299,
+          "end": 63.682
+        },
+        {
+          "text": "before",
+          "start": 63.751,
+          "end": 64.018
+        },
+        {
+          "text": "you",
+          "start": 64.065,
+          "end": 64.146
+        },
+        {
+          "text": "pull.",
+          "start": 64.193,
+          "end": 64.692
+        }
+      ]
+    },
+    {
+      "id": "b09",
+      "start": 65.354,
+      "end": 72.668,
+      "words": [
+        {
+          "text": "Last,",
+          "start": 65.354,
+          "end": 65.934
+        },
+        {
+          "text": "the",
+          "start": 66.039,
+          "end": 66.143
+        },
+        {
+          "text": "tips.",
+          "start": 66.201,
+          "end": 66.77
+        },
+        {
+          "text": "They",
+          "start": 67.188,
+          "end": 67.385
+        },
+        {
+          "text": "never",
+          "start": 67.467,
+          "end": 67.722
+        },
+        {
+          "text": "bend.",
+          "start": 67.792,
+          "end": 68.337
+        },
+        {
+          "text": "These",
+          "start": 68.918,
+          "end": 69.243
+        },
+        {
+          "text": "stiff",
+          "start": 69.301,
+          "end": 69.603
+        },
+        {
+          "text": "levers,",
+          "start": 69.684,
+          "end": 70.276
+        },
+        {
+          "text": "siyahs,",
+          "start": 70.474,
+          "end": 71.228
+        },
+        {
+          "text": "whip",
+          "start": 71.333,
+          "end": 71.542
+        },
+        {
+          "text": "the",
+          "start": 71.611,
+          "end": 71.681
+        },
+        {
+          "text": "string",
+          "start": 71.727,
+          "end": 72.006
+        },
+        {
+          "text": "forward.",
+          "start": 72.087,
+          "end": 72.668
+        }
+      ]
+    },
+    {
+      "id": "b10",
+      "start": 73.236,
+      "end": 81.329,
+      "words": [
+        {
+          "text": "Full",
+          "start": 73.236,
+          "end": 73.666
+        },
+        {
+          "text": "gallop.",
+          "start": 73.898,
+          "end": 74.548
+        },
+        {
+          "text": "You",
+          "start": 74.908,
+          "end": 75.048
+        },
+        {
+          "text": "draw",
+          "start": 75.106,
+          "end": 75.303
+        },
+        {
+          "text": "it",
+          "start": 75.361,
+          "end": 75.419
+        },
+        {
+          "text": "all",
+          "start": 75.466,
+          "end": 75.605
+        },
+        {
+          "text": "the",
+          "start": 75.651,
+          "end": 75.721
+        },
+        {
+          "text": "way",
+          "start": 75.767,
+          "end": 75.884
+        },
+        {
+          "text": "back.",
+          "start": 75.942,
+          "end": 76.441
+        },
+        {
+          "text": "No",
+          "start": 76.766,
+          "end": 76.917
+        },
+        {
+          "text": "crack.",
+          "start": 76.987,
+          "end": 77.602
+        },
+        {
+          "text": "Ottoman",
+          "start": 77.985,
+          "end": 78.426
+        },
+        {
+          "text": "archers",
+          "start": 78.496,
+          "end": 79.007
+        },
+        {
+          "text": "sent",
+          "start": 79.065,
+          "end": 79.262
+        },
+        {
+          "text": "arrows",
+          "start": 79.332,
+          "end": 79.761
+        },
+        {
+          "text": "over",
+          "start": 79.819,
+          "end": 80.005
+        },
+        {
+          "text": "eight",
+          "start": 80.086,
+          "end": 80.284
+        },
+        {
+          "text": "hundred",
+          "start": 80.33,
+          "end": 80.609
+        },
+        {
+          "text": "yards.",
+          "start": 80.655,
+          "end": 81.329
+        }
+      ]
+    },
+    {
+      "id": "b11",
+      "start": 81.55,
+      "end": 84.05,
+      "words": []
+    },
+    {
+      "id": "b12",
+      "start": 84.27,
+      "end": 86.789,
+      "words": [
+        {
+          "text": "Now",
+          "start": 84.27,
+          "end": 84.502
+        },
+        {
+          "text": "you",
+          "start": 84.572,
+          "end": 84.641
+        },
+        {
+          "text": "know",
+          "start": 84.688,
+          "end": 84.804
+        },
+        {
+          "text": "how",
+          "start": 84.85,
+          "end": 84.943
+        },
+        {
+          "text": "to",
+          "start": 85.001,
+          "end": 85.048
+        },
+        {
+          "text": "build",
+          "start": 85.117,
+          "end": 85.384
+        },
+        {
+          "text": "a",
+          "start": 85.442,
+          "end": 85.477
+        },
+        {
+          "text": "composite",
+          "start": 85.524,
+          "end": 86.046
+        },
+        {
+          "text": "bow.",
+          "start": 86.093,
+          "end": 86.789
+        }
+      ]
+    }
+  ]
+}
