@@ -26,7 +26,7 @@ Categories: see docs/storytelling.md.
 | star-fort | Star fort — why forts turned into stars when cannons came | defense-fortification | proposed |  | 2026-11-12 | 22 (h4 v3 d5 f5 va5) | https://en.wikipedia.org/wiki/Bastion_fort | ~100 s |
 | roman-concrete | Roman concrete — gets stronger in seawater for 2000 years | craft-material | proposed |  | 2026-11-12 | 21 (h5 v3 d3 f5 va5) | https://en.wikipedia.org/wiki/Roman_concrete | ~75 s |
 | chinampa | Chinampa — Aztec farms built in the middle of a lake | farming | proposed |  | 2026-11-12 | 21 (h4 v4 d4 f4 va5) | https://en.wikipedia.org/wiki/Chinampa | ~90 s |
-| composite-bow | Composite bow — a short bow that outshoots a longbow | weapon-tool | planned | en | 2026-11-12 | 20 (h4 v3 d4 f4 va5) | https://en.wikipedia.org/wiki/Composite_bow | ~90 s |
+| composite-bow | Composite bow — a short bow that outshoots a longbow | weapon-tool | needs-owner | en | 2026-11-12 | 20 (h4 v3 d4 f4 va5) | https://en.wikipedia.org/wiki/Composite_bow | ~90 s |
 | qanat | Qanat — water that flows underground for miles with no pump | water | proposed |  | 2026-11-12 | 19 (h4 v5 d4 f5 va1) | https://en.wikipedia.org/wiki/Qanat | ~90 s |
 | water-clock | Water clock — telling the time with a leaking bowl | everyday-object | proposed |  | 2026-11-12 | 18 (h3 v4 d4 f4 va3) | https://en.wikipedia.org/wiki/Water_clock | ~75 s |
 | magnetic-compass | Magnetic compass — a floating needle that always finds north | navigation-signal | proposed |  | 2026-11-12 | 20 (h4 v3 d3 f5 va5) | https://en.wikipedia.org/wiki/Compass | ~75 s |

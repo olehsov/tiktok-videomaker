@@ -473,3 +473,14 @@ Snapshot times for self-check (en):
 
 ## Builder notes
 (builder: record tuned values and any simplest-option decisions here)
+
+### Builder notes (build 1)
+- Transforms: SVG moves/rotations/scales use `kit tf()` + `attr:{transform}` tweens (not GSAP x/rotation) except horn/sinew x,y slides and the inset layer slides.
+- `rideDraw` tuned to `armR: 92` (hand level with the grip, ~100 px behind the shoulder), not 160. s1 draw hand at rider-local (-100, 696); s4 string middle `N = [-460, 0]` bow units; the in-flight arrow is 250 px (nock at the hand), not 150.
+- Clash ghost rotates the longbow -22 deg (not +22) so the lower tip meets the horse's shoulder; impact star at rider-local (192, 885).
+- Horse legs 200 px (pivot y -200) instead of 170 (-160) so legs overlap the barrel.
+- s3 whip trails and the s4 flight/ghost arcs are revealed with a clip-path rect width tween (a dashed path cannot also use dashoffset).
+- Siyah nock notch not drawn. `selfBow` curve: tip x = -0.6*bend*H.
+- Glue pot sits at y 935 on a fire at y 960 (s 1.1); hide/fish drop 150 px. Cases slide from y+1000 (off screen).
+- s6 horse at x 250 (not 300) so the grazing head clears the case. Dots in s5 use the plan positions.
+- Not verified visually: s3 trails, s4 dust, s5 flashes at full resolution; the ForceArrows `along` mode has no per-arrow fade.

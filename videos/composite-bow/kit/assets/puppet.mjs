@@ -13,6 +13,9 @@ export const POSES = {
   carry: { armL: -80, armR: -80, torso: -3 },
   lift: { armL: -170, armR: -170, torso: -3, legL: 3, legR: -3 },
   sleep: { body: 90, dy: -30, closed: 1, armL: -8, armR: -8 }, // lies with the head to the right
+  ride: { legL: -70, legR: -70 },
+  rideHold: { legL: -70, legR: -70, armL: -80 },
+  rideDraw: { legL: -70, legR: -70, armL: -90, armR: 92, head: 4 }, // right hand drawn back at head height (tuned, see PLAN builder notes)
   sleepLeft: { body: -90, dy: -30, closed: 1, armL: -8, armR: -8 }, // lies with the head to the left
 };
 // Looping actions alternate between two poses (finite repeats, no repeat:-1).
@@ -27,7 +30,7 @@ export const ACTIONS = {
  * → { svg, pose(name,at,dur), act(name,at,dur,period), move(x,y,at,dur), tl() }
  * Call pose/act/move in chronological order per puppet (state is tracked to build from→to tweens).
  */
-export function puppet({ id, x = 0, y = 0, s = 1, flip = false, jacket = "water" } = {}) {
+export function puppet({ id, x = 0, y = 0, s = 1, flip = false, jacket = "water", shadow = true } = {}) {
   const skin = tint("sand", 22), hair = shade("earth-3", 0);
   const part = (name, px, py, inner) => `<g transform="translate(${px} ${py})"><g id="${id}-${name}" transform="rotate(0)">${inner}</g></g>`;
   const legShape = (dark) =>
@@ -55,7 +58,7 @@ export function puppet({ id, x = 0, y = 0, s = 1, flip = false, jacket = "water"
 
   const svg =
     `<g id="${id}" transform="translate(${f(x)} ${f(y)})"><g transform="scale(${flip ? -s : s} ${s})">` +
-    groundShadow(0, 0, 90) + `<g id="${id}-lift" transform="translate(0 0)"><g id="${id}-body" transform="rotate(0)">` +
+    (shadow ? groundShadow(0, 0, 90) : "") + `<g id="${id}-lift" transform="translate(0 0)"><g id="${id}-body" transform="rotate(0)">` +
     part("legL", -14, -92, legShape(true)) +
     part("legR", 14, -92, legShape(false)) +
     part("torso", 0, -92,
