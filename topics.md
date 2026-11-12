@@ -37,6 +37,16 @@ Categories: see docs/storytelling.md.
 | salt-pans | Salt pans — sea water turned into salt by sun and wind | craft-material | proposed |  | 2026-11-12 | 19 (h4 v4 d4 f4 va3) | https://en.wikipedia.org/wiki/Salt_evaporation_pond | ~90 s |
 | trebuchet | Trebuchet — a catapult powered by a falling rock | weapon-tool | proposed |  | 2026-11-12 | 22 (h5 v5 d4 f5 va3) | https://en.wikipedia.org/wiki/Trebuchet | ~100 s |
 | log-beehive | Beehive — a home for bees built from a hollow log | farming | proposed |  | 2026-11-12 | 20 (h4 v5 d4 f4 va3) | https://en.wikipedia.org/wiki/Beehive | ~90 s |
+| tandoor | Tandoor — a clay oven that bakes bread at 480°C with charcoal | fire-heat | proposed |  | 2026-11-12 | 21 (h3 v5 d4 f4 va5) | https://en.wikipedia.org/wiki/Tandoor | ~90 s |
+| fog-catcher | Fog catcher — a net that drinks water from clouds | water | proposed |  | 2026-11-12 | 18 (h5 v4 d3 f4 va2) | https://en.wikipedia.org/wiki/Fog_collection | ~75 s |
+| atlatl | Atlatl — a stick that makes a spear fly like a bullet | weapon-tool | proposed |  | 2026-11-12 | 15 (h4 v3 d3 f4 va1) | https://en.wikipedia.org/wiki/Spear-thrower | ~75 s |
+| kayak | Kayak — a skin boat that rolls upright after capsizing | transport | proposed |  | 2026-11-12 | 21 (h4 v4 d4 f4 va5) | https://en.wikipedia.org/wiki/Kayak | ~90 s |
+| adobe-house | Adobe house — mud walls that stay cool in the desert | shelter | proposed |  | 2026-11-12 | 21 (h3 v4 d4 f5 va5) | https://en.wikipedia.org/wiki/Adobe | ~90 s |
+| pin-tumbler-lock | Pin tumbler lock — why only one key turns it | everyday-object | selected | en | 2026-11-12 | 24 (h5 v5 d4 f5 va5) | https://en.wikipedia.org/wiki/Pin_tumbler_lock | auto-picked: total 24, highest; hook 5, visual 5, variety 5 |
+| beacon-tower | Beacon tower — a message across 500 miles in an hour | navigation-signal | proposed |  | 2026-11-12 | 18 (h3 v3 d3 f4 va5) | https://en.wikipedia.org/wiki/Beacon | ~75 s |
+| drystone-wall | Drystone wall — a wall with no mortar that stands for centuries | craft-material | proposed |  | 2026-11-12 | 22 (h4 v5 d4 f4 va5) | https://en.wikipedia.org/wiki/Dry_stone | ~90 s |
+| castle-gatehouse | Castle gatehouse — the entrance built to kill attackers | defense-fortification | proposed |  | 2026-11-12 | 23 (h4 v5 d5 f4 va5) | https://en.wikipedia.org/wiki/Gatehouse | ~100 s |
+| wheelbarrow | Wheelbarrow — why one wheel carries more than two hands | everyday-object | proposed |  | 2026-11-12 | 19 (h3 v4 d3 f4 va5) | https://en.wikipedia.org/wiki/Wheelbarrow | ~60 s |
 
 Score column: `<total> (h hook · v visual · d depth · f facts · va variety)`, each 1–5. `—` = proposed before scoring existed.
 Link column: reference page for the topic (Wikipedia via `tools/wiki-lookup.mjs`; a search fallback is marked `(related)`). The brief-writer reads it first.
