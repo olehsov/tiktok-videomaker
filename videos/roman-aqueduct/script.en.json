@@ -1,0 +1,645 @@
+{
+  "slug": "roman-aqueduct",
+  "lang": "en",
+  "title": "Roman Aqueduct — A River With No Pump",
+  "targetDurationSec": 115,
+  "finalLine": "Now you know how to build a Roman aqueduct.",
+  "beats": [
+    {
+      "id": "b01",
+      "type": "hook",
+      "narration": "No pumps. No engines. Yet water flows thirty-one miles into a city, all by itself.",
+      "onScreen": {
+        "gauge": "31 mi / 50 km",
+        "meter": {
+          "label": "WATER IN TOWN",
+          "value": 0
+        }
+      },
+      "keywords": [
+        {
+          "text": "No pumps.",
+          "color": "red"
+        },
+        {
+          "text": "thirty-one miles",
+          "color": "yellow"
+        },
+        {
+          "text": "all by itself.",
+          "color": "yellow"
+        }
+      ],
+      "cues": [
+        {
+          "word": "city,",
+          "action": "city-reveal"
+        }
+      ]
+    },
+    {
+      "id": "b02",
+      "type": "attempt",
+      "narration": "Easy way: a straight ditch to town. But the land rises, and the water stops.",
+      "onScreen": {
+        "threatPlate": "⚠ WATER STOPS"
+      },
+      "keywords": [
+        {
+          "text": "the land rises,",
+          "color": "red"
+        },
+        {
+          "text": "water stops.",
+          "color": "red"
+        }
+      ],
+      "cues": [
+        {
+          "word": "ditch",
+          "action": "ditch-dig"
+        },
+        {
+          "word": "rises,",
+          "action": "ghost-pool-at-hill"
+        }
+      ]
+    },
+    {
+      "id": "b03",
+      "type": "step",
+      "step": 1,
+      "narration": "Water only flows downhill. Too steep, it rips the channel apart. Too flat, it stalls. So you give it a tiny, steady slope: under two feet per mile.",
+      "onScreen": {
+        "stepPlate": "✓ STEP 1 · TINY SLOPE",
+        "callouts": [
+          {
+            "id": "chorobates",
+            "title": "CHOROBATES",
+            "subtitle": "20-ft water level checks every stretch"
+          }
+        ],
+        "labels": [
+          {
+            "id": "slope",
+            "text": "< 2 ft/mi · < 0.4 m/km"
+          }
+        ],
+        "meter": {
+          "label": "WATER IN TOWN",
+          "value": 10
+        }
+      },
+      "keywords": [
+        {
+          "text": "rips the channel apart.",
+          "color": "red"
+        },
+        {
+          "text": "stalls.",
+          "color": "red"
+        },
+        {
+          "text": "tiny, steady slope:",
+          "color": "yellow"
+        },
+        {
+          "text": "under two feet per mile.",
+          "color": "yellow"
+        }
+      ],
+      "cues": [
+        {
+          "word": "steep,",
+          "action": "ghost-scour"
+        },
+        {
+          "word": "flat,",
+          "action": "ghost-stall"
+        },
+        {
+          "word": "slope:",
+          "action": "slope-tilt"
+        }
+      ]
+    },
+    {
+      "id": "b04",
+      "type": "step",
+      "step": 2,
+      "narration": "A hill in the way? Water can't go over it. So you wind around it, or tunnel straight through.",
+      "onScreen": {
+        "stepPlate": "✓ STEP 2 · AROUND OR THROUGH",
+        "callouts": [
+          {
+            "id": "tunnel",
+            "title": "TUNNEL",
+            "subtitle": "same gentle slope, through the rock"
+          }
+        ]
+      },
+      "keywords": [
+        {
+          "text": "can't go over it.",
+          "color": "red"
+        },
+        {
+          "text": "wind around it,",
+          "color": "yellow"
+        },
+        {
+          "text": "tunnel",
+          "color": "yellow"
+        }
+      ],
+      "cues": [
+        {
+          "word": "hill",
+          "action": "hill-rise"
+        },
+        {
+          "word": "over",
+          "action": "ghost-uphill"
+        },
+        {
+          "word": "tunnel",
+          "action": "tunnel-bore"
+        }
+      ]
+    },
+    {
+      "id": "b05",
+      "type": "step",
+      "step": 3,
+      "narration": "An open ditch is a trap: sun, evaporation, dirt, leaves. So you bury it under stone slabs. Most of the way, it runs underground.",
+      "onScreen": {
+        "threatPlate": "⚠ SUN & DIRT",
+        "stepPlate": "✓ STEP 3 · COVERED CHANNEL",
+        "callouts": [
+          {
+            "id": "specus",
+            "title": "SPECUS",
+            "subtitle": "buried channel with a stone-slab roof"
+          }
+        ],
+        "meter": {
+          "label": "WATER IN TOWN",
+          "value": 20
+        }
+      },
+      "keywords": [
+        {
+          "text": "evaporation,",
+          "color": "red"
+        },
+        {
+          "text": "dirt, leaves.",
+          "color": "red"
+        },
+        {
+          "text": "stone slabs.",
+          "color": "yellow"
+        },
+        {
+          "text": "underground.",
+          "color": "yellow"
+        }
+      ],
+      "cues": [
+        {
+          "word": "sun,",
+          "action": "ghost-sun-evaporation"
+        },
+        {
+          "word": "bury",
+          "action": "channel-bury"
+        },
+        {
+          "word": "slabs.",
+          "action": "slab-roof"
+        }
+      ]
+    },
+    {
+      "id": "b06",
+      "type": "step",
+      "step": 4,
+      "narration": "Then the soil drinks your water. So you coat the channel with crushed tiles and lime: waterproof, like a bathtub.",
+      "onScreen": {
+        "stepPlate": "✓ STEP 4 · WATERPROOF LINING",
+        "callouts": [
+          {
+            "id": "lining",
+            "title": "OPUS SIGNINUM",
+            "subtitle": "crushed tile + lime mortar"
+          }
+        ],
+        "meter": {
+          "label": "WATER IN TOWN",
+          "value": 30
+        }
+      },
+      "keywords": [
+        {
+          "text": "drinks your water.",
+          "color": "red"
+        },
+        {
+          "text": "crushed tiles",
+          "color": "yellow"
+        },
+        {
+          "text": "lime:",
+          "color": "yellow"
+        },
+        {
+          "text": "waterproof,",
+          "color": "yellow"
+        }
+      ],
+      "cues": [
+        {
+          "word": "drinks",
+          "action": "ghost-leak"
+        },
+        {
+          "word": "tiles",
+          "action": "ingredient-tiles"
+        },
+        {
+          "word": "lime:",
+          "action": "ingredient-lime"
+        },
+        {
+          "word": "waterproof,",
+          "action": "lining-coat"
+        }
+      ]
+    },
+    {
+      "id": "b07",
+      "type": "step",
+      "step": 5,
+      "narration": "Now a valley. Water that drops in won't climb out. So you build arches that send the weight down into the piers. At Pont du Gard: three tiers, a hundred and sixty feet.",
+      "onScreen": {
+        "threatPlate": "⚠ VALLEY",
+        "stepPlate": "✓ STEP 5 · ARCHES",
+        "callouts": [
+          {
+            "id": "arch",
+            "title": "ARCH",
+            "subtitle": "weight flows down into the piers"
+          }
+        ],
+        "labels": [
+          {
+            "id": "pdg-height",
+            "text": "160 ft / 49 m"
+          }
+        ],
+        "meter": {
+          "label": "WATER IN TOWN",
+          "value": 45
+        }
+      },
+      "keywords": [
+        {
+          "text": "won't climb out.",
+          "color": "red"
+        },
+        {
+          "text": "arches",
+          "color": "yellow"
+        },
+        {
+          "text": "three tiers,",
+          "color": "yellow"
+        },
+        {
+          "text": "a hundred and sixty feet.",
+          "color": "yellow"
+        }
+      ],
+      "cues": [
+        {
+          "word": "valley.",
+          "action": "valley-reveal"
+        },
+        {
+          "word": "drops",
+          "action": "ghost-valley-dip"
+        },
+        {
+          "word": "arches",
+          "action": "arches-rise"
+        },
+        {
+          "word": "weight",
+          "action": "load-arrows"
+        },
+        {
+          "word": "tiers,",
+          "action": "scale-pullback"
+        }
+      ]
+    },
+    {
+      "id": "b08",
+      "type": "step",
+      "step": 6,
+      "narration": "Some valleys are too deep for arches. So you seal the water in lead pipes. It rushes down and up the other side, into a tank slightly lower. Water seeks its own level.",
+      "onScreen": {
+        "threatPlate": "⚠ TOO DEEP",
+        "stepPlate": "✓ STEP 6 · SIPHON",
+        "callouts": [
+          {
+            "id": "siphon",
+            "title": "INVERTED SIPHON",
+            "subtitle": "sealed lead pipes, tank to lower tank"
+          }
+        ],
+        "meter": {
+          "label": "WATER IN TOWN",
+          "value": 55
+        }
+      },
+      "keywords": [
+        {
+          "text": "too deep",
+          "color": "red"
+        },
+        {
+          "text": "lead pipes.",
+          "color": "yellow"
+        },
+        {
+          "text": "slightly lower.",
+          "color": "yellow"
+        },
+        {
+          "text": "seeks its own level.",
+          "color": "yellow"
+        }
+      ],
+      "cues": [
+        {
+          "word": "deep",
+          "action": "ghost-too-tall"
+        },
+        {
+          "word": "pipes.",
+          "action": "siphon-pipes"
+        },
+        {
+          "word": "rushes",
+          "action": "siphon-flow"
+        },
+        {
+          "word": "lower.",
+          "action": "tank-fill"
+        }
+      ]
+    },
+    {
+      "id": "b09",
+      "type": "step",
+      "step": 7,
+      "narration": "After rain, the water turns muddy. Sand would clog every pipe. So you add a settling tank: water slows, sand sinks.",
+      "onScreen": {
+        "threatPlate": "⚠ MUD",
+        "stepPlate": "✓ STEP 7 · SETTLING TANK",
+        "meter": {
+          "label": "WATER IN TOWN",
+          "value": 65
+        }
+      },
+      "keywords": [
+        {
+          "text": "muddy.",
+          "color": "red"
+        },
+        {
+          "text": "clog every pipe.",
+          "color": "red"
+        },
+        {
+          "text": "settling tank:",
+          "color": "yellow"
+        },
+        {
+          "text": "sand sinks.",
+          "color": "yellow"
+        }
+      ],
+      "cues": [
+        {
+          "word": "rain,",
+          "action": "rain-muddy"
+        },
+        {
+          "word": "clog",
+          "action": "ghost-clog"
+        },
+        {
+          "word": "settling",
+          "action": "tank-build"
+        },
+        {
+          "word": "sinks.",
+          "action": "sand-settle"
+        }
+      ]
+    },
+    {
+      "id": "b10",
+      "type": "step",
+      "step": 8,
+      "narration": "Then the hidden threat: dissolved limestone. Year after year, it coats the walls like kettle scale. So you leave hatches, and crews scrape it clean.",
+      "onScreen": {
+        "threatPlate": "⚠ LIMESTONE CRUST",
+        "stepPlate": "✓ STEP 8 · ACCESS HATCHES",
+        "callouts": [
+          {
+            "id": "crust",
+            "title": "LIMESTONE CRUST",
+            "subtitle": "narrows the channel year after year"
+          }
+        ],
+        "meter": {
+          "label": "WATER IN TOWN",
+          "value": 70
+        }
+      },
+      "keywords": [
+        {
+          "text": "hidden threat:",
+          "color": "red"
+        },
+        {
+          "text": "dissolved limestone.",
+          "color": "red"
+        },
+        {
+          "text": "kettle scale.",
+          "color": "red"
+        },
+        {
+          "text": "hatches,",
+          "color": "yellow"
+        },
+        {
+          "text": "scrape it clean.",
+          "color": "yellow"
+        }
+      ],
+      "cues": [
+        {
+          "word": "limestone.",
+          "action": "crust-grow"
+        },
+        {
+          "word": "scale.",
+          "action": "flow-thin"
+        },
+        {
+          "word": "hatches,",
+          "action": "hatch-open"
+        },
+        {
+          "word": "scrape",
+          "action": "crew-scrape"
+        }
+      ]
+    },
+    {
+      "id": "b11",
+      "type": "step",
+      "step": 9,
+      "narration": "Finally, the city. A round tank splits the flow: fountains, baths, homes.",
+      "onScreen": {
+        "stepPlate": "✓ STEP 9 · SPLITTER TANK",
+        "callouts": [
+          {
+            "id": "castellum",
+            "title": "CASTELLUM",
+            "subtitle": "round tank that shares out the water"
+          }
+        ],
+        "meter": {
+          "label": "WATER IN TOWN",
+          "value": 85
+        }
+      },
+      "keywords": [
+        {
+          "text": "round tank",
+          "color": "yellow"
+        },
+        {
+          "text": "fountains, baths, homes.",
+          "color": "blue"
+        }
+      ],
+      "cues": [
+        {
+          "word": "tank",
+          "action": "castellum-build"
+        },
+        {
+          "word": "fountains,",
+          "action": "pipes-to-city"
+        }
+      ]
+    },
+    {
+      "id": "b12",
+      "type": "climax",
+      "narration": "Autumn storm. The river roars. The mud stays in the tank. The arches hold. The fountains keep running: up to ten million gallons a day, for centuries.",
+      "onScreen": {
+        "stepPlate": "✓ NO PUMP NEEDED",
+        "gauge": "10M gal / 40,000 m³ a day",
+        "meter": {
+          "label": "WATER IN TOWN",
+          "value": 100
+        }
+      },
+      "keywords": [
+        {
+          "text": "storm.",
+          "color": "red"
+        },
+        {
+          "text": "roars.",
+          "color": "red"
+        },
+        {
+          "text": "ten million gallons",
+          "color": "yellow"
+        },
+        {
+          "text": "for centuries.",
+          "color": "yellow"
+        }
+      ],
+      "cues": [
+        {
+          "word": "storm.",
+          "action": "storm"
+        },
+        {
+          "word": "tank.",
+          "action": "tank-catches-mud"
+        },
+        {
+          "word": "hold.",
+          "action": "arches-hold"
+        },
+        {
+          "word": "running:",
+          "action": "fountain-flow-pigeon"
+        }
+      ]
+    },
+    {
+      "id": "b13",
+      "type": "recap",
+      "narration": "",
+      "holdSec": 2.5,
+      "onScreen": {}
+    },
+    {
+      "id": "b14",
+      "type": "ending",
+      "narration": "Now you know how to build a Roman aqueduct.",
+      "onScreen": {
+        "labels": [
+          {
+            "id": "title",
+            "text": "PONT DU GARD · ~50 AD"
+          }
+        ]
+      },
+      "keywords": [
+        {
+          "text": "Roman aqueduct.",
+          "color": "yellow"
+        }
+      ]
+    }
+  ],
+  "cover": {
+    "headline": "31 MILES. NO PUMP?"
+  },
+  "post": {
+    "description": "Romans moved a river 31 miles with no pump, just a slope you can barely see. Every part has a reason.",
+    "hashtags": [
+      "#history",
+      "#engineering",
+      "#ancientrome",
+      "#aqueduct",
+      "#howitworks",
+      "#learnontiktok",
+      "#pontdugard"
+    ]
+  }
+}
