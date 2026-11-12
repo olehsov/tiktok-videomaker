@@ -14,9 +14,9 @@ const TONES = { yellow: "#F5C518", blue: "#3BA3FF", green: "#2FA84F", red: "#E54
  * Corner meter (e.g. "ICE SUPPLY"). { id, label, x, y, w, keyframes:[{t,value}], at, dur, tone, exit }
  * The fill scales to value/100 at each keyframe time (0.6 s ease). Persists to the end of its clip unless exit:true.
  */
-export function StakesMeter({ id, label, x, y, w = 380, keyframes, at, dur, tone = "yellow", exit = false }) {
+export function StakesMeter({ id, label, x, y, w = 460, keyframes, at, dur, tone = "yellow", exit = false }) {
   const text = label.toLocaleUpperCase();
-  const { size } = fitFont(text, { maxWidth: w - 32, max: 30, min: 28, letterSpacing: 0.06 });
+  const { size } = fitFont(text, { maxWidth: w - 32, max: 38, min: 32, letterSpacing: 0.06 });
   const first = keyframes[0]?.value ?? 0;
   const html =
     `<div id="${id}" ${clipAttrs(at, dur)} style="left:${x}px;top:${y}px;width:${w}px;height:84px"><div id="${id}-i" class="kit-meter" style="opacity:0;width:${w}px">` +

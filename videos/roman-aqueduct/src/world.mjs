@@ -6,12 +6,13 @@ const { poly, shade, tint, prng, f, pts, stage, sky, sun, mountains, rocks, pine
 export const r3 = (n) => Math.round(n * 1000) / 1000;
 export const L = (x) => 740 + 0.064 * (x - 190);
 export const MUD = "color-mix(in srgb, var(--water) 45%, var(--earth-1))";
+export const FARG = "color-mix(in srgb, var(--earth-1) 55%, var(--stone))", FARG2 = "color-mix(in srgb, var(--earth-1) 45%, var(--sand))", FARG3 = "color-mix(in srgb, var(--earth-2) 60%, var(--stone))";
 export const STAGNANT = "color-mix(in srgb, var(--water) 60%, var(--green-mid))";
 
 export const CAMS = {
   WIDE: [1200, 840, 0.45], F1: [2120, 820, 2.4], F2: [470, 745, 1.55], F3: [715, 740, 1.6], F4: [380, 745, 2.2], F6: [420, 760, 3.2],
   F7s: [800, 760, 1.5], F7a: [1120, 880, 1.1], F7b: [1120, 930, 0.85], F8: [1550, 905, 0.9], F9: [1830, 860, 1.9], F10a: [1900, 850, 2.0],
-  F10b: [1915, 852, 3.0], F11: [2080, 830, 2.0], F12a: [1450, 930, 0.85], F12b: [2090, 815, 2.4], F14a: [2100, 805, 2.6],
+  F10b: [1915, 852, 3.0], F11: [2080, 830, 2.0], F12a: [1650, 930, 0.8], F12b: [2090, 815, 2.4], F14a: [2100, 805, 2.6],
 };
 const rr = (v) => Math.round(v * 100) / 100;
 export const camStr = (n) => { const [fx, fy, s] = CAMS[n]; return `translate(${rr(540 - s * fx)} ${rr(900 - s * fy)}) scale(${rr(s)})`; };
@@ -95,10 +96,10 @@ export function drawWorld(I, st, slots) {
   {
     const r = prng(31);
     const top = []; for (let x = -600; x <= 3000; x += 100) top.push([x, 815 + (r() - 0.5) * 20]);
-    w += poly([...top, [3000, 1300], [-600, 1300]], tint("green-mid", 18));
+    w += poly([...top, [3000, 1300], [-600, 1300]], FARG);
     for (let i = 0; i < top.length - 1; i++) for (let row = 0; row < 4; row++) {
       const y = top[i][1] + row * 120;
-      w += poly([[top[i][0], y], [top[i + 1][0], y + 10], [(top[i][0] + top[i + 1][0]) / 2, y + 90]], (i + row) % 2 ? tint("green-mid", 26) : shade("green-mid", 6), 'opacity=".45"');
+      w += poly([[top[i][0], y], [top[i + 1][0], y + 10], [(top[i][0] + top[i + 1][0]) / 2, y + 90]], (i + row) % 2 ? FARG2 : FARG3, 'opacity=".45"');
     }
   }
   if (slots.behind) w += slots.behind;

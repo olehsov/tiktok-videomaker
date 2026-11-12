@@ -20,3 +20,9 @@
 | build.mjs | scene results `anchors[id].at/until`, `stepAt`, `meter` overrides; `options.gauge` (tone, icon); callout/label on-screen < 1.2 s warns | cue-driven overlay timing |
 
 Not a kit change but a build step: the loudnorm pass after rendering (see PLAN §8).
+| kit/components/Callout.mjs | card width 560 to 600; title 40..32 px; subtitle 32..30 px, up to 3 lines; Label 40..32 px, maxWidth 700 | phone legibility (>= 30 px body) |
+| kit/components/Gauge.mjs | text fit maxWidth 780, size 40..32 | gauge text was shrinking to ~26 px |
+| kit/components/StakesMeter.mjs | default width 460; label 38..32 px | meter label was ~28 px |
+
+## Round 2 fix
+- `kit/assets/pigeon.mjs`: new optional prop `halo` (default false) draws a pale translucent ellipse behind the pigeon for contrast on dark/storm backgrounds. Backward compatible.

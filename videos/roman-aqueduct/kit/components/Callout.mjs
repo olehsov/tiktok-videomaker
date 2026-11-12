@@ -3,7 +3,7 @@ import { fitFont, fitLines, textWidth } from "../measure.mjs";
 import { esc } from "../lowpoly.mjs";
 import { pop, fade, clipAttrs } from "./_anim.mjs";
 
-const CARD_W = 560, PAD_L = 36, PAD_R = 28, PAD_Y = 22, BAR = 10;
+const CARD_W = 600, PAD_L = 36, PAD_R = 28, PAD_Y = 22, BAR = 10;
 const CSS = `
 .kit-callout{left:0;top:0;width:${W}px;height:${H}px;pointer-events:none}
 .kit-callout-card{position:absolute;background:#fff;border-radius:14px;box-shadow:0 8px 24px rgba(10,16,28,.3);overflow:hidden;font-family:var(--font-ui);color:var(--ui-ink)}
@@ -22,8 +22,8 @@ const CSS = `
  */
 export function Callout({ id, title, subtitle = "", card, target, at, dur }) {
   const inner = CARD_W - PAD_L - PAD_R;
-  const t = fitFont(title.toLocaleUpperCase(), { maxWidth: inner, max: 38, min: 26 });
-  const sub = subtitle ? fitLines(subtitle, { maxWidth: inner, max: 28, min: 28, maxLines: 2, weight: 700 }) : null;
+  const t = fitFont(title.toLocaleUpperCase(), { maxWidth: inner, max: 40, min: 32 });
+  const sub = subtitle ? fitLines(subtitle, { maxWidth: inner, max: 32, min: 30, maxLines: 3, weight: 700 }) : null;
   const h = Math.ceil(PAD_Y * 2 + t.size * 1.2 + (sub ? 6 + sub.lines.length * sub.size * 1.28 : 0));
   // leader starts at the card-edge midpoint nearest the target
   const hasT = !!target;
@@ -46,7 +46,7 @@ export function Callout({ id, title, subtitle = "", card, target, at, dur }) {
 
 /** Small in-scene text tag (dimension lines, "16–20 in"). { id, text, x, y (center), at, dur } */
 export function Label({ id, text, x, y, at, dur }) {
-  const { size } = fitFont(text, { maxWidth: 360, max: 30, min: 20 });
+  const { size } = fitFont(text, { maxWidth: 700, max: 40, min: 32 });
   const w = Math.ceil(textWidth(text, size) + 32);
   const html = `<div id="${id}" ${clipAttrs(at, dur, 3, "kit-label")} style="left:${Math.round(x - w / 2)}px;top:${Math.round(y - size)}px;width:${w}px;font-size:${size}px"><span id="${id}-i" class="kit-label-i" style="opacity:0">${esc(text)}</span></div>`;
   return { html, css: CSS, tl: pop(`#${id}-i`, at, dur) };

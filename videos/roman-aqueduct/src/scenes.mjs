@@ -116,7 +116,7 @@ scenes.push({ id: "s2", beats: ["b02", "b03"], light: "day", render(ctx) {
   T.ft(`#${I}-A-water`, { opacity: 1, scaleX: 0, svgOrigin: `205 ${f(L(205) + 15)}` }, { opacity: 1, scaleX: 1, duration: 0.6, ease: "none" }, cTilt + 0.8);
   T.ft(`#${I}-Bg`, { opacity: 0 }, { opacity: 1, duration: 0.2 }, cTilt);
   return finish(W, {
-    anchors: { chorobates: { card: { x: 48, y: 590 }, target: { x: 858, y: 804 }, at: tcho + 0.2 }, slope: { x: 420, y: 800, at: cTilt + 0.5 } },
+    anchors: { chorobates: { card: { x: 48, y: 590 }, target: { x: 858, y: 804 }, at: tcho + 0.2 }, slope: { x: 420, y: 850, at: cTilt } },
     meter: { b03: [{ t: cTilt + 0.9, value: 10 }] },
   });
 } });
@@ -153,7 +153,7 @@ scenes.push({ id: "s3", beats: ["b04"], light: "day", render(ctx) {
   T.ft(`#${I}-Tg`, { scaleX: 0, svgOrigin: `560 ${f(L(560))}` }, { scaleX: 1, duration: 1.0, ease: "power1.inOut" }, cBore);
   pop(T, `#${I}-portR`, cBore + 1.0, "870 " + f(L(870) + 7));
   T.ft(`#${I}-T-water`, { opacity: 0 }, { opacity: 1, duration: 0.3 }, cBore + 1.0);
-  return finish(W, { anchors: { tunnel: { card: { x: 380, y: 1048 }, target: { x: 708, y: 971 }, at: cBore } } });
+  return finish(W, { anchors: { tunnel: { card: { x: 340, y: 1048 }, target: { x: 708, y: 971 }, at: Math.max(cHill + 0.9, cBore - 1.8) } } });
 } });
 
 // ================================================================ S4 — sun and dirt, covered channel
@@ -197,7 +197,7 @@ scenes.push({ id: "s4", beats: ["b05"], light: "harsh", render(ctx) {
   return finish(W, {
     tl: heat.tl,
     stepAt: { b05: cBury },
-    anchors: { specus: { card: { x: 380, y: 1050 }, target: { x: 650, y: 859 }, at: cRoof + 0.7 } },
+    anchors: { specus: { card: { x: 340, y: 1050 }, target: { x: 650, y: 859 }, at: cRoof + 0.7 } },
     meter: { b05: [{ t: cRoof + 0.6, value: 20 }] },
   });
 } });
@@ -476,7 +476,7 @@ scenes.push({ id: "s11", beats: ["b12"], light: "day", render(ctx) {
   const caps = whitecaps(T, I, { t: cStorm + 2.0, until: cFlow }) + splash(T, I, { t: cStorm + 2.0, until: cFlow });
   const gr = grains(T, I, { x0: 1780, x1: 1800, y0: 850, yFloor: 927, t: cCatch, n: 10, dur: [1.0, 1.2], step: 0.08, tag: "gm" });
   const hold = FlowArrows({ id: `${I}-ld`, kind: "load", x: 1000, y: 850, w: 280, h: 300, count: 7, dir: "down", width: 7, period: 0.9, at: cHold, dur: Math.min(1.6, cFlow - cHold - 0.1), inline: true });
-  const W = drawWorld(I, { lvl: 11 }, { T, t0: ctx.t0, t1: ctx.t1, cam: "F12a", sun: { x: 860, y: 470, r: 70 }, pigeon: { x: 2135, y: 832 },
+  const W = drawWorld(I, { lvl: 11 }, { T, t0: ctx.t0, t1: ctx.t1, cam: "F12a", sun: { x: 860, y: 470, r: 70 }, pigeon: { x: 2112, y: 818, s: 2.6, halo: true },
     front: cl.join("") + rn.svg, fx: caps + gr + hold.svg });
   const g = W.pigeon;
   // storm
@@ -499,7 +499,7 @@ scenes.push({ id: "s11", beats: ["b12"], light: "day", render(ctx) {
   T.to(`#${I}-rain`, { opacity: 0, duration: 0.8 }, cFlow);
   T.to(`#${I}-flood`, { scaleY: 0, opacity: 0, duration: 1.2 }, cFlow);
   for (const s of ["V-mud", "hdr-mud", "rcv-mud", "mB1", "set-mud"]) T.to(`#${I}-${s}`, { opacity: 0, duration: 1.0 }, cFlow);
-  camMove(T, I, "F12a", "F12b", cFlow, 1.4);
+  camMove(T, I, "F12a", "F12b", cFlow - 0.6, 0.8);
   T.to(`#${I}-fnt-jetThin`, { opacity: 0, duration: 0.3 }, cFlow + 0.8);
   T.to(`#${I}-fnt-jetFull`, { opacity: 1, strokeDashoffset: 0, duration: 0.5, ease: "power1.out" }, cFlow + 0.8);
   T.to(`#${I}-fnt-water`, { scaleY: 1, duration: 0.5, ease: "power1.out" }, cFlow + 0.8);
@@ -508,8 +508,7 @@ scenes.push({ id: "s11", beats: ["b12"], light: "day", render(ctx) {
     T.ft(`#${I}-fnt-sp${i}`, { opacity: 0 }, { opacity: 0, duration: 0.01 }, 0);
     T.ft(`#${I}-fnt-sp${i}`, { opacity: 0.9, y: 0, x: 0 }, { opacity: 0, y: 18, x: 3 + i, duration: 0.6, ease: "power1.in", repeat: nsp }, cFlow + 0.9 + i * 0.1);
   }
-  g.move(2112, 818, cFlow + 1.0, 0.4); g.act("flap", cFlow + 1.0, 0.4, 0.2); g.pose("stand", cFlow + 1.45, 0.1);
-  g.act("drink", cFlow + 1.5, 2.0, 0.7); g.pose("stand", cFlow + 3.55, 0.1);
+  g.act("drink", cFlow + 0.2, 3.0, 0.7); g.pose("stand", cFlow + 3.3, 0.1);
   return finish(W, {
     tl: hold.tl,
     meter: { b12: [{ t: cFlow + 0.6, value: 100 }] },

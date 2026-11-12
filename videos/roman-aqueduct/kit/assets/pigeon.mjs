@@ -16,7 +16,7 @@ export const PIGEON_ACTIONS = {
 };
 
 /** Pigeon observer, 30 wu long, 22 tall at s=1, feet at (0,0), facing right. Same API as puppet: { svg, pose, act, move, tl }. */
-export function pigeon({ id, x = 0, y = 0, s = 1, flip = false } = {}) {
+export function pigeon({ id, x = 0, y = 0, s = 1, flip = false, halo = false } = {}) {
   const part = (name, px, py, inner) => `<g transform="translate(${px} ${py})"><g id="${id}-${name}" transform="rotate(0)">${inner}</g></g>`;
   const legs = poly([[-3, -8], [-2, -8], [-2, 0], [-3, 0]], tint("tile", 20)) + poly([[2, -8], [3, -8], [3, 0], [2, 0]], tint("tile", 20)) +
     poly([[-5, 0], [0, 0], [0, -1]], tint("tile", 20)) + poly([[0, 0], [6, 0], [3, -1]], tint("tile", 20));
@@ -28,7 +28,7 @@ export function pigeon({ id, x = 0, y = 0, s = 1, flip = false } = {}) {
   const head = `<circle cx="3" cy="-1" r="5" style="fill:${tint("stone", 5)}"/>` + poly([[7, -2], [13, 0], [7, 1]], shade("sand", 10)) + `<circle cx="5" cy="-2" r="1.1" style="fill:var(--earth-3)"/>`;
   const svg =
     `<g id="${id}" transform="translate(${f(x)} ${f(y)})"><g transform="scale(${flip ? -s : s} ${s})"><g id="${id}-crouch" transform="translate(0 0)">` +
-    legs + `<g id="${id}-bodyg">` + part("body", 0, -8, `<g transform="translate(0 8)">${bodyShape}${patch}${part("wing", -2, -16 + 0, wing)}${part("head", 8, -18 + 0, head)}</g>`) + `</g></g></g></g>`;
+    (halo ? `<ellipse cx="0" cy="-10" rx="22" ry="17" style="fill:var(--snow)" opacity=".4"/>` : "") + legs + `<g id="${id}-bodyg">` + part("body", 0, -8, `<g transform="translate(0 8)">${bodyShape}${patch}${part("wing", -2, -16 + 0, wing)}${part("head", 8, -18 + 0, head)}</g>`) + `</g></g></g></g>`;
   const lines = [];
   const cur = { ...DEFAULT };
   const state = { x, y };

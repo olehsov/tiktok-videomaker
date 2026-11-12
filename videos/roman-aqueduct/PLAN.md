@@ -530,7 +530,7 @@ Every loop uses a finite `repeat`.
 - **Voice:** `audio/voice.en.mp3` → `assets/voice.mp3`, track 0, volume 1, from 0 to `durationSec` (114.651 s). The tail is silent.
 - **Music:** none. There is no `assets/music.*`, so `audio/music.loop.en.mp3` is not produced. If one appears later, `build.mjs` mixes it at `config.music.volume` (0.12) with the fades from `tools/music-loop.mjs` (in 1.0 s, out 2.0 s).
 - **Loudness:** the voice measures **−20.0 LUFS**; the target is −14 ±2. Normalise every render's audio after rendering. This keeps timing and video untouched:
-  `ffmpeg -y -i IN.mp4 -c:v copy -af loudnorm=I=-14:TP=-1.5:LRA=11 -ar 48000 -c:a aac -b:a 192k TMP.mp4 && mv TMP.mp4 IN.mp4`
+  `ffmpeg -y -i IN.mp4 -map 0:v:0 -map 0:a:0 -c:v copy -af loudnorm=I=-14:TP=-1.5:LRA=11 -ar 48000 -c:a aac -b:a 192k TMP.mp4 && mv TMP.mp4 IN.mp4`
 
 ## 9. Commands
 Run inside `/Users/oskrypnyk/own-projects/tiktok-videomaker/videos/roman-aqueduct`. These were verified against `hyperframes@0.9.36` (`render`/`snapshot`/`preview`/`check` all take `[DIR]`; `render -o/--quality draft|delivery/--start/--end`; `snapshot --at/--no-end/-o`; `preview --background/--status/--stop`).
