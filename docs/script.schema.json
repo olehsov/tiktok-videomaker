@@ -1,0 +1,117 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "tiktok-videomaker/script.schema.json",
+  "title": "script.<lang>.json — all text of one video in one language",
+  "type": "object",
+  "required": ["slug", "lang", "title", "targetDurationSec", "finalLine", "beats", "cover", "post"],
+  "additionalProperties": false,
+  "properties": {
+    "slug": { "type": "string", "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$" },
+    "lang": { "enum": ["en", "uk", "ru"] },
+    "title": { "type": "string", "minLength": 3 },
+    "targetDurationSec": { "type": "integer", "minimum": 60, "maximum": 120 },
+    "finalLine": { "type": "string", "description": "Localised 'Now you know how to build a/an <thing>.' — must equal the narration of the last beat." },
+    "beats": {
+      "type": "array",
+      "minItems": 6,
+      "items": { "$ref": "#/$defs/beat" }
+    },
+    "cover": {
+      "type": "object",
+      "required": ["headline"],
+      "additionalProperties": false,
+      "properties": { "headline": { "type": "string", "maxLength": 40 } }
+    },
+    "post": {
+      "type": "object",
+      "required": ["description", "hashtags"],
+      "additionalProperties": false,
+      "properties": {
+        "description": { "type": "string", "maxLength": 150 },
+        "hashtags": { "type": "array", "minItems": 5, "maxItems": 8, "items": { "type": "string", "pattern": "^#[\\p{L}\\p{N}_]+$" } }
+      }
+    }
+  },
+  "$defs": {
+    "beat": {
+      "type": "object",
+      "required": ["id", "type", "narration", "onScreen"],
+      "additionalProperties": false,
+      "properties": {
+        "id": { "type": "string", "pattern": "^b[0-9]{2}$", "description": "Same ids, same order in every language." },
+        "type": { "enum": ["hook", "attempt", "step", "threat", "night", "fact", "climax", "recap", "ending"] },
+        "step": { "type": "integer", "minimum": 1, "description": "Step number for type=step." },
+        "narration": { "type": "string", "description": "Spoken text. Empty string allowed only for silent beats (recap)." },
+        "holdSec": { "type": "number", "minimum": 0.5, "maximum": 5, "description": "Required when narration is empty: how long the silent beat lasts." },
+        "onScreen": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "stepPlate": { "type": "string", "description": "e.g. '✓ STEP 1 · QANAT'" },
+            "threatPlate": { "type": "string", "description": "e.g. '⚠ MORNING SUN'" },
+            "callouts": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "required": ["id", "title"],
+                "additionalProperties": false,
+                "properties": {
+                  "id": { "type": "string", "description": "Stable id shared across languages; the scene decides where it points." },
+                  "title": { "type": "string", "maxLength": 28 },
+                  "subtitle": { "type": "string", "maxLength": 48 }
+                }
+              }
+            },
+            "gauge": { "type": "string", "description": "e.g. '104°F / 40°C'" },
+            "meter": {
+              "type": "object",
+              "required": ["label", "value"],
+              "additionalProperties": false,
+              "properties": {
+                "label": { "type": "string", "maxLength": 20 },
+                "value": { "type": "integer", "minimum": 0, "maximum": 100 }
+              }
+            },
+            "labels": {
+              "type": "array",
+              "description": "Short in-scene labels with stable ids (e.g. dimension lines '60 ft').",
+              "items": {
+                "type": "object",
+                "required": ["id", "text"],
+                "additionalProperties": false,
+                "properties": { "id": { "type": "string" }, "text": { "type": "string", "maxLength": 24 } }
+              }
+            }
+          }
+        },
+        "keywords": {
+          "type": "array",
+          "description": "Words in the narration to color in karaoke captions. 'text' must appear verbatim in narration.",
+          "items": {
+            "type": "object",
+            "required": ["text", "color"],
+            "additionalProperties": false,
+            "properties": {
+              "text": { "type": "string" },
+              "color": { "enum": ["yellow", "red", "blue", "orange", "green"] }
+            }
+          }
+        },
+        "cues": {
+          "type": "array",
+          "description": "Optional animation anchors: start an action when this word is spoken. 'word' must appear verbatim in narration.",
+          "items": {
+            "type": "object",
+            "required": ["word", "action"],
+            "additionalProperties": false,
+            "properties": {
+              "word": { "type": "string" },
+              "occurrence": { "type": "integer", "minimum": 1, "default": 1 },
+              "action": { "type": "string", "description": "Action id defined in BRIEF storyboard / PLAN.md, e.g. 'wall-rise'." }
+            }
+          }
+        }
+      }
+    }
+  }
+}

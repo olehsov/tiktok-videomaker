@@ -1,0 +1,12 @@
+export { terrain } from "./terrain.mjs";
+export { sky } from "./sky.mjs";
+export { sun } from "./sun.mjs";
+export { stars } from "./stars.mjs";
+export { mountains } from "./mountains.mjs";
+export { rocks } from "./rocks.mjs";
+export { pineTree } from "./pineTree.mjs";
+export { puppet, POSES, ACTIONS } from "./puppet.mjs";
+export { waterSurface } from "./waterSurface.mjs";
+export { iceBlock } from "./iceBlock.mjs";
+export { bucket } from "./bucket.mjs";
+export { pit } from "./pit.mjs";

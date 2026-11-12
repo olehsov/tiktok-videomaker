@@ -1,0 +1,135 @@
+{
+  "slug": "yakhchal",
+  "lang": "en",
+  "title": "Yakhchal — Ice in the Desert",
+  "targetDurationSec": 110,
+  "finalLine": "Now you know how to build a yakhchal.",
+  "beats": [
+    {
+      "id": "b01", "type": "hook",
+      "narration": "Desert. A hundred and four in the shade. And you need ice — in midsummer.",
+      "onScreen": { "gauge": "104°F / 40°C", "meter": { "label": "ICE SUPPLY", "value": 0 } },
+      "keywords": [ { "text": "A hundred and four", "color": "red" }, { "text": "ice", "color": "yellow" } ]
+    },
+    {
+      "id": "b02", "type": "attempt",
+      "narration": "Easy way: fill a bucket and wait for night. By morning — just warm water.",
+      "onScreen": { "threatPlate": "⚠ WON'T FREEZE" },
+      "keywords": [ { "text": "warm water", "color": "red" } ],
+      "cues": [ { "word": "night.", "action": "to-night-quick" }, { "word": "morning", "action": "bucket-still-liquid" } ]
+    },
+    {
+      "id": "b03", "type": "step", "step": 1,
+      "narration": "First, water. In an open canal it heats up and evaporates. So you bring it underground, from the mountains. That's a qanat.",
+      "onScreen": {
+        "stepPlate": "✓ STEP 1 · QANAT",
+        "callouts": [ { "id": "qanat", "title": "QANAT", "subtitle": "underground channel from the mountains" } ]
+      },
+      "keywords": [ { "text": "heats up and evaporates", "color": "red" }, { "text": "underground", "color": "yellow" }, { "text": "qanat", "color": "yellow" } ],
+      "cues": [ { "word": "canal", "action": "ghost-open-canal" }, { "word": "underground,", "action": "qanat-tunnel" } ]
+    },
+    {
+      "id": "b04", "type": "step", "step": 2,
+      "narration": "You dig long, shallow pools. Deep water won't freeze in one night. A thin layer will.",
+      "onScreen": {
+        "stepPlate": "✓ STEP 2 · SHALLOW POOLS",
+        "callouts": [ { "id": "pool-length", "title": "~330 FT LONG", "subtitle": "thin layer, big surface" } ],
+        "labels": [ { "id": "pool-depth", "text": "16–20 in" } ]
+      },
+      "keywords": [ { "text": "shallow pools", "color": "yellow" }, { "text": "won't freeze", "color": "red" } ],
+      "cues": [ { "word": "pools.", "action": "pool-fill" } ]
+    },
+    {
+      "id": "b05", "type": "night",
+      "narration": "At night the dry, clear sky pulls heat straight out of the water. By dawn: ice.",
+      "onScreen": { "meter": { "label": "ICE SUPPLY", "value": 25 } },
+      "keywords": [ { "text": "heat", "color": "orange" }, { "text": "ice.", "color": "blue" } ],
+      "cues": [ { "word": "night", "action": "to-night" }, { "word": "heat", "action": "heat-arrows-up" }, { "word": "dawn:", "action": "ice-crust" } ]
+    },
+    {
+      "id": "b06", "type": "step", "step": 3,
+      "narration": "But the sun rises, and the ice melts before you collect it. So you raise a wall, east to west. In its shadow it's thirty degrees cooler.",
+      "onScreen": {
+        "threatPlate": "⚠ MORNING SUN",
+        "stepPlate": "✓ STEP 3 · SHADE WALL",
+        "gauge": "SHADE: −30°F",
+        "meter": { "label": "ICE SUPPLY", "value": 40 }
+      },
+      "keywords": [ { "text": "sun", "color": "red" }, { "text": "wall,", "color": "yellow" }, { "text": "thirty degrees", "color": "blue" } ],
+      "cues": [ { "word": "sun", "action": "ghost-melt" }, { "word": "wall,", "action": "wall-rise" }, { "word": "shadow", "action": "shadow-cover" } ]
+    },
+    {
+      "id": "b07", "type": "step", "step": 4,
+      "narration": "And the ground bakes all day, warming the water from below. So the pool bed gets a layer of straw.",
+      "onScreen": { "stepPlate": "✓ STEP 4 · STRAW" },
+      "keywords": [ { "text": "warming the water from below", "color": "orange" }, { "text": "straw.", "color": "yellow" } ],
+      "cues": [ { "word": "bakes", "action": "ground-heat-arrows" }, { "word": "straw.", "action": "straw-layer" } ]
+    },
+    {
+      "id": "b08", "type": "step", "step": 5,
+      "narration": "Now the ice must last until summer. You dig a deep pit where the heat can't reach. The walls above are six feet thick at the base to spread the weight. Otherwise the ground sinks unevenly, walls crack, and in a few seasons it collapses.",
+      "onScreen": {
+        "threatPlate": "⚠ CRACKS",
+        "stepPlate": "✓ STEP 5 · PIT & WIDE BASE",
+        "callouts": [ { "id": "base", "title": "6 FT BASE", "subtitle": "weight spread over the soil" } ]
+      },
+      "keywords": [ { "text": "deep pit", "color": "yellow" }, { "text": "six feet", "color": "yellow" }, { "text": "sinks unevenly", "color": "red" }, { "text": "crack", "color": "red" }, { "text": "collapses", "color": "red" } ],
+      "cues": [ { "word": "pit", "action": "pit-dig" }, { "word": "walls", "action": "walls-wide-base" }, { "word": "Otherwise", "action": "ghost-collapse" } ]
+    },
+    {
+      "id": "b09", "type": "step", "step": 6,
+      "narration": "Plain clay turns to mud from meltwater. So you mix sarooj: clay, sand, lime, ash, egg whites and goat hair. The hair works like rebar.",
+      "onScreen": {
+        "stepPlate": "✓ STEP 6 · SAROOJ",
+        "callouts": [ { "id": "recipe", "title": "SAROOJ", "subtitle": "clay · sand · lime · ash · egg white · goat hair" } ]
+      },
+      "keywords": [ { "text": "turns to mud", "color": "red" }, { "text": "sarooj", "color": "yellow" }, { "text": "rebar", "color": "yellow" } ],
+      "cues": [ { "word": "clay,", "action": "ingredient-1" }, { "word": "rebar.", "action": "plaster-walls" } ]
+    },
+    {
+      "id": "b10", "type": "step", "step": 7,
+      "narration": "The dome rises as a cone, sixty feet tall. Warm air climbs to the tip; cold air stays by the ice.",
+      "onScreen": { "stepPlate": "✓ STEP 7 · CONE", "labels": [ { "id": "cone-height", "text": "60 ft" } ] },
+      "keywords": [ { "text": "cone,", "color": "yellow" }, { "text": "sixty feet", "color": "yellow" }, { "text": "Warm air", "color": "orange" }, { "text": "cold air", "color": "blue" } ],
+      "cues": [ { "word": "cone,", "action": "cone-rise" }, { "word": "Warm", "action": "air-arrows" } ]
+    },
+    {
+      "id": "b11", "type": "step", "step": 8,
+      "narration": "In winter you stack the ice. But blocks freeze into one lump — so straw goes between the layers.",
+      "onScreen": { "stepPlate": "✓ STEP 8 · LAYERS", "meter": { "label": "ICE SUPPLY", "value": 80 } },
+      "keywords": [ { "text": "freeze into one lump", "color": "red" }, { "text": "straw", "color": "yellow" } ],
+      "cues": [ { "word": "stack", "action": "carry-blocks" }, { "word": "lump", "action": "ghost-lump" }, { "word": "layers.", "action": "layers-spacers" } ]
+    },
+    {
+      "id": "b12", "type": "step", "step": 9,
+      "narration": "Down below, meltwater quietly pools, melting the ice from underneath. So there's a drain in the floor.",
+      "onScreen": { "threatPlate": "⚠ HIDDEN WATER", "stepPlate": "✓ STEP 9 · DRAIN", "meter": { "label": "ICE SUPPLY", "value": 70 } },
+      "keywords": [ { "text": "meltwater", "color": "red" }, { "text": "drain", "color": "yellow" } ],
+      "cues": [ { "word": "meltwater", "action": "puddle-grow" }, { "word": "drain", "action": "drain-open" } ]
+    },
+    {
+      "id": "b13", "type": "climax",
+      "narration": "July. A hundred and thirteen outside. You climb into the pit — and there's ice.",
+      "onScreen": { "gauge": "113°F / 45°C", "stepPlate": "✓ ICE IN SUMMER", "meter": { "label": "ICE SUPPLY", "value": 90 } },
+      "keywords": [ { "text": "A hundred and thirteen", "color": "red" }, { "text": "ice.", "color": "blue" } ],
+      "cues": [ { "word": "ice.", "action": "lift-block-lizard" } ]
+    },
+    {
+      "id": "b14", "type": "recap",
+      "narration": "",
+      "holdSec": 2.5,
+      "onScreen": {}
+    },
+    {
+      "id": "b15", "type": "ending",
+      "narration": "Now you know how to build a yakhchal.",
+      "onScreen": { "labels": [ { "id": "title", "text": "YAKHCHAL · ~400 BC" } ] },
+      "keywords": [ { "text": "yakhchal.", "color": "yellow" } ]
+    }
+  ],
+  "cover": { "headline": "ICE IN THE DESERT?" },
+  "post": {
+    "description": "2,400 years ago Persians made ice in the desert, with no electricity. Every part of this building has a reason.",
+    "hashtags": ["#history", "#engineering", "#ancienttech", "#persia", "#howitworks", "#learnontiktok"]
+  }
+}

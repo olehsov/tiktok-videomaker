@@ -1,0 +1,28 @@
+# secrets
+.env
+.env.*
+!.env.example
+
+# heavy / generated
+assets/music.*
+videos/*/audio/
+videos/*/build/
+videos/*/out/
+videos/*/review/
+videos/_template/build/
+videos/_template/out/
+node_modules/
+
+# local Claude settings
+.claude/settings.local.json
+
+# OS
+.DS_Store
+Thumbs.db
+
+# HyperFrames local artifacts
+.hyperframes/
+videos/*/.hyperframes/
+videos/*/renders/
+videos/*/showcase/build/
+videos/*/showcase/out/
