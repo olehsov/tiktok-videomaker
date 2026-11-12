@@ -33,17 +33,17 @@ Agents do not spawn other agents (their tool lists exclude `Agent`).
 
 | Component | Type | Model | Reads | Writes |
 | --- | --- | --- | --- | --- |
-| `generate` | skill, owner-only | session model | `config.json`, STATUS files | everything below, via the other skills; logs |
+| `generate` | skill, owner-only (calls `topics-auto`/`topics`, `brief`, `produce`; reuses `promote` Auto mode) | session model | `config.json`, STATUS files | everything below, via the other skills; logs |
 | `topics` | skill (main session) | session model | `topics.md`, `docs/storytelling.md` | `topics.md` (with scores and reference links) |
-| `topics-auto` | skill, owner-only | session model | same as `topics` | `topics.md` (auto-picked) |
-| `brief` | skill, owner-only | session model | args, `topics.md` | `videos/<slug>/` (copy), `topics.md` |
+| `topics-auto` | skill, callable by `generate`; never asks the owner | session model | same as `topics` | `topics.md` (auto-picked) |
+| `brief` | skill, owner or `generate` | session model | args, `topics.md` | `videos/<slug>/` (copy), `topics.md` |
 | `brief-writer` | agent | Opus | `docs/*`, `docs/examples/*`, web | `BRIEF.md`, `script.*.json`, `voiceover.*.txt` |
-| `produce` | skill, owner-only (steps P1–P9, shared with `generate`) | session model | video folder, `config.json` | audio, timings, status, renders, upload files |
+| `produce` | skill, owner or `generate` (steps P1–P9, shared with `generate`) | session model | video folder, `config.json` | audio, timings, status, renders, upload files |
 | `marketing-writer` | agent | Sonnet, low | `BRIEF.md` (fact base), `script.<lang>.json`, hash | `marketing.<lang>.json`, `MARKETING.md` |
 | `video-architect` | agent | Opus, medium (no shell; ≤ 40 turns) | `BRIEF.md`, scripts, timings, `docs/*`, kit, HyperFrames docs | `PLAN.md` |
 | `video-builder` | agent | Sonnet, medium | `PLAN.md`, `BRIEF.md`, `REVIEW.md`, kit | `src/`, `build/`, `out/draft/`, `out/` |
 | `video-reviewer` | agent | Sonnet, medium | draft render, `BRIEF.md`, `PLAN.md`, `docs/*` | `REVIEW.md`, `review/frames/*` |
-| `promote` | skill, owner-only | session model | `videos/<slug>/kit`, `_template/kit` | `_template/kit` |
+| `promote` | skill, owner-only (its Auto mode is reused as instructions by `produce` P9 when `autoPromoteKit`) | session model | `videos/<slug>/kit`, `_template/kit` | `_template/kit` |
 | `tools/tts.mjs` | Node script | — | `script.<lang>.json`, `config.json`, `.env` | `audio/voice.<lang>.mp3`, `timings.<lang>.json` |
 | `tools/timings-from-silence.mjs` | Node script | — | mp3, script | `timings.<lang>.json` |
 | `tools/music-loop.mjs` | Node script | — | `assets/music.*`, `timings.<lang>.json` | `audio/music.loop.<lang>.mp3` |
@@ -57,6 +57,7 @@ Agents do not spawn other agents (their tool lists exclude `Agent`).
 | `tools/apply-look.mjs` | Node script | — | `kit/tokens.base.css`, `config.json → look` | `kit/tokens.css` (generated) |
 | `tools/finish.mjs` | Node script | — | final mp4 / png, `config.json → look` | same file, finished (sharpen, grain, vignette, CRF, x264 tune) |
 | `tools/style-preview.mjs` | Node script | — | specimen, look | still frames, `compare.png` / `grid.png`, `look.json` |
+| `tools/new-video.mjs` | Node script | — | `videos/_template` | `videos/<slug>/` (template without build/out/audio/showcase/style folders, `STATUS` selected; used by `/brief`, needs no `rm`) |
 | `tools/log.mjs` | Node script | — | args | one line in `videos/<slug>/logs/pipeline.log` or `logs/runs.log` |
 
 ## 3. Repository layout
@@ -67,7 +68,7 @@ assets/                      # optional music.mp3 (git-ignored)
 docs/  PRD.md  ARCHITECTURE.md  style-guide.md  tech-requirements.md  storytelling.md
        brief-template.md  script.schema.json  marketing.schema.json  upload.schema.json  examples/yakhchal/
 tools/ tts.mjs  timings-from-silence.mjs  music-loop.mjs  fake-voice.mjs  validate.mjs  lib.mjs
-       wiki-lookup.mjs  script-hash.mjs  prepare-upload.mjs  publish-tiktok.mjs  log.mjs  apply-look.mjs  finish.mjs  style-preview.mjs
+       new-video.mjs  wiki-lookup.mjs  script-hash.mjs  prepare-upload.mjs  publish-tiktok.mjs  log.mjs  apply-look.mjs  finish.mjs  style-preview.mjs
 logs/runs.log                # run log (git-ignored)
 .claude/settings.json
 .claude/skills/{topics,topics-auto,brief,produce,generate,promote,style-preview}/SKILL.md
@@ -220,6 +221,11 @@ Approval gates and the config flags that make them automatic (`config.json → p
 - Before a run ends or stops, the orchestrator waits for background agents (async marketing).
 - `asyncMarketing: true` starts `marketing-writer` in the background right after the brief; production never waits for it until the marketing step.
 - `/produce` shares steps P1–P9 with `/generate` and follows the same gates.
+- **How `/generate` uses other skills.** A skill the model *calls* (Skill tool) must not have `disable-model-invocation`; a skill whose instructions are only *reused* may keep it.
+  - Called: `topics-auto` and `topics` (with `--no-brief`), `brief`, `produce` (with `--unattended` when set). None of them asks a question in an unattended run.
+  - Reused: `promote` — `produce` P9 follows `promote`'s **Auto mode** (generic, backward-compatible changes only, no question) when `pipeline.autoPromoteKit` is true; the skill itself stays owner-only because it rewrites the shared template. `autoPromoteKit` is never opened by `--unattended`.
+  - `/generate`, `/promote`, `/style-preview` stay owner-invoked.
+- **Nothing waits on a question in an unattended run.** Besides the `needs-owner` hard rule, blocking errors (missing key, validation, tool failure) log `error`, write `PENDING.md` (STATUS unchanged) and stop; `--resume` re-runs the failed step. A voice over 120 s is trimmed automatically once (`brief-writer` revise + new TTS, credits logged) before it stops.
 
 ## 12. Logging
 

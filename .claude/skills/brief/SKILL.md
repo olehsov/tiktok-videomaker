@@ -14,7 +14,7 @@ Logging (orchestrator only; skip the run-log lines when `/generate` or another c
 1. **Resolve** the topic in `topics.md` (by name, slug or number from the last batch). Slug = lowercase ASCII with hyphens. If the topic is not in `topics.md`, add it with status `selected`.
 2. **Template check:** `videos/_template/` must exist. If not → stop and tell the owner to run `BOOTSTRAP_PROMPT.md` first.
 3. **Folder:**
-   - New video: `cp -r videos/_template videos/<slug>`, then remove any `build/`, `out/`, `audio/` copied from the template. Write `STATUS` = `selected`.
+   - New video: `node tools/new-video.mjs <slug>` (copies the template without generated folders and the showcase/style tooling, writes `STATUS` = `selected`; needs no `rm`, so an unattended run is not interrupted by a permission prompt).
    - Existing video with `BRIEF.md` and owner change notes (from `/generate`'s production gate): **revise mode** — apply the notes to `BRIEF.md` and every script, keep beat ids stable where possible, validate.
    - Existing video with `BRIEF.md` otherwise: **add-language mode** — only the missing `script.<lang>.json` / `voiceover.<lang>.txt` are written; nothing else changes.
 4. **Delegate** to the `brief-writer` agent. The delegation message must contain:

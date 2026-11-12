@@ -1,7 +1,7 @@
 ---
 name: topics
 description: Propose 10 new, varied, scored video topics (simple inventions, tools, survival builds) and record them in topics.md. Use when the owner asks for topics or ideas for the next video, or wants to pick or reject topics.
-argument-hint: "[optional theme or category]"
+argument-hint: "[optional theme or category] [--no-brief]"
 ---
 
 # Propose topics
@@ -37,6 +37,6 @@ Logging (orchestrator only, see ARCHITECTURE → Logging): `node tools/log.mjs -
 9. End with exactly one line: `Pick a number or name (+ languages, e.g. "3 uk ru"). "reject 2,5" removes topics for good.`
 
 ## When the owner answers
-- **Pick** (`3`, `igloo`, `3 uk ru`): set that row to `selected`, store languages (`en` always included), then invoke the `brief` skill with `<topic> <langs>`.
+- **Pick** (`3`, `igloo`, `3 uk ru`): set that row to `selected`, store languages (`en` always included), then invoke the `brief` skill with `<topic> <langs>` — unless `$ARGUMENTS` contained `--no-brief` (the caller, e.g. `/generate`, runs the brief itself): then only return the slug and languages.
 - **Reject** (`reject 2,5`): set those rows to `rejected`. Never propose them again.
 - Rows neither picked nor rejected stay `proposed` and may appear in later batches.
