@@ -69,7 +69,7 @@
       "id": "b03",
       "type": "step",
       "step": 1,
-      "narration": "Water only flows downhill. Too steep, it rips the channel apart. Too flat, it stalls. So you give it a tiny, steady slope: under two feet per mile.",
+      "narration": "Water only flows downhill. Too steep, it rips the channel apart. Too flat, it stalls. The fix? A tiny, steady slope: under two feet per mile.",
       "onScreen": {
         "stepPlate": "✓ STEP 1 · TINY SLOPE",
         "callouts": [
@@ -171,7 +171,7 @@
       "id": "b05",
       "type": "step",
       "step": 3,
-      "narration": "An open ditch is a trap: sun, evaporation, dirt, leaves. So you bury it under stone slabs. Most of the way, it runs underground.",
+      "narration": "An open ditch is a trap: sun, evaporation, dirt, leaves. So you bury it under stone slabs. Mostly, it runs underground.",
       "onScreen": {
         "threatPlate": "⚠ SUN & DIRT",
         "stepPlate": "✓ STEP 3 · COVERED CHANNEL",
@@ -280,7 +280,7 @@
       "id": "b07",
       "type": "step",
       "step": 5,
-      "narration": "Now a valley. Water that drops in won't climb out. So you build arches that send the weight down into the piers. At Pont du Gard: three tiers, a hundred and sixty feet.",
+      "narration": "Now a valley. Water that drops in won't climb out. So arches carry the weight down into the piers. Pont du Gard: three tiers, a hundred and sixty feet.",
       "onScreen": {
         "threatPlate": "⚠ VALLEY",
         "stepPlate": "✓ STEP 5 · ARCHES",
@@ -347,7 +347,7 @@
       "id": "b08",
       "type": "step",
       "step": 6,
-      "narration": "Some valleys are too deep for arches. So you seal the water in lead pipes. It rushes down and up the other side, into a tank slightly lower. Water seeks its own level.",
+      "narration": "Some valleys are too deep for arches. So you seal it in lead pipes. It rushes down, then up into a tank slightly lower. Water seeks its own level.",
       "onScreen": {
         "threatPlate": "⚠ TOO DEEP",
         "stepPlate": "✓ STEP 6 · SIPHON",
@@ -454,7 +454,7 @@
       "id": "b10",
       "type": "step",
       "step": 8,
-      "narration": "Then the hidden threat: dissolved limestone. Year after year, it coats the walls like kettle scale. So you leave hatches, and crews scrape it clean.",
+      "narration": "The hidden threat: dissolved limestone. Year after year, it coats the walls like kettle scale. So you leave hatches, and crews scrape it clean.",
       "onScreen": {
         "threatPlate": "⚠ LIMESTONE CRUST",
         "stepPlate": "✓ STEP 8 · ACCESS HATCHES",
@@ -554,7 +554,7 @@
     {
       "id": "b12",
       "type": "climax",
-      "narration": "Autumn storm. The river roars. The mud stays in the tank. The arches hold. The fountains keep running: up to ten million gallons a day, for centuries.",
+      "narration": "Autumn storm. The river roars. Mud stays in the tank. Arches hold. Fountains keep running: up to ten million gallons a day, for centuries.",
       "onScreen": {
         "stepPlate": "✓ NO PUMP NEEDED",
         "gauge": "10M gal / 40,000 m³ a day",

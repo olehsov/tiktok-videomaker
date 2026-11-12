@@ -99,7 +99,7 @@ StepBadge, ThreatBadge, Callout, Gauge, FlowArrows (water: blue along the channe
 Paradox hook (b01), simplest attempt (b02), failure ghosts (b02, b03, b04, b05, b06, b07, b08, b09, b10), concrete numbers (b01 31 miles, b03 under two feet per mile, b07 three tiers / 160 ft, b12 ten million gallons), physics in one sentence (b03 "water only flows downhill", b08 "water seeks its own level", b09 "water slows, sand sinks"), everyday analogies (b06 "like a bathtub", b10 "like kettle scale"), invisible threat (b10 limestone crust), stakes meter (all beats), day/night-style mood shifts (b05 harsh sun, b10 navy underground, b12 storm → clear, b14 sunset), scale through a person (b07 pull-back), recipe from ordinary things (b06 crushed tiles + lime), recap (b13), historical anchor (b07 "Pont du Gard" + b14 label), observer callback (b01 dry fountain → b07 perch → b12/b14 drinking at the fountain).
 
 ## Decisions
-- **Duration 115 s, 281 words.** Nine steps justify near-maximum length; 115 rather than 120 leaves room for the 2.5 s silent recap and the 1.5 s tail so the real video stays under the 120 s hard cap.
+- **Duration 115 s, 264 words (281 before the trim).** Nine steps justify near-maximum length; 115 rather than 120 leaves room for the 2.5 s silent recap and the 1.5 s tail so the real video stays under the 120 s hard cap.
 - **31 miles, not 50.** The topic says "50 miles", but the story follows the Nîmes aqueduct / Pont du Gard (50 km = 31 mi), the best-documented single example with the famous arches. Narration uses the true 31 miles; the cover reads "31 MILES. NO PUMP?". The 85-km (53-mi) Gier aqueduct was considered, but its features are less documented and less recognisable.
 - **Composite build.** The viewer builds a generic Roman aqueduct. Numbers come from Nîmes (length, slope, Pont du Gard, output). The inverted siphon is not used at Nîmes; it comes from Roman practice elsewhere (Gier at Lyon, Vitruvius), so narration never says the siphon is at Pont du Gard.
 - **Slope stated as "under two feet per mile".** Sources disagree (0.25 vs ~0.34 m/km; total drop 11.2 / 12.6 / 17 m). This phrasing is true for every source. The on-screen slope is exaggerated so the viewer can see it, and the label carries the real number.
@@ -111,6 +111,7 @@ Paradox hook (b01), simplest attempt (b02), failure ghosts (b02, b03, b04, b05, 
 - **Observer animal: pigeon.** It ties the town fountain (dry in b01, flowing in b12) to the arches (perch in b07), and Roman cities had pigeons/doves.
 - **Stakes meter "WATER IN TOWN"** rises step by step and dips only on the limestone threat (b10), the one problem that hits a finished, working aqueduct.
 - **Climax storm** is dramatised, not a specific historical event: it stress-tests three fixes at once (settling tank, arches, covered channel).
+- **Trimmed for length (264 words).** The first voice ran 122.7 s, so 17 filler words were cut from b03, b05, b07, b08, b10 and b12. No facts, numbers or problem→fix chains were removed. Target stays 115 s.
 - **Units:** imperial in narration; overlays show both where it matters (31 mi / 50 km, 160 ft / 49 m, slope label, daily output).
 
 ## Post
