@@ -424,7 +424,7 @@ docs/                     PRD, ARCHITECTURE, style-guide, tech-requirements, sto
 tools/                    Node-скрипти (див. вище)
 .claude/skills/           скіли (команди)
 .claude/agents/           агенти
-.claude/settings.json     дозволи: node tools/*, ffmpeg, npx hyperframes …; заборонено читати .env і git push
+.claude/settings.json     дозволи: node tools/*, ffmpeg, npx hyperframes …; заборонено читати .env; `git push` дозволено
 .githooks/pre-commit      захист від витоку ключів
 logs/runs.log             лог запусків (не в git)
 videos/_template/         шаблон відео: HyperFrames-проєкт + kit + build.mjs + зразок стилю
