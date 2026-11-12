@@ -42,7 +42,7 @@ Categories: see docs/storytelling.md.
 | atlatl | Atlatl — a stick that makes a spear fly like a bullet | weapon-tool | proposed |  | 2026-11-12 | 15 (h4 v3 d3 f4 va1) | https://en.wikipedia.org/wiki/Spear-thrower | ~75 s |
 | kayak | Kayak — a skin boat that rolls upright after capsizing | transport | proposed |  | 2026-11-12 | 21 (h4 v4 d4 f4 va5) | https://en.wikipedia.org/wiki/Kayak | ~90 s |
 | adobe-house | Adobe house — mud walls that stay cool in the desert | shelter | proposed |  | 2026-11-12 | 21 (h3 v4 d4 f5 va5) | https://en.wikipedia.org/wiki/Adobe | ~90 s |
-| pin-tumbler-lock | Pin tumbler lock — why only one key turns it | everyday-object | rendered | en | 2026-11-12 | 24 (h5 v5 d4 f5 va5) | https://en.wikipedia.org/wiki/Pin_tumbler_lock | auto-picked: total 24, highest; hook 5, visual 5, variety 5 |
+| pin-tumbler-lock | Pin tumbler lock — why only one key turns it | everyday-object | ready | en | 2026-11-12 | 24 (h5 v5 d4 f5 va5) | https://en.wikipedia.org/wiki/Pin_tumbler_lock | auto-picked: total 24, highest; hook 5, visual 5, variety 5 |
 | beacon-tower | Beacon tower — a message across 500 miles in an hour | navigation-signal | proposed |  | 2026-11-12 | 18 (h3 v3 d3 f4 va5) | https://en.wikipedia.org/wiki/Beacon | ~75 s |
 | drystone-wall | Drystone wall — a wall with no mortar that stands for centuries | craft-material | proposed |  | 2026-11-12 | 22 (h4 v5 d4 f4 va5) | https://en.wikipedia.org/wiki/Dry_stone | ~90 s |
 | castle-gatehouse | Castle gatehouse — the entrance built to kill attackers | defense-fortification | proposed |  | 2026-11-12 | 23 (h4 v5 d5 f4 va5) | https://en.wikipedia.org/wiki/Gatehouse | ~100 s |

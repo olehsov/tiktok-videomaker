@@ -10,7 +10,7 @@ Which step surprised you most?
 ```
 - **Hashtags:** #engineering #learnontiktok #pintumbler #shearline #locks #howitworks
 - **Keywords:** how a pin tumbler lock works, how do locks work, shear line explained, why only one key opens a lock, spool pins, lock picking false set, how keys work
-- **Cover:** _filled by prepare-upload_
+- **Cover:** `out/cover.en.png` — frame at 70589 ms (70.6 s)
 - **Pinned comment:** Not in the video: Linus Yale Sr. built a pin tumbler lock in 1848, and his son Linus Yale Jr. patented the cylinder lock with a small flat key in 1865. Source: Pin tumbler lock, Wikipedia; Linus Yale Jr., ASME
 - **Upload checklist:** AI-generated label ON · comments / duet / stitch as in config.marketing · original sound · no location · privacy per config
 - **Shorts title:** How a Pin Tumbler Lock Works: Why Only One Key Turns It
