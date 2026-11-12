@@ -2,7 +2,7 @@
 // Usage: node tools/validate.mjs <slug>
 import { readdirSync, existsSync } from "node:fs";
 import { join } from "node:path";
-import { videoDir, readJson, parseArgs, die, config } from "./lib.mjs";
+import { videoDir, readJson, parseArgs, die, config, scriptHash } from "./lib.mjs";
 
 const { pos } = parseArgs(process.argv.slice(2));
 const [slug] = pos;
@@ -50,8 +50,9 @@ for (const f of files) {
   if (!s.post?.hashtags || s.post.hashtags.length < 5) E("post.hashtags needs 5–8 items");
   const words = s.beats.map((b) => b.narration).join(" ").split(/\s+/).filter(Boolean).length;
   if (lang === "en") {
-    const expected = s.targetDurationSec * 2.5;
-    if (Math.abs(words - expected) / expected > 0.2) warnings.push(`${f}: ${words} words vs ~${Math.round(expected)} expected for ${s.targetDurationSec} s`);
+    const budget = (s.targetDurationSec - 8) * 2.3, hard = (s.targetDurationSec - 8) * 2.4;
+    if (words > hard) E(`${words} words > ${Math.round(hard)} (= (targetDurationSec − 8) × 2.4) — cut narration or raise targetDurationSec`);
+    else if (words > budget) warnings.push(`${f}: ${words} words > budget ${Math.round(budget)} (= (targetDurationSec − 8) × 2.3)`);
   }
   const tp = join(dir, `timings.${lang}.json`);
   if (existsSync(tp)) {
@@ -59,6 +60,47 @@ for (const f of files) {
     if (t.beats.map((b) => b.id).join() !== ids.join()) E(`timings.${lang}.json beat ids do not match script`);
     if (t.videoDurationSec > cfg.timing.maxDurationSec) E(`timings.${lang}.json: video ${t.videoDurationSec}s > ${cfg.timing.maxDurationSec}s`);
     if (t.videoDurationSec < cfg.timing.minDurationSec) warnings.push(`timings.${lang}.json: video ${t.videoDurationSec}s < ${cfg.timing.minDurationSec}s`);
+  }
+}
+
+// marketing.<lang>.json and upload.<lang>.json (only when present)
+const PRIVACY = ["PUBLIC_TO_EVERYONE", "MUTUAL_FOLLOW_FRIENDS", "FOLLOWER_OF_CREATOR", "SELF_ONLY"];
+for (const f of files) {
+  const lang = f.split(".")[1];
+  const mp = join(dir, `marketing.${lang}.json`);
+  if (existsSync(mp)) {
+    const E = (m) => errors.push(`marketing.${lang}.json: ${m}`);
+    try {
+      const m = readJson(mp);
+      if (m.lang !== lang) E(`lang '${m.lang}' ≠ '${lang}'`);
+      if (!/^[0-9a-f]{64}$/.test(m.scriptHash || "")) E("scriptHash missing or malformed");
+      else if (m.scriptHash !== scriptHash(readJson(join(dir, f)))) warnings.push(`marketing.${lang}.json is stale (narration changed) — rerun marketing-writer`);
+      if (typeof m.caption !== "string" || !m.caption.trim()) E("caption missing");
+      else if (m.caption.length > 2200) E(`caption ${m.caption.length} UTF-16 units > 2200`);
+      else if (m.caption.length > 300) warnings.push(`marketing.${lang}.json: caption ${m.caption.length} chars (aim ≤ 300)`);
+      const tags = m.hashtags;
+      if (!Array.isArray(tags) || tags.length < 3 || tags.length > 6) E("hashtags needs 3–6 items");
+      else for (const h of tags) if (!/^#[\p{L}\p{N}_]+$/u.test(h)) E(`bad hashtag ${h}`);
+      if (!Array.isArray(m.keywords) || m.keywords.length < 5 || m.keywords.length > 8) E("keywords needs 5–8 items");
+      if (!m.pinnedComment) E("pinnedComment missing");
+    } catch (e) { E(`invalid JSON — ${e.message}`); }
+  }
+  const up = join(dir, "out", `upload.${lang}.json`);
+  if (existsSync(up)) {
+    const E = (m) => errors.push(`upload.${lang}.json: ${m}`);
+    try {
+      const u = readJson(up), p = u.post_info || {};
+      if (u.platform !== "tiktok") E("platform must be tiktok");
+      if (!Number.isInteger(u.video_size) || u.video_size < 1) E("video_size must be a positive integer");
+      if (!(u.duration_sec > 0)) E("duration_sec missing");
+      for (const k of ["video_path", "cover_path"]) if (!u[k] || !existsSync(join(dir, u[k]))) E(`${k} does not exist`);
+      if (typeof p.title !== "string" || !p.title || p.title.length > 2200) E("post_info.title missing or > 2200");
+      if (!PRIVACY.includes(p.privacy_level)) E("post_info.privacy_level invalid");
+      for (const k of ["disable_duet", "disable_stitch", "disable_comment", "brand_content_toggle", "brand_organic_toggle", "is_aigc"]) if (typeof p[k] !== "boolean") E(`post_info.${k} must be boolean`);
+      if (!Number.isInteger(p.video_cover_timestamp_ms) || p.video_cover_timestamp_ms < 0) E("post_info.video_cover_timestamp_ms invalid");
+      if (u.source_info?.source !== "FILE_UPLOAD") E("source_info.source must be FILE_UPLOAD");
+      if (!["ready", "published"].includes(u.status)) E("status invalid");
+    } catch (e) { E(`invalid JSON — ${e.message}`); }
   }
 }
 

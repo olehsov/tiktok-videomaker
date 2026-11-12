@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "tiktok-videomaker/marketing.schema.json",
+  "title": "marketing.<lang>.json — post copy for one video in one language (written by marketing-writer)",
+  "type": "object",
+  "required": ["lang", "scriptHash", "caption", "hashtags", "keywords", "pinnedComment"],
+  "additionalProperties": false,
+  "properties": {
+    "lang": { "enum": ["en", "uk", "ru"] },
+    "scriptHash": { "type": "string", "pattern": "^[0-9a-f]{64}$", "description": "From tools/script-hash.mjs; proves the copy matches the narration." },
+    "caption": { "type": "string", "maxLength": 2200, "description": "Hook ≤ 80 chars + 1–2 short sentences + one question + hashtags. Aim ≤ 300 chars." },
+    "hashtags": { "type": "array", "minItems": 3, "maxItems": 6, "items": { "type": "string", "pattern": "^#[\\p{L}\\p{N}_]+$" } },
+    "keywords": { "type": "array", "minItems": 5, "maxItems": 8, "items": { "type": "string" } },
+    "pinnedComment": { "type": "string", "description": "One fact that is NOT in the video, with its source name." },
+    "shortsTitle": { "type": "string", "maxLength": 100 },
+    "reelsCaption": { "type": "string" }
+  }
+}

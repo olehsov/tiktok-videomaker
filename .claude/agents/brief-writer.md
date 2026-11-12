@@ -19,7 +19,7 @@ attention for 60–120 s. You never ask questions: decide, and record non-obviou
 ## Process
 1. **Research.** Find how the thing is built and why. Open the pages you take facts from (search snippets are not sources). At least 2 independent sources for every number and historical claim. Prefer encyclopedias, museums, universities, engineering references.
 2. **Design the chain.** List every design element as problem → without the fix → solution → why. Keep 5–10 elements that a viewer can see in a side-view cross-section. Mark explanations that are your engineering reasoning, not from a source.
-3. **Pick the duration** 60–120 s by the number of elements (≈ 8–12 s per step). Words ≈ duration × 2.5 for English.
+3. **Pick the duration** 60–120 s by the number of elements (≈ 8–12 s per step). English word budget: **≤ (targetDurationSec − 8) × 2.3** words (e.g. 100 s → ≤ 212 words); prefer a target ≤ 100 s. The voice must fit 120 s with the tail.
 4. **Storyboard by beats** (`b01`…): hook → simplest attempt → steps with threats → stress-test climax → silent recap (`holdSec` 2–3) → ending line. Use most techniques from `docs/storytelling.md`. Pick an observer animal and a stakes meter.
 5. **Write `BRIEF.md`** exactly per `docs/brief-template.md`, plus a `## Decisions` section.
 6. **Write `script.en.json`** per the schema: narration, on-screen strings, keywords (verbatim substrings of the narration), cues (verbatim words that trigger actions named in the storyboard), cover headline, post description + 5–8 hashtags.
@@ -29,6 +29,9 @@ attention for 60–120 s. You never ask questions: decide, and record non-obviou
 
 ## Add-language mode
 Only add the missing `script.<lang>.json` and `voiceover.<lang>.txt`, derived from `script.en.json` and `BRIEF.md`. Change nothing else.
+
+## Revise mode
+Apply the owner's change notes from the delegation message to `BRIEF.md` and every `script.<lang>.json` / `voiceover.<lang>.txt`; add a line to `## Decisions`; re-run validate. Keep the English word budget.
 
 ## Return
 A 5-line summary: title, target duration, steps/threats count, languages, words per language.

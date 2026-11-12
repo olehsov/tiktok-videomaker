@@ -1,0 +1,52 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "tiktok-videomaker/upload.schema.json",
+  "title": "out/upload.<lang>.json — everything needed to post one video via the TikTok Content Posting API (Direct Post)",
+  "type": "object",
+  "required": ["platform", "slug", "lang", "video_path", "video_size", "duration_sec", "cover_path", "post_info", "source_info", "extras", "status"],
+  "additionalProperties": false,
+  "properties": {
+    "platform": { "const": "tiktok" },
+    "slug": { "type": "string" },
+    "lang": { "enum": ["en", "uk", "ru"] },
+    "video_path": { "type": "string", "description": "Relative to videos/<slug>/" },
+    "video_size": { "type": "integer", "minimum": 1, "description": "Bytes (fs.stat)" },
+    "duration_sec": { "type": "number", "minimum": 1 },
+    "cover_path": { "type": "string" },
+    "post_info": {
+      "type": "object",
+      "description": "Field names exactly as in the Direct Post video init request.",
+      "required": ["title", "privacy_level", "disable_duet", "disable_stitch", "disable_comment", "video_cover_timestamp_ms", "brand_content_toggle", "brand_organic_toggle", "is_aigc"],
+      "additionalProperties": false,
+      "properties": {
+        "title": { "type": "string", "description": "Caption incl. hashtags; ≤ 2200 UTF-16 code units" },
+        "privacy_level": { "enum": ["PUBLIC_TO_EVERYONE", "MUTUAL_FOLLOW_FRIENDS", "FOLLOWER_OF_CREATOR", "SELF_ONLY"] },
+        "disable_duet": { "type": "boolean" },
+        "disable_stitch": { "type": "boolean" },
+        "disable_comment": { "type": "boolean" },
+        "video_cover_timestamp_ms": { "type": "integer", "minimum": 0 },
+        "brand_content_toggle": { "type": "boolean" },
+        "brand_organic_toggle": { "type": "boolean" },
+        "is_aigc": { "type": "boolean" }
+      }
+    },
+    "source_info": {
+      "type": "object",
+      "required": ["source"],
+      "additionalProperties": false,
+      "properties": { "source": { "const": "FILE_UPLOAD" } }
+    },
+    "extras": {
+      "type": "object",
+      "required": ["hashtags", "keywords", "pinned_comment", "generated_at"],
+      "additionalProperties": false,
+      "properties": {
+        "hashtags": { "type": "array", "items": { "type": "string" } },
+        "keywords": { "type": "array", "items": { "type": "string" } },
+        "pinned_comment": { "type": "string" },
+        "generated_at": { "type": "string" }
+      }
+    },
+    "status": { "enum": ["ready", "published"] }
+  }
+}

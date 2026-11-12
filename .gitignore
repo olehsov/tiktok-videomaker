@@ -26,3 +26,7 @@ videos/*/.hyperframes/
 videos/*/renders/
 videos/*/showcase/build/
 videos/*/showcase/out/
+
+# pipeline logs
+logs/
+videos/*/logs/

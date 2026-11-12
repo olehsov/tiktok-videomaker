@@ -12,8 +12,10 @@ The owner gives a topic and approves the final preview. Everything else is autom
 | --- | --- | --- | --- |
 | 1 | `/topics` | Propose 10 new, varied topics; owner picks one | yes — pick a topic |
 | 2 | `/brief <topic> [langs]` | `brief-writer` agent researches facts, writes `BRIEF.md` + `script.<lang>.json`; creates `videos/<slug>/` from `_template` | ends; owner runs step 3 |
-| 3 | `/produce <slug> [langs]` | voice (ElevenLabs) → `video-architect` plan → `video-builder` build → `video-reviewer` QA (≤2 fix loops) → owner preview → final render, cover, post text | yes — approve preview |
+| 3 | `/produce <slug> [langs]` | voice (ElevenLabs) → `video-architect` plan → `video-builder` build → `video-reviewer` QA (≤ `pipeline.maxReviewLoops` fix rounds) → preview → final render, cover → marketing → `upload.<lang>.json` → `ready` | per gates in `config.json` |
 | — | `/promote <slug>` | Copy improved reusable components from a video back into `videos/_template/kit/` | owner-invoked |
+| — | `/generate [--unattended] [--resume [<slug>]]` | One video, topic → brief → produce → `ready`; stops only at gates that `config.json → pipeline` leaves closed | per config |
+| — | `/topics-auto` | Like `/topics` but picks the best-scored topic and briefs it | no |
 
 Default language is `en`. Extra languages (`uk`, `ru`) are optional and named at step 2.
 
@@ -27,7 +29,7 @@ Default language is `en`. Extra languages (`uk`, `ru`) are optional and named at
 - `docs/brief-template.md` — the exact structure of every `BRIEF.md`.
 - `docs/script.schema.json` — contract for `script.<lang>.json`.
 - `docs/examples/yakhchal/` — a reference brief + script showing the expected quality.
-- `config.json` — voices, TTS model, duration limits, music settings.
+- `config.json` — voices, TTS model, duration limits, music settings, `pipeline` gate flags, `marketing` post settings.
 - `topics.md` — registry of every topic ever proposed, with status.
 - `tools/` — Node scripts (no npm deps): TTS with timestamps, silence-based timings, music loop.
 - `videos/_template/` — HyperFrames project + shared kit (overlay components, palette tokens, low-poly assets).
@@ -44,9 +46,11 @@ Default language is `en`. Extra languages (`uk`, `ru`) are optional and named at
 - No time or effort estimates in briefs or plans.
 - Python is not used in this repo. Tools are Node 22 + FFmpeg only.
 - Update `topics.md` status at every step (see ARCHITECTURE → Topic lifecycle).
+- Logs: only skills write them, via `node tools/log.mjs` (video log `videos/<slug>/logs/pipeline.log`, run log `logs/runs.log`); agents never log. Both are git-ignored.
+- A final review FAIL after `pipeline.maxReviewLoops` always stops the run (`needs-owner`); no flag or `--unattended` bypasses it.
 - Commit after each completed step with a message like `igloo: brief`, `igloo: rendered`. Never commit `.env`, audio or renders.
 
 ## Model routing
 
 - Main session: orchestration only (skills). Keep heavy work in agents.
-- `brief-writer`: Opus. `video-architect`: Opus, high effort. `video-builder`, `video-reviewer`: Sonnet, medium effort.
+- `brief-writer`: Opus. `video-architect`: Opus, medium effort, no shell. `video-builder`, `video-reviewer`: Sonnet, medium effort. `marketing-writer`: Sonnet, low effort, no web, no shell.

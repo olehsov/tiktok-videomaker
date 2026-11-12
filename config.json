@@ -1,7 +1,11 @@
 {
   "languages": {
     "primary": "en",
-    "supported": ["en", "uk", "ru"]
+    "supported": [
+      "en",
+      "uk",
+      "ru"
+    ]
   },
   "tts": {
     "provider": "elevenlabs",
@@ -15,9 +19,9 @@
     "voiceSettings": {
       "stability": 0.5,
       "similarity_boost": 0.75,
-      "style": 0.0,
+      "style": 0,
       "use_speaker_boost": true,
-      "speed": 1.0
+      "speed": 1
     },
     "maxRetries": 2
   },
@@ -25,14 +29,36 @@
     "minDurationSec": 60,
     "maxDurationSec": 120,
     "tailSec": 1.5,
-    "silenceDetect": { "noiseDb": -35, "minSilenceSec": 0.25 }
+    "silenceDetect": {
+      "noiseDb": -35,
+      "minSilenceSec": 0.25
+    }
   },
   "music": {
     "volume": 0.12,
-    "fadeInSec": 1.0,
-    "fadeOutSec": 2.0
+    "fadeInSec": 1,
+    "fadeOutSec": 2
   },
-  "review": {
-    "maxAutoFixLoops": 2
+  "pipeline": {
+    "defaultLanguages": [
+      "en"
+    ],
+    "autoSelectTopic": false,
+    "autoStartProduction": false,
+    "autoApprovePlan": false,
+    "maxReviewLoops": 2,
+    "autoApprovePreview": false,
+    "autoPrepareUpload": false,
+    "asyncMarketing": true,
+    "autoPromoteKit": false,
+    "publish": "off"
+  },
+  "marketing": {
+    "privacyLevel": "SELF_ONLY",
+    "disableDuet": false,
+    "disableStitch": false,
+    "disableComment": false,
+    "isAigc": true,
+    "alsoShortsAndReels": true
   }
 }

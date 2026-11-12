@@ -3,6 +3,7 @@ import { readFileSync, writeFileSync, existsSync, mkdirSync, readdirSync } from 
 import { spawnSync } from "node:child_process";
 import { join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
+import { createHash } from "node:crypto";
 
 export const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 
@@ -213,4 +214,16 @@ export function findMusic() {
   if (!existsSync(dir)) return null;
   const f = readdirSync(dir).find((n) => /^music\.(mp3|wav|m4a|aac|ogg|flac)$/i.test(n));
   return f ? join(dir, f) : null;
+}
+
+/** sha256 (hex) of all narration of a script, joined as in buildFullText. Used to detect stale marketing. */
+export function scriptHash(script) {
+  return createHash("sha256").update(buildFullText(script).text, "utf8").digest("hex");
+}
+
+/** Local time with offset, e.g. 2026-11-12T14:03:09+01:00 (never produced by the model). */
+export function isoLocal(d = new Date()) {
+  const p = (n, l = 2) => String(n).padStart(l, "0");
+  const off = -d.getTimezoneOffset(), sign = off >= 0 ? "+" : "-", a = Math.abs(off);
+  return `${d.getFullYear()}-${p(d.getMonth() + 1)}-${p(d.getDate())}T${p(d.getHours())}:${p(d.getMinutes())}:${p(d.getSeconds())}${sign}${p(Math.floor(a / 60))}:${p(a % 60)}`;
 }

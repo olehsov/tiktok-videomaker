@@ -3,18 +3,23 @@
 ## 1. Overview
 
 ```
-owner ──/topics──────────▶ main session (skill: topics) ──▶ topics.md
+owner ──/generate [--unattended|--resume]──▶ main session (skill: generate): topic → brief → produce, gates from config.json
+                              (topic: /topics + owner pick, or /topics-auto) ── logs/runs.log, videos/<slug>/logs/pipeline.log
+owner ──/topics──────────▶ main session (skill: topics) ──▶ topics.md (10 topics + scores)
+owner ──/topics-auto─────▶ main session (skill: topics-auto) ──▶ highest score → brief
 owner ──/brief igloo uk──▶ main session (skill: brief)
                               ├─ cp -r videos/_template videos/igloo
                               └─ Agent: brief-writer (Opus) ──▶ BRIEF.md, script.<lang>.json, voiceover.<lang>.txt
 owner ──/produce igloo───▶ main session (skill: produce)
+                              ├─ Agent: marketing-writer (Sonnet, low; background right after the brief when asyncMarketing) ──▶ marketing.<lang>.json, MARKETING.md
                               ├─ tools/tts.mjs            ──▶ audio/voice.<lang>.mp3, timings.<lang>.json
                               ├─ tools/music-loop.mjs      ──▶ audio/music.loop.<lang>.mp3 (only if assets/music.* exists)
                               ├─ Agent: video-architect (Opus, high)   ──▶ PLAN.md
                               ├─ Agent: video-builder (Sonnet, medium) ──▶ scenes, build, draft render
-                              ├─ Agent: video-reviewer (Sonnet, medium) ─▶ REVIEW.md  ⟲ builder (≤2 loops)
-                              ├─ owner preview gate (AskUserQuestion) ⟲ builder / architect
-                              └─ final render ──▶ out/<slug>.<lang>.mp4, out/cover.<lang>.png, out/post.<lang>.txt
+                              ├─ Agent: video-reviewer (Sonnet, medium) ─▶ REVIEW.md  ⟲ builder (≤ pipeline.maxReviewLoops fix rounds; FAIL → needs-owner)
+                              ├─ preview gate (config or AskUserQuestion) ⟲ builder / architect
+                              ├─ final render ──▶ out/<slug>.<lang>.mp4, out/cover.<lang>.png
+                              └─ tools/prepare-upload.mjs ──▶ out/upload.<lang>.json ──▶ tools/publish-tiktok.mjs (stub) ──▶ STATUS ready
 ```
 
 The main session is an **orchestrator**: it runs skills, calls tools, delegates to agents,
@@ -28,11 +33,14 @@ Agents do not spawn other agents (their tool lists exclude `Agent`).
 
 | Component | Type | Model | Reads | Writes |
 | --- | --- | --- | --- | --- |
-| `topics` | skill (main session) | session model | `topics.md`, `docs/storytelling.md` | `topics.md` |
+| `generate` | skill, owner-only | session model | `config.json`, STATUS files | everything below, via the other skills; logs |
+| `topics` | skill (main session) | session model | `topics.md`, `docs/storytelling.md` | `topics.md` (with scores) |
+| `topics-auto` | skill, owner-only | session model | same as `topics` | `topics.md` (auto-picked) |
 | `brief` | skill, owner-only | session model | args, `topics.md` | `videos/<slug>/` (copy), `topics.md` |
 | `brief-writer` | agent | Opus | `docs/*`, `docs/examples/*`, web | `BRIEF.md`, `script.*.json`, `voiceover.*.txt` |
-| `produce` | skill, owner-only | session model | video folder, `config.json` | audio, timings, status |
-| `video-architect` | agent | Opus, high | `BRIEF.md`, scripts, timings, `docs/*`, kit, HyperFrames docs | `PLAN.md` |
+| `produce` | skill, owner-only (steps P1–P9, shared with `generate`) | session model | video folder, `config.json` | audio, timings, status, renders, upload files |
+| `marketing-writer` | agent | Sonnet, low | `BRIEF.md` (fact base), `script.<lang>.json`, hash | `marketing.<lang>.json`, `MARKETING.md` |
+| `video-architect` | agent | Opus, medium (no shell; ≤ 40 turns) | `BRIEF.md`, scripts, timings, `docs/*`, kit, HyperFrames docs | `PLAN.md` |
 | `video-builder` | agent | Sonnet, medium | `PLAN.md`, `BRIEF.md`, `REVIEW.md`, kit | `src/`, `build/`, `out/draft/`, `out/` |
 | `video-reviewer` | agent | Sonnet, medium | draft render, `BRIEF.md`, `PLAN.md`, `docs/*` | `REVIEW.md`, `review/frames/*` |
 | `promote` | skill, owner-only | session model | `videos/<slug>/kit`, `_template/kit` | `_template/kit` |
@@ -40,7 +48,11 @@ Agents do not spawn other agents (their tool lists exclude `Agent`).
 | `tools/timings-from-silence.mjs` | Node script | — | mp3, script | `timings.<lang>.json` |
 | `tools/music-loop.mjs` | Node script | — | `assets/music.*`, `timings.<lang>.json` | `audio/music.loop.<lang>.mp3` |
 | `tools/fake-voice.mjs` | Node script | — | `script.<lang>.json` | silent `voice.<lang>.mp3` + timings with `source: fake` (tests only, never final) |
-| `tools/validate.mjs` | Node script | — | script/timings files | exit code + messages |
+| `tools/validate.mjs` | Node script | — | script, timings, marketing, upload files | exit code + messages |
+| `tools/script-hash.mjs` | Node script | — | `script.<lang>.json` | sha256 of all narration on stdout |
+| `tools/prepare-upload.mjs` | Node script | — | final mp4, cover, `marketing.<lang>.json`, timings | `out/upload.<lang>.json`, Cover line in `MARKETING.md`; exit 3 = stale marketing |
+| `tools/publish-tiktok.mjs` | Node script (stub) | — | `out/upload.<lang>.json`, `config.json` | nothing (no network); validates and reports |
+| `tools/log.mjs` | Node script | — | args | one line in `videos/<slug>/logs/pipeline.log` or `logs/runs.log` |
 
 ## 3. Repository layout
 
@@ -48,11 +60,13 @@ Agents do not spawn other agents (their tool lists exclude `Agent`).
 CLAUDE.md  config.json  topics.md  .env (git-ignored)  .env.example  .gitignore
 assets/                      # optional music.mp3 (git-ignored)
 docs/  PRD.md  ARCHITECTURE.md  style-guide.md  tech-requirements.md  storytelling.md
-       brief-template.md  script.schema.json  examples/yakhchal/
+       brief-template.md  script.schema.json  marketing.schema.json  upload.schema.json  examples/yakhchal/
 tools/ tts.mjs  timings-from-silence.mjs  music-loop.mjs  fake-voice.mjs  validate.mjs  lib.mjs
+       script-hash.mjs  prepare-upload.mjs  publish-tiktok.mjs  log.mjs
+logs/runs.log                # run log (git-ignored)
 .claude/settings.json
-.claude/skills/{topics,brief,produce,promote}/SKILL.md
-.claude/agents/{brief-writer,video-architect,video-builder,video-reviewer}.md
+.claude/skills/{topics,topics-auto,brief,produce,generate,promote}/SKILL.md
+.claude/agents/{brief-writer,video-architect,video-builder,video-reviewer,marketing-writer}.md
 videos/_template/            # created by BOOTSTRAP_PROMPT.md
 videos/<slug>/
 ```
@@ -79,7 +93,12 @@ videos/<slug>/
   REVIEW.md                  # video-reviewer (latest round on top)
   review/frames/             # reviewer frame grabs (git-ignored)
   out/draft/<slug>.<lang>.mp4
-  out/<slug>.<lang>.mp4  out/cover.<lang>.png  out/post.<lang>.txt
+  out/<slug>.<lang>.mp4  out/cover.<lang>.png
+  out/upload.<lang>.json     # tools/prepare-upload.mjs (docs/upload.schema.json)
+  marketing.<lang>.json      # marketing-writer (docs/marketing.schema.json); carries the narration hash
+  MARKETING.md               # marketing-writer; Cover line filled by prepare-upload
+  PENDING.md                 # only when STATUS = needs-owner: why the run stopped
+  logs/pipeline.log          # per-video log (git-ignored)
   STATUS                     # one word, mirrors topics.md status
 ```
 
@@ -111,7 +130,7 @@ Defined by `docs/script.schema.json`. Key ideas:
 - Video duration = `durationSec + config.tailSec`.
 
 ### 5.3 `config.json`
-Voices per language, TTS model and settings, gap between beats, duration limits, music volume. Edited by the owner.
+Voices per language, TTS model and settings, duration limits, music volume, `pipeline` (gate flags, `maxReviewLoops`, `asyncMarketing`, `autoPromoteKit`, `publish`, `defaultLanguages`) and `marketing` (TikTok post settings). Edited by the owner.
 
 ## 6. Build and render pipeline (data-driven)
 
@@ -147,18 +166,19 @@ only through `/promote <slug>`, so videos stay independent and the template only
 
 1. Builder renders a draft for the primary language (`en`) → `out/draft/<slug>.en.mp4`.
 2. Reviewer extracts frames with FFmpeg (mid-point of every beat + every 2 s contact sheet), checks the checklist in its agent file, writes `REVIEW.md` with `PASS` or a numbered issue list (each: beat id, what, expected, severity).
-3. If `FAIL` → builder fixes → reviewer re-checks. Max 2 automatic loops; then go to the owner anyway, listing remaining issues.
-4. Owner gate: main session shows draft path + reviewer summary and asks **Approve / Request changes**.
+3. If `FAIL` → builder fixes → reviewer re-checks. The reviewer always runs ≥ 1 round; up to `pipeline.maxReviewLoops` rounds may trigger builder fixes. A final `FAIL` is a hard stop (`needs-owner`, see Gates).
+4. Preview gate (only after `PASS`): main session shows draft path + reviewer summary and asks **Approve / Request changes**, unless `autoApprovePreview`.
 5. Owner changes are classified by the main session:
    - *small* (text, position, color, speed, timing inside a beat) → builder,
    - *structural* (add/remove/reorder scenes, change composition or concept) → architect updates `PLAN.md`, then builder.
    Then one reviewer pass and the owner gate again.
-6. After approval: build and render every language, cover and post text.
+6. After approval: build and render every language and the cover. Marketing copy and the upload file follow (FR-5).
 
 ## 9. Topic lifecycle (`topics.md`)
 
-`proposed` → `selected` → `briefed` → `voiced` → `planned` → `built` → `approved` → `rendered`
-Any time: `rejected` (owner said no — never propose again).
+`proposed` → `selected` → `briefed` → `voiced` → `planned` → `built` → `approved` → `rendered` → `ready`
+`rendered` = final mp4 + cover exist; `ready` = marketing + `upload.<lang>.json` prepared (publishing stays manual while `pipeline.publish = "off"`).
+Any time: `needs-owner` (the run stopped and waits for the owner; reason in `PENDING.md`, resume with `/generate --resume`) and `rejected` (owner said no — never propose again).
 Each video folder also has `STATUS` with the same word.
 
 ## 10. Error handling
@@ -170,9 +190,40 @@ Each video folder also has `STATUS` with the same word.
 | Owner-provided mp3 without timestamps | `tools/timings-from-silence.mjs` (sentence-accurate, word timing interpolated). |
 | Voice longer than 120 s | Report to owner with the measured duration; suggest beats to cut; do not render. |
 | Script invalid vs schema | `tools/validate.mjs` fails → main session sends the error back to brief-writer once. |
-| Reviewer still FAIL after 2 loops | Continue to owner gate with the open issues listed. |
+| Reviewer still FAIL after `maxReviewLoops` fix rounds | Hard stop: `STATUS needs-owner`, `PENDING.md`. No flag or `--unattended` bypasses it. |
+| `prepare-upload` exit 3 (narration changed after marketing) | Rerun `marketing-writer` once, then `prepare-upload` again. |
 
-## 11. Conventions
+## 11. Gates
+
+Approval gates and the config flags that make them automatic (`config.json → pipeline`):
+
+| Gate | Flag | Where |
+| --- | --- | --- |
+| topic | `autoSelectTopic` | `/generate` a): true → `/topics-auto` logic, false → `/topics` + owner pick |
+| production | `autoStartProduction` | after the brief, before voice |
+| plan | `autoApprovePlan` | after `PLAN.md` |
+| preview | `autoApprovePreview` | after review PASS, before the final render |
+| upload | `autoPrepareUpload` | after the final render and marketing, before `prepare-upload` |
+
+- Flag true → continue automatically. Flag false → ask with AskUserQuestion: **Approve / Request changes**.
+- `/generate --unattended`: for this run only, every approval gate counts as true. Never written to `config.json`. It does **not** override `publish` or `autoPromoteKit`, which always come from `config.json`.
+- **Hard rule** — nothing bypasses it: last review `FAIL` after `maxReviewLoops` → stop, `STATUS needs-owner`, one-paragraph reason in `videos/<slug>/PENDING.md` (first line `Previous status: <status>`).
+- `autoApprovePreview` only ever applies when the last review is `PASS`.
+- `/generate --resume [<slug>]` continues from `STATUS` (slug omitted = most recently updated unfinished video). Finished steps are never redone and existing audio never costs TTS credits again. `needs-owner` + `--resume` shows the open issues and asks **Approve anyway / Request changes**; with `--unattended` a `needs-owner` video is never passed automatically.
+- Before a run ends or stops, the orchestrator waits for background agents (async marketing).
+- `asyncMarketing: true` starts `marketing-writer` in the background right after the brief; production never waits for it until the marketing step.
+- `/produce` shares steps P1–P9 with `/generate` and follows the same gates.
+
+## 12. Logging
+
+Two append-only logs, one line per event: `ISO timestamp with local offset | slug | step | result | details`. Written only through `node tools/log.mjs` (timestamp and run duration come from the tool, never from the model), only by the orchestrator (skills); agents never log. Both are git-ignored (`logs/`, `videos/*/logs/`).
+
+- **Video log** `videos/<slug>/logs/pipeline.log` — detailed history of that video: start/end of every step, every gate decision (auto / owner approved / owner changes), TTS characters sent per language, review verdict per round, `needs-owner` stops, `--resume`, errors with message, final output paths.
+  `node tools/log.mjs <slug> <step> <result> "<details>"`
+- **Run log** `logs/runs.log` — short: start and end of every command (`/generate`, `/produce`, `/brief`, `/topics`, `/topics-auto`, `/promote`) with slug, flags (`--unattended`, `--resume`), final status and duration; plus events with no video folder yet (topic generation, early errors) with `-` as slug.
+  `node tools/log.mjs --run <command> <slug|-> <result> "<details>"`
+
+## 13. Conventions
 
 - Slug: lowercase ASCII, hyphens (`igloo`, `japanese-katana`).
 - Language codes: ISO 639-1 (`en`, `uk`, `ru`).

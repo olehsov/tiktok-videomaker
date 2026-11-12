@@ -6,7 +6,7 @@
 - Duration: 60–120 s. Target is chosen per topic in `BRIEF.md`; the real duration follows the voice (`timings.<lang>.json`) + `config.tailSec`.
 - One MP4 per language: `out/<slug>.<lang>.mp4`.
 - Cover: `out/cover.<lang>.png`, 1080×1920, the most telling frame of the finished build + the cover headline from the script; text inside the safe zone.
-- Post text: `out/post.<lang>.txt` — description (≤ 150 characters) + 5–8 hashtags, from the script.
+- Post text: `marketing.<lang>.json` + `MARKETING.md` (marketing-writer) and `out/upload.<lang>.json` (prepare-upload); `post.*` in the script is only a seed.
 
 ## Safe zones (TikTok UI)
 - Keep key text out of the top 150 px, the bottom 400 px and the right 140 px.
