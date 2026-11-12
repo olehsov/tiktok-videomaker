@@ -34,7 +34,7 @@ Agents do not spawn other agents (their tool lists exclude `Agent`).
 | Component | Type | Model | Reads | Writes |
 | --- | --- | --- | --- | --- |
 | `generate` | skill, owner-only | session model | `config.json`, STATUS files | everything below, via the other skills; logs |
-| `topics` | skill (main session) | session model | `topics.md`, `docs/storytelling.md` | `topics.md` (with scores) |
+| `topics` | skill (main session) | session model | `topics.md`, `docs/storytelling.md` | `topics.md` (with scores and reference links) |
 | `topics-auto` | skill, owner-only | session model | same as `topics` | `topics.md` (auto-picked) |
 | `brief` | skill, owner-only | session model | args, `topics.md` | `videos/<slug>/` (copy), `topics.md` |
 | `brief-writer` | agent | Opus | `docs/*`, `docs/examples/*`, web | `BRIEF.md`, `script.*.json`, `voiceover.*.txt` |
@@ -49,6 +49,7 @@ Agents do not spawn other agents (their tool lists exclude `Agent`).
 | `tools/music-loop.mjs` | Node script | — | `assets/music.*`, `timings.<lang>.json` | `audio/music.loop.<lang>.mp3` |
 | `tools/fake-voice.mjs` | Node script | — | `script.<lang>.json` | silent `voice.<lang>.mp3` + timings with `source: fake` (tests only, never final) |
 | `tools/validate.mjs` | Node script | — | script, timings, marketing, upload files | exit code + messages |
+| `tools/wiki-lookup.mjs` | Node script | — | title, `--lang` | JSON `{title, url, found}` from the Wikipedia REST summary API (follows redirects; no key); reference links for `/topics` |
 | `tools/script-hash.mjs` | Node script | — | `script.<lang>.json` | sha256 of all narration on stdout |
 | `tools/prepare-upload.mjs` | Node script | — | final mp4, cover, `marketing.<lang>.json`, timings | `out/upload.<lang>.json`, Cover line in `MARKETING.md`; exit 3 = stale marketing |
 | `tools/publish-tiktok.mjs` | Node script (stub) | — | `out/upload.<lang>.json`, `config.json` | nothing (no network); validates and reports |
@@ -66,7 +67,7 @@ assets/                      # optional music.mp3 (git-ignored)
 docs/  PRD.md  ARCHITECTURE.md  style-guide.md  tech-requirements.md  storytelling.md
        brief-template.md  script.schema.json  marketing.schema.json  upload.schema.json  examples/yakhchal/
 tools/ tts.mjs  timings-from-silence.mjs  music-loop.mjs  fake-voice.mjs  validate.mjs  lib.mjs
-       script-hash.mjs  prepare-upload.mjs  publish-tiktok.mjs  log.mjs  apply-look.mjs  finish.mjs  style-preview.mjs
+       wiki-lookup.mjs  script-hash.mjs  prepare-upload.mjs  publish-tiktok.mjs  log.mjs  apply-look.mjs  finish.mjs  style-preview.mjs
 logs/runs.log                # run log (git-ignored)
 .claude/settings.json
 .claude/skills/{topics,topics-auto,brief,produce,generate,promote,style-preview}/SKILL.md

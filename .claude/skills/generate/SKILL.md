@@ -21,7 +21,7 @@ Skip every step before the one the `STATUS` points to; run the rest below from t
 A video whose `STATUS` is before `briefed` (e.g. `selected`) resumes at step b.
 
 ## Steps
-a) **Topic.** `pipeline.autoSelectTopic` (or `--unattended`) true → follow the `topics-auto` skill steps 1–3 (generate, score, pick the highest total, record `auto-picked: <reason>`; no brief yet).
+a) **Topic.** `pipeline.autoSelectTopic` (or `--unattended`) true → follow the `topics-auto` skill steps 1–3 (generate, score, find reference links, pick the highest total, record `auto-picked: <reason>`; no brief yet).
    False → follow the `topics` skill: show the scored table and let the owner pick (the skill's own questions are the gate); do not let it start the brief itself.
    Log `topic <slug> picked auto|owner`.
 b) **Brief.** Follow the `brief` skill steps (template copy, `brief-writer`, validate, status, commit) with languages = `pipeline.defaultLanguages` (plus any the owner named when picking).

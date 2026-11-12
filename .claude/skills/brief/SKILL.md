@@ -18,7 +18,7 @@ Logging (orchestrator only; skip the run-log lines when `/generate` or another c
    - Existing video with `BRIEF.md` and owner change notes (from `/generate`'s production gate): **revise mode** — apply the notes to `BRIEF.md` and every script, keep beat ids stable where possible, validate.
    - Existing video with `BRIEF.md` otherwise: **add-language mode** — only the missing `script.<lang>.json` / `voiceover.<lang>.txt` are written; nothing else changes.
 4. **Delegate** to the `brief-writer` agent. The delegation message must contain:
-   - slug, topic name, languages, today's date, mode (new | add-language | revise);
+   - slug, topic name, the topic's Link from `topics.md` (if any), languages, today's date, mode (new | add-language | revise);
    - absolute paths of the video folder and `docs/`;
    - "Do not ask questions. Make reasonable choices and record them in BRIEF.md under 'Decisions'."
    - "Run `node tools/validate.mjs <slug>` before finishing and fix every error."

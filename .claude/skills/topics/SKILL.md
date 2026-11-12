@@ -22,13 +22,19 @@ Logging (orchestrator only, see ARCHITECTURE → Logging): `node tools/log.mjs -
    - `facts` — verifiable from ≥ 2 sources;
    - `variety` — category not used recently (compare with the most recent rows of `topics.md`; a category used by the latest video scores 1, never used scores 5).
    Total = sum (max 25).
-6. Show the owner one table, sorted as generated:
+6. **Reference link** for each of the 10 topics, so the owner can see what it is:
+   - Run `node tools/wiki-lookup.mjs "<best English Wikipedia article title>"` (prints `{ title, url, found }`).
+   - `found: false` (not found or a disambiguation page) → try 1–2 alternative titles.
+   - Still nothing → one `WebSearch` for a single reliable reference page (encyclopedia, museum, university) and mark it `(related)`.
+   - Never invent, guess or build a URL by hand: only a `url` printed by the tool or a result of the search.
+7. Show the owner one table, sorted as generated:
 
-   | # | Topic | Category | Hook (one line) | Problems it solves (3–5) | ~Duration | hook | visual | depth | facts | variety | Total |
-   | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+   | # | Topic | Wiki | Category | Hook (one line) | Problems it solves (3–5) | ~Duration | hook | visual | depth | facts | variety | Total |
+   | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 
-7. Append new rows to `topics.md` with status `proposed`, today's date, langs empty, and the new **Score** column as `<total> (h<n> v<n> d<n> f<n> va<n>)`.
-8. End with exactly one line: `Pick a number or name (+ languages, e.g. "3 uk ru"). "reject 2,5" removes topics for good.`
+   **Wiki** = markdown link `[<title>](<url>)`, followed by ` (related)` for a search fallback.
+8. Append new rows to `topics.md` with status `proposed`, today's date, langs empty, the **Score** column as `<total> (h<n> v<n> d<n> f<n> va<n>)` and the **Link** column as the bare URL (with ` (related)` appended when it is a search fallback).
+9. End with exactly one line: `Pick a number or name (+ languages, e.g. "3 uk ru"). "reject 2,5" removes topics for good.`
 
 ## When the owner answers
 - **Pick** (`3`, `igloo`, `3 uk ru`): set that row to `selected`, store languages (`en` always included), then invoke the `brief` skill with `<topic> <langs>`.
