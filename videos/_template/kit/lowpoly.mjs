@@ -31,3 +31,9 @@ export const stage = (inner, id = "") =>
 /** Failure ghost wrapper: desaturated, red-tinted, starts hidden (animate its opacity). */
 export const ghost = (id, inner) =>
   `<g id="${id}" style="opacity:0;filter:saturate(.3) sepia(.7) hue-rotate(-50deg) saturate(1.8)">${inner}</g>`;
+/**
+ * SVG `transform` string with a constant structure, so GSAP `attr:{transform}` tweens interpolate it number by number.
+ * Translate by (x,y), then rotate r degrees and scale (sx,sy) about the pivot (px,py) (all in the parent's coordinates).
+ */
+export const tf = ({ x = 0, y = 0, r = 0, px = 0, py = 0, sx = 1, sy = 1 } = {}) =>
+  `translate(${f(x)} ${f(y)}) translate(${f(px)} ${f(py)}) rotate(${f(r)}) scale(${sx} ${sy}) translate(${f(-px)} ${f(-py)})`;
