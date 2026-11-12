@@ -8,7 +8,7 @@ Categories: see docs/storytelling.md.
 | --- | --- | --- | --- | --- | --- | --- |
 | yakhchal | Yakhchal — how Persians made ice in the desert | cold-tech | proposed | en | 2026-11-12 | reference brief in docs/examples/yakhchal |
 | igloo | Igloo — a warm house made of snow | shelter | proposed | | 2026-11-12 | ~90 s |
-| roman-aqueduct | Roman aqueduct — water flowing for 50 miles with no pump | water | built | en | 2026-11-12 | ~120 s |
+| roman-aqueduct | Roman aqueduct — water flowing for 50 miles with no pump | water | rendered | en | 2026-11-12 | ~120 s |
 | windcatcher | Windcatcher (badgir) — air conditioning with no electricity | cold-tech | proposed | | 2026-11-12 | ~90 s |
 | katana | Katana — a blade that is hard and does not break | weapon-tool | proposed | | 2026-11-12 | ~120 s |
 | zeer-pot | Zeer pot — a fridge made of two clay pots and wet sand | food-preservation | proposed | | 2026-11-12 | ~60 s |
