@@ -1,0 +1,33 @@
+{
+  "preview": "2026-11-12_1613_3",
+  "grid": {
+    "lightness": [
+      "1.0",
+      "1.1",
+      "1.2"
+    ]
+  },
+  "overrides": {},
+  "neutral": false,
+  "look": {
+    "saturation": 1.1,
+    "lightness": 1.1,
+    "maxLightness": 0.94,
+    "contrast": 1,
+    "temperature": 0,
+    "faceShading": 0.5,
+    "outline": 0,
+    "shadowOpacity": 0.25,
+    "depthFade": 0.3,
+    "nightDarkness": 0.35,
+    "nightBlue": 0.5,
+    "uiScale": 1,
+    "captionScale": 1,
+    "captionShadow": 0.6,
+    "sharpen": 0.3,
+    "crf": 18,
+    "grain": 0,
+    "vignette": 0,
+    "x264Tune": "animation"
+  }
+}

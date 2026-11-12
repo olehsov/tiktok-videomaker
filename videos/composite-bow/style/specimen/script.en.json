@@ -1,0 +1,133 @@
+{
+  "slug": "specimen",
+  "lang": "en",
+  "title": "Style Specimen",
+  "targetDurationSec": 60,
+  "finalLine": "Important danger cold heat.",
+  "beats": [
+    {
+      "id": "b01",
+      "type": "hook",
+      "narration": "Important danger cold heat.",
+      "onScreen": {
+        "stepPlate": "✓ STEP 1 · DAY",
+        "callouts": [
+          {
+            "id": "wall",
+            "title": "STONE WALL",
+            "subtitle": "carries the load of the roof"
+          }
+        ],
+        "gauge": "104°F / 40°C",
+        "meter": {
+          "label": "STAKES",
+          "value": 80
+        }
+      },
+      "keywords": [
+        {
+          "text": "Important",
+          "color": "yellow"
+        },
+        {
+          "text": "danger",
+          "color": "red"
+        },
+        {
+          "text": "cold",
+          "color": "blue"
+        },
+        {
+          "text": "heat",
+          "color": "orange"
+        }
+      ]
+    },
+    {
+      "id": "b02",
+      "type": "night",
+      "narration": "Cold night. Stay near heat.",
+      "onScreen": {
+        "stepPlate": "✓ STEP 2 · NIGHT",
+        "callouts": [
+          {
+            "id": "fire",
+            "title": "CAMPFIRE",
+            "subtitle": "heat and embers rise"
+          }
+        ],
+        "gauge": "−4°F / −20°C",
+        "meter": {
+          "label": "STAKES",
+          "value": 55
+        }
+      },
+      "keywords": [
+        {
+          "text": "Cold",
+          "color": "blue"
+        },
+        {
+          "text": "heat",
+          "color": "orange"
+        }
+      ]
+    },
+    {
+      "id": "b03",
+      "type": "threat",
+      "narration": "Important danger cold heat.",
+      "onScreen": {
+        "threatPlate": "⚠ WALL CRACKS",
+        "callouts": [
+          {
+            "id": "crack",
+            "title": "THIN WALL",
+            "subtitle": "cracks under the load"
+          }
+        ],
+        "meter": {
+          "label": "STAKES",
+          "value": 25
+        }
+      },
+      "keywords": [
+        {
+          "text": "Important",
+          "color": "yellow"
+        },
+        {
+          "text": "danger",
+          "color": "red"
+        },
+        {
+          "text": "cold",
+          "color": "blue"
+        },
+        {
+          "text": "heat",
+          "color": "orange"
+        }
+      ],
+      "cues": [
+        {
+          "word": "danger",
+          "action": "ghost-crack"
+        }
+      ]
+    }
+  ],
+  "cover": {
+    "headline": "STYLE SPECIMEN"
+  },
+  "post": {
+    "description": "Specimen for look tuning.",
+    "hashtags": [
+      "#a",
+      "#b",
+      "#c",
+      "#d",
+      "#e"
+    ]
+  }
+}

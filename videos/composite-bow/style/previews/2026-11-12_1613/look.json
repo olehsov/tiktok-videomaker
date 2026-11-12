@@ -1,0 +1,27 @@
+{
+  "preview": "2026-11-12_1613",
+  "overrides": {},
+  "neutral": true,
+  "guides": false,
+  "look": {
+    "saturation": 1,
+    "lightness": 1,
+    "maxLightness": 0.94,
+    "contrast": 1,
+    "temperature": 0,
+    "faceShading": 0.5,
+    "outline": 0,
+    "shadowOpacity": 0,
+    "depthFade": 0,
+    "nightDarkness": 0.35,
+    "nightBlue": 0.5,
+    "uiScale": 1,
+    "captionScale": 1,
+    "captionShadow": 1,
+    "sharpen": 0,
+    "crf": 18,
+    "grain": 0,
+    "vignette": 0,
+    "x264Tune": "animation"
+  }
+}
