@@ -13,7 +13,18 @@ export const writeJson = (p, data) => {
   writeFileSync(p, JSON.stringify(data, null, 2) + "\n");
 };
 export const exists = existsSync;
-export const config = () => readJson(join(ROOT, "config.json"));
+const deepMerge = (base, over) => {
+  if (!base || typeof base !== "object" || Array.isArray(base) || !over || typeof over !== "object" || Array.isArray(over)) return over === undefined ? base : over;
+  const out = { ...base };
+  for (const k of Object.keys(over)) out[k] = deepMerge(base[k], over[k]);
+  return out;
+};
+/** config.json on top of config-template.json: a key missing from config.json falls back to the template default. */
+export const config = () => {
+  const tpl = join(ROOT, "config-template.json");
+  const user = readJson(join(ROOT, "config.json"));
+  return existsSync(tpl) ? deepMerge(readJson(tpl), user) : user;
+};
 export const videoDir = (slug) => join(ROOT, "videos", slug);
 export const scriptPath = (slug, lang) => join(videoDir(slug), `script.${lang}.json`);
 export const timingsPath = (slug, lang) => join(videoDir(slug), `timings.${lang}.json`);

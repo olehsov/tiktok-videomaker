@@ -130,7 +130,7 @@ Defined by `docs/script.schema.json`. Key ideas:
 - Video duration = `durationSec + config.tailSec`.
 
 ### 5.3 `config.json`
-Voices per language, TTS model and settings, duration limits, music volume, `pipeline` (gate flags, `maxReviewLoops`, `asyncMarketing`, `autoPromoteKit`, `publish`, `defaultLanguages`) and `marketing` (TikTok post settings). Edited by the owner.
+Voices per language, TTS model and settings, duration limits, music volume, `pipeline` (gate flags, `maxReviewLoops`, `asyncMarketing`, `autoPromoteKit`, `publish`, `defaultLanguages`) and `marketing` (TikTok post settings). Edited by the owner. `config-template.json` holds the default values: tools read `config.json` merged over it, so a key missing from `config.json` falls back to the default. Never regenerate `config.json` from scratch; copy the template only when the file is missing, and add new keys to the template.
 
 ## 6. Build and render pipeline (data-driven)
 

@@ -11,6 +11,8 @@
    (або всередині Claude Code: `/plugin marketplace add heygen-com/hyperframes`, потім `/plugin install hyperframes@hyperframes`).
 
 ## Налаштування (один раз)
+> `config-template.json` — значення за замовчуванням. Твої зміни живуть у `config.json`; якщо якогось ключа там нема, береться значення з шаблону. Нового `config.json` не генеруй: якщо файлу нема — скопіюй шаблон.
+
 1. Розпакуй архів, відкрий папку в терміналі.
 2. Скопіюй `.env.example` → `.env` і впиши `ELEVENLABS_API_KEY=...` (ElevenLabs → профіль → API Keys).
 3. У `config.json` → `tts.voices` впиши `voice_id` голосу для кожної мови (ElevenLabs → Voices → голос → «Copy voice ID»).
