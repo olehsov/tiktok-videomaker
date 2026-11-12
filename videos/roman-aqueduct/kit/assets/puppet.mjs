@@ -4,7 +4,7 @@ import { poly, shade, tint, f } from "../lowpoly.mjs";
 // via the SVG `transform` attribute (GSAP `attr` plugin), so there are no transform-origin surprises.
 // Rotation: 0 = hanging down, negative = swing forward/up (-90 forward, -180 overhead).
 
-const DEFAULT = { body: 0, torso: 0, head: 0, armL: 0, armR: 0, legL: 0, legR: 0, dy: 0, sweat: 0, closed: 0, shovel: 0 };
+const DEFAULT = { body: 0, torso: 0, head: 0, armL: 0, armR: 0, legL: 0, legR: 0, dy: 0, sweat: 0, closed: 0, shovel: 0, scraper: 0 };
 
 export const POSES = {
   stand: {},
@@ -12,6 +12,8 @@ export const POSES = {
   dig: { armL: -28, armR: -24, torso: 14, shovel: 1 },
   carry: { armL: -80, armR: -80, torso: -3 },
   lift: { armL: -170, armR: -170, torso: -3, legL: 3, legR: -3 },
+  sight: { torso: 20, head: -12, armL: -75, armR: -65 },
+  scrape: { armL: -50, armR: -100, torso: 12, scraper: 1 },
   sleep: { body: 90, dy: -30, closed: 1, armL: -8, armR: -8 }, // lies with the head to the right
   sleepLeft: { body: -90, dy: -30, closed: 1, armL: -8, armR: -8 }, // lies with the head to the left
 };
@@ -19,6 +21,7 @@ export const POSES = {
 export const ACTIONS = {
   wipeSweat: [{ armR: -150, head: -4, sweat: 1 }, { armR: -128, head: -2, sweat: 1 }],
   dig: [{ armL: -28, armR: -24, torso: 14, shovel: 1 }, { armL: -100, armR: -95, torso: 6, shovel: 1 }],
+  scrape: [{ armL: -50, armR: -100, torso: 12, scraper: 1 }, { armL: -50, armR: -45, torso: 6, scraper: 1 }],
   carry: [{ armL: -80, armR: -80, torso: -3, legL: 8, legR: -8 }, { armL: -80, armR: -80, torso: -3, legL: -8, legR: 8 }],
 };
 
@@ -42,6 +45,10 @@ export function puppet({ id, x = 0, y = 0, s = 1, flip = false, jacket = "water"
     poly([[-3, 66], [3, 66], [3, 152], [-3, 152]], "var(--wood)") +
     poly([[-17, 152], [17, 152], [12, 188], [-12, 188]], "var(--stone)") +
     poly([[0, 152], [17, 152], [12, 188], [0, 188]], shade("stone", 22)) + `</g>`;
+  const scraper =
+    `<g id="${id}-scraper" style="opacity:0">` +
+    poly([[-3.5, 66], [-0.5, 66], [3.5, 102], [0.5, 102]], "var(--wood)") +
+    poly([[-9, 102], [9, 102], [7, 110], [-7, 110]], shade("stone", 25)) + `</g>`;
   const torso =
     poly([[-26, 0], [2, 0], [4, -74], [-30, -74]], tint(jacket, 4)) +
     poly([[2, 0], [26, 0], [30, -74], [4, -74]], shade(jacket, 16));
@@ -62,7 +69,7 @@ export function puppet({ id, x = 0, y = 0, s = 1, flip = false, jacket = "water"
       part("armL", -2, -66, arm(true)) +
       torso +
       part("head", 0, -74, head) +
-      part("armR", 4, -66, arm(false, shovel))) +
+      part("armR", 4, -66, arm(false, shovel + scraper))) +
     `</g></g></g></g>`;
 
   const lines = [];
@@ -77,7 +84,7 @@ export function puppet({ id, x = 0, y = 0, s = 1, flip = false, jacket = "water"
       }
     }
     if (cur.dy !== next.dy) lines.push(`tl.fromTo("#${id}-lift", {attr:{transform:"translate(0 ${cur.dy})"}}, {attr:{transform:"translate(0 ${next.dy})"}, duration:${dur}, ease:"power1.inOut", immediateRender:false}, ${at});`);
-    for (const [p, sel] of [["sweat", "sweat"], ["shovel", "shovel"]]) {
+    for (const [p, sel] of [["sweat", "sweat"], ["shovel", "shovel"], ["scraper", "scraper"]]) {
       if (cur[p] !== next[p]) lines.push(`tl.fromTo("#${id}-${sel}", {opacity:${cur[p]}}, {opacity:${next[p]}, duration:${Math.min(dur, 0.2)}, ease:"none", immediateRender:false}, ${at});`);
     }
     if (cur.closed !== next.closed) {

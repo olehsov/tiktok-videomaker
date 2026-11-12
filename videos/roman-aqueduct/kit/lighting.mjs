@@ -12,7 +12,7 @@ export const BASE = {
   sky: "#9FB3BF", "sky-2": "#B8C7CF",
   "earth-1": "#8A6E52", "earth-2": "#6B5440", "earth-3": "#4E3D2F",
   sand: "#B9A68A", stone: "#8C9196", snow: "#E3E8EC",
-  "green-dark": "#3F5A4A", "green-mid": "#56735F", wood: "#7A5A3E", water: "#5E8FA3",
+  "green-dark": "#3F5A4A", "green-mid": "#56735F", wood: "#7A5A3E", water: "#5E8FA3", tile: "#A8705E",
 };
 const SCENE_KEYS = Object.keys(BASE).filter((k) => !k.startsWith("sky"));
 const graded = (opts) => Object.fromEntries(SCENE_KEYS.map((k) => [k, grade(BASE[k], opts)]));
@@ -21,6 +21,8 @@ export const PRESETS = {
   day: { ...BASE },
   night: { ...graded({ dark: 0.35, amt: 0.22 }), sky: "#1E2A3D", "sky-2": "#2A3A52" },
   tense: { ...graded({ dark: 0.22, amt: 0.14 }), sky: "#1E2A3D", "sky-2": "#2F4058" },
+  harsh: { ...graded({ dark: -0.06, to: "#E0C890", amt: 0.12 }), sky: "#BFC4B4", "sky-2": "#DCD3AE" },
+  overcast: { ...graded({ dark: 0.12, to: "#6B7580", amt: 0.18 }), sky: "#7F8C95", "sky-2": "#97A3AB" },
   sunset: { ...graded({ dark: 0.06, to: "#C9855A", amt: 0.10 }), sky: "#B58F7E", "sky-2": "#D7A67E" },
 };
 
@@ -32,6 +34,7 @@ const vars = (name) => {
 /** Inline style string that sets a preset on an element. */
 export const lightingStyle = (name) => Object.entries(vars(name)).map(([k, v]) => `${k}:${v}`).join(";");
 /** GSAP code (string) that blends the world from one preset to another. Call after the world exists. */
-export function lightTween(sel, from, to, at, dur, ease = "power1.inOut") {
-  return `tl.fromTo(${JSON.stringify(sel)}, ${JSON.stringify(vars(from))}, ${JSON.stringify({ ...vars(to), duration: dur, ease })}, ${at});`;
+export function lightTween(sel, from, to, at, dur, ease = "power1.inOut", immediateRender = true) {
+  const extra = immediateRender ? {} : { immediateRender: false };
+  return `tl.fromTo(${JSON.stringify(sel)}, ${JSON.stringify(vars(from))}, ${JSON.stringify({ ...vars(to), duration: dur, ease, ...extra })}, ${at});`;
 }

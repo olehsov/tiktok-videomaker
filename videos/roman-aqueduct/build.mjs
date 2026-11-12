@@ -83,6 +83,9 @@ const cssSet = new Set();
 const tlParts = [];
 const sceneHtml = [];
 const anchorsByBeat = new Map();
+const stepAtByBeat = new Map();
+const meterByBeat = new Map();
+const OPT = mod.options ?? {};
 
 scenes.forEach((sc, i) => {
   const t0 = r3(starts[i]), t1 = r3(starts[i + 1] ?? D), dur = r3(t1 - t0);
@@ -111,6 +114,8 @@ scenes.forEach((sc, i) => {
   if (r.css) cssSet.add(r.css);
   if (r.tl) tlParts.push(`// scene ${sc.id}\n${r.tl}`);
   for (const b of sc.beats) anchorsByBeat.set(b, r.anchors ?? {});
+  for (const [b, v] of Object.entries(r.stepAt ?? {})) stepAtByBeat.set(b, v);
+  for (const [b, v] of Object.entries(r.meter ?? {})) meterByBeat.set(b, v);
   sceneHtml.push(
     `<div id="sc-${sc.id}" class="clip kit-abs" data-start="${t0}" data-duration="${dur}" data-track-index="1" style="left:0;top:0;width:${W}px;height:${H}px;z-index:1">` +
       `<div id="sc-${sc.id}-world" class="kit-world" data-layout-allow-overflow style="${kit.lightingStyle(sc.light ?? "day")}">${r.html}</div></div>`,
@@ -137,7 +142,7 @@ if (!COVER) {
     // plates: threat at beat start; step at the first non-ghost cue when both are present
     if (os.threatPlate && os.stepPlate) {
       const c = cues.find((x) => !/^ghost/.test(x.action));
-      const stepAt = r3(Math.max(c ? c.start : (bs + hide) / 2, bs + 0.8));
+      const stepAt = r3(Math.max(stepAtByBeat.get(sb.id) ?? (c ? c.start : (bs + hide) / 2), bs + 0.8));
       addOv(kit.ThreatBadge({ id: `${pid}-threat`, text: os.threatPlate, at: bs, dur: r3(stepAt - bs) }));
       addOv(kit.StepBadge({ id: `${pid}-step`, text: os.stepPlate, at: stepAt, dur: r3(hide - stepAt) }));
     } else {
@@ -148,30 +153,39 @@ if (!COVER) {
     // callouts: at cue "callout-<id>" if the script has it, else staggered after the beat start
     (os.callouts ?? []).forEach((c, j) => {
       const cue = cues.find((x) => x.action === `callout-${c.id}`);
-      const at = r3(Math.min(cue ? cue.start : bs + 0.35 + 0.4 * j, hide - 0.8));
       const a = anchors[c.id];
+      const at = r3(Math.min(cue ? cue.start : (a?.at ?? bs + 0.35 + 0.4 * j), hide - 0.8));
+      const end = r3(Math.min(a?.until ?? hide, hide));
+      if (end - at < 1.2) warn(`beat ${sb.id}: callout "${c.id}" is on screen only ${r3(end - at)} s`);
       if (!a) warn(`beat ${sb.id}: scene gave no anchor for callout "${c.id}" — placed at a default spot, no leader line`);
       const card = a?.card ?? { x: 48, y: 640 + j * 190 };
-      addOv(kit.Callout({ id: `${pid}-co-${c.id}`, title: c.title, subtitle: c.subtitle, card, target: a?.target ?? null, at, dur: r3(hide - at) }));
+      addOv(kit.Callout({ id: `${pid}-co-${c.id}`, title: c.title, subtitle: c.subtitle, card, target: a?.target ?? null, at, dur: r3(end - at) }));
     });
 
     // in-scene labels
     (os.labels ?? []).forEach((l, j) => {
       const a = anchors[l.id];
       if (!a) warn(`beat ${sb.id}: scene gave no anchor for label "${l.id}" — placed at screen center`);
-      const at = r3(bs + 0.3 + 0.2 * j);
-      addOv(kit.Label({ id: `${pid}-lb-${l.id}`, text: l.text, x: a?.x ?? W / 2, y: a?.y ?? H / 2, at, dur: r3(hide - at) }));
+      const at = r3(Math.min(a?.at ?? bs + 0.3 + 0.2 * j, hide - 0.8));
+      const end = r3(Math.min(a?.until ?? hide, hide));
+      if (end - at < 1.2) warn(`beat ${sb.id}: label "${l.id}" is on screen only ${r3(end - at)} s`);
+      addOv(kit.Label({ id: `${pid}-lb-${l.id}`, text: l.text, x: a?.x ?? W / 2, y: a?.y ?? H / 2, at, dur: r3(end - at) }));
     });
 
-    if (os.gauge) addOv(kit.Gauge({ id: `${pid}-gauge`, text: os.gauge, x: 48, y: 330, at: r3(bs + 0.15), dur: r3(hide - bs - 0.15), tone: /°?\s*[−-]|cold|cool|ice/i.test(os.gauge) ? "cold" : "heat" }));
+    if (os.gauge) addOv(kit.Gauge({ id: `${pid}-gauge`, text: os.gauge, x: 48, y: 330, at: r3(bs + 0.15), dur: r3(hide - bs - 0.15), tone: OPT.gauge?.tone ?? (/°?\s*[−-]|cold|cool|ice/i.test(os.gauge) ? "cold" : "heat"), icon: OPT.gauge?.icon ?? "thermo" }));
 
     if (os.meter) {
       const m = meters.get(os.meter.label) ?? meters.set(os.meter.label, { label: os.meter.label, at: r3(bs + 0.15), frames: [] }).get(os.meter.label);
-      m.frames.push({ t: r3(m.frames.length ? bs + 0.3 : m.at), value: os.meter.value });
+      const ov = meterByBeat.get(sb.id);
+      if (ov && m.frames.length) {
+        if (ov[ov.length - 1].value !== os.meter.value) warn(`beat ${sb.id}: meter override ends at ${ov[ov.length - 1].value}, script says ${os.meter.value}`);
+        for (const k of ov) m.frames.push({ t: r3(k.t), value: k.value });
+      } else m.frames.push({ t: r3(m.frames.length ? bs + 0.3 : m.at), value: os.meter.value });
     }
   });
   let mi = 0;
   for (const m of meters.values()) {
+    m.frames.sort((a, b) => a.t - b.t);
     addOv(kit.StakesMeter({ id: `ov-meter${mi}`, label: m.label, x: 48, y: 470 + mi * 100, keyframes: m.frames, at: m.at, dur: r3(D - m.at) }));
     mi++;
   }

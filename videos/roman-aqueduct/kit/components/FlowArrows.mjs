@@ -27,7 +27,7 @@ function arrow(points, color, width, head) {
  *  load  – straight yellow, `dir` up/down/left/right      water – dashed flow along `points` (local coords) with an arrowhead
  * { id, kind, x, y, w, h (area, top-left), count=4, dir, points, at, dur, period=1.6, width=8 }
  */
-export function FlowArrows({ id, kind, x, y, w, h, count = 4, dir, points, at, dur, period = 1.6, width = 8 }) {
+export function FlowArrows({ id, kind, x, y, w, h, count = 4, dir, points, at, dur, period = 1.6, width = 8, inline = false, fadeIn = true, fadeOut = true }) {
   const K = KINDS[kind];
   if (!K) throw new Error(`FlowArrows kind '${kind}' unknown (heat, cold, water, load)`);
   const color = K.color;
@@ -45,8 +45,8 @@ export function FlowArrows({ id, kind, x, y, w, h, count = 4, dir, points, at, d
     body += `<polygon id="${id}-head" points="${[tip, l, r].map((p) => p.map(f).join(",")).join(" ")}" fill="${color}"/>`;
     // dashes travel along the path direction: offset decreases linearly (44 px per dash period)
     tl += `tl.fromTo("#${id}-flow", {strokeDashoffset:0}, {strokeDashoffset:${-Math.round(44 * dur * 1.5)}, duration:${r3(dur)}, ease:"none"}, ${r3(at)});`;
-    tl += `\ntl.fromTo("#${id}-svg", {opacity:0}, {opacity:1, duration:0.2}, ${r3(at)});`;
-    tl += `\ntl.to("#${id}-svg", {opacity:0, duration:0.2}, ${r3(end - 0.22)});`;
+    if (fadeIn) tl += `\ntl.fromTo("#${id}-svg", {opacity:0}, {opacity:1, duration:0.2}, ${r3(at)});`;
+    if (fadeOut) tl += `\ntl.to("#${id}-svg", {opacity:0, duration:0.2}, ${r3(end - 0.22)});`;
   } else {
     const v = K.dir ?? DIRS[dir ?? "down"];
     const vec = dir ? DIRS[dir] : v;
@@ -87,6 +87,10 @@ export function FlowArrows({ id, kind, x, y, w, h, count = 4, dir, points, at, d
         if (t + 2 * period > end + 1e-6) break;
       }
     }
+  }
+  if (inline) {
+    const svg = `<g id="${id}" transform="translate(${x} ${y})"><g id="${id}-svg" ${kind === "water" && fadeIn ? 'style="opacity:0"' : ""}>${body}</g></g>`;
+    return { html: "", svg, css: "", tl };
   }
   const html = `<div id="${id}" ${clipAttrs(at, dur, 2)} style="left:${x}px;top:${y}px;width:${w}px;height:${h}px"><svg id="${id}-svg" width="${w}" height="${h}" viewBox="0 0 ${w} ${h}" style="overflow:visible${kind === "water" ? ";opacity:0" : ""}">${body}</svg></div>`;
   return { html, css: "", tl };

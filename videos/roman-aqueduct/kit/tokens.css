@@ -13,6 +13,7 @@
   --green-mid: #56735F;
   --wood: #7A5A3E;
   --water: #5E8FA3;
+  --tile: #A8705E;
   /* Sky bands (lighting presets override these on a scene world) */
   --sky: var(--bg-sky-day);
   --sky-2: #B8C7CF;
