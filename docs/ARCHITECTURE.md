@@ -13,7 +13,8 @@ owner ──/brief igloo uk──▶ main session (skill: brief)
 owner ──/produce igloo───▶ main session (skill: produce)
                               ├─ Agent: marketing-writer (Sonnet, low; background right after the brief when asyncMarketing) ──▶ marketing.<lang>.json, MARKETING.md
                               ├─ tools/tts.mjs            ──▶ audio/voice.<lang>.mp3, timings.<lang>.json
-                              ├─ tools/music-loop.mjs      ──▶ audio/music.loop.<lang>.mp3 (only if assets/music.* exists)
+                              ├─ tools/music-gen.mjs       ──▶ audio/music.source.mp3 (ElevenLabs Music, once per video; never blocks)
+                              ├─ tools/music-loop.mjs      ──▶ audio/music.loop.<lang>.mp3 (seamless loop + ducking under the voice)
                               ├─ Agent: video-architect (Opus, high)   ──▶ PLAN.md
                               ├─ Agent: video-builder (Sonnet, medium) ──▶ scenes, build, draft render
                               ├─ Agent: video-reviewer (Sonnet, medium) ─▶ REVIEW.md  ⟲ builder (≤ pipeline.maxReviewLoops fix rounds; FAIL → needs-owner)
@@ -46,7 +47,8 @@ Agents do not spawn other agents (their tool lists exclude `Agent`).
 | `promote` | skill, owner-only (its Auto mode is reused as instructions by `produce` P9 when `autoPromoteKit`) | session model | `videos/<slug>/kit`, `_template/kit` | `_template/kit` |
 | `tools/tts.mjs` | Node script | — | `script.<lang>.json`, `config.json`, `.env` | `audio/voice.<lang>.mp3`, `timings.<lang>.json` |
 | `tools/timings-from-silence.mjs` | Node script | — | mp3, script | `timings.<lang>.json` |
-| `tools/music-loop.mjs` | Node script | — | `assets/music.*`, `timings.<lang>.json` | `audio/music.loop.<lang>.mp3` |
+| `tools/music-gen.mjs` | Node script | — | `config.json → music`, `music.json`, `.env` | `audio/music.source.mp3`, `audio/music.meta.json`; on any API error prints `music: fallback` and exits 0 |
+| `tools/music-loop.mjs` | Node script | — | `audio/music.source.mp3` → `assets/music.*`, `timings.<lang>.json`, `audio/voice.<lang>.mp3`, `config.json → music` | `audio/music.loop.<lang>.mp3` (seamless loop, fades, volume, ducking) |
 | `tools/fake-voice.mjs` | Node script | — | `script.<lang>.json` | silent `voice.<lang>.mp3` + timings with `source: fake` (tests only, never final) |
 | `tools/validate.mjs` | Node script | — | script, timings, marketing, upload files | exit code + messages |
 | `tools/wiki-lookup.mjs` | Node script | — | title, `--lang` | JSON `{title, url, found}` from the Wikipedia REST summary API (follows redirects; no key); reference links for `/topics` |
@@ -64,10 +66,10 @@ Agents do not spawn other agents (their tool lists exclude `Agent`).
 
 ```
 CLAUDE.md  config.json  topics.md  .env (git-ignored)  .env.example  .gitignore
-assets/                      # optional music.mp3 (git-ignored)
+assets/                      # optional music.mp3: fallback when no per-video music (git-ignored)
 docs/  PRD.md  ARCHITECTURE.md  style-guide.md  tech-requirements.md  storytelling.md
        brief-template.md  script.schema.json  marketing.schema.json  upload.schema.json  examples/yakhchal/
-tools/ tts.mjs  timings-from-silence.mjs  music-loop.mjs  fake-voice.mjs  validate.mjs  lib.mjs
+tools/ tts.mjs  timings-from-silence.mjs  music-gen.mjs  music-loop.mjs  fake-voice.mjs  validate.mjs  lib.mjs
        new-video.mjs  wiki-lookup.mjs  script-hash.mjs  prepare-upload.mjs  publish-tiktok.mjs  log.mjs  apply-look.mjs  finish.mjs  style-preview.mjs
 logs/runs.log                # run log (git-ignored)
 .claude/settings.json
@@ -92,7 +94,10 @@ videos/<slug>/
   audio/voice.<lang>.mp3     # final voice used in the video (git-ignored)
   audio/voice.<lang>.raw.mp3 + voice.<lang>.alignment.json   # ElevenLabs output, reused without new API calls
   audio/voice.<lang>.source.mp3   # owner-provided original (silence fallback)
-  audio/music.loop.<lang>.mp3     # tools/music-loop.mjs (git-ignored)
+  music.json                 # brief-writer: { "topic": "<≤ 25 words>" } — the per-video part of the music prompt
+  audio/music.source.mp3     # tools/music-gen.mjs: the generated track (reused, never regenerated without --remusic)
+  audio/music.meta.json      # prompt, model, lengthSec, generatedAt of that track
+  audio/music.loop.<lang>.mp3     # tools/music-loop.mjs: loop + ducking, per language (git-ignored)
   KIT_CHANGES.md             # video-builder: kit changes worth promoting
   timings.<lang>.json        # tools — source of truth for timing
   PLAN.md                    # video-architect
@@ -135,8 +140,15 @@ Defined by `docs/script.schema.json`. Key ideas:
 - A beat with empty narration (e.g. silent recap) gets `start = previous.end`, `end = start + holdSec` from the script.
 - Video duration = `durationSec + config.tailSec`.
 
+### 5.2b `music.json` and `audio/music.meta.json`
+- `music.json` (brief-writer, committed): `{ "topic": "<≤ 25 words: what the video is about + era/region + 1–2 traditional instruments>" }`. `validate.mjs` requires it for videos still at `selected`/`briefed` (a warning for older videos) and rejects a topic over 25 words.
+- Prompt sent to ElevenLabs Music = `config.json → music.promptTemplate` with `{{topic}}` replaced by `music.json → topic`.
+- `audio/music.meta.json` (music-gen, git-ignored): `{ "prompt", "model", "lengthSec", "generatedAt" }`.
+- `music.source`: `elevenlabs` (generate per video), `file` (no generation: `audio/music.source.mp3` placed by the owner, else `assets/music.*`), `off` (no music). `music-loop` always prefers `audio/music.source.mp3`, then `assets/music.*`.
+- Loop: crossfade of `loopCrossfadeSec` between the source's end and start (`tail+head`, then the middle), repeated to the video length, then fades and volume. Ducking: `sidechaincompress` keyed by the voice (threshold = mean voice level − 12 dB, ratio from `duckDb`, `attackMs`, `releaseMs`).
+
 ### 5.3 `config.json`
-Voices per language, TTS model and settings, duration limits, music volume, `pipeline` (gate flags, `maxReviewLoops`, `autoTrimOverlong`, `asyncMarketing`, `autoPromoteKit`, `publish`, `defaultLanguages`) and `marketing` (TikTok post settings). Edited by the owner. `config-template.json` holds the default values: tools read `config.json` merged over it, so a key missing from `config.json` falls back to the default. Never regenerate `config.json` from scratch; copy the template only when the file is missing, and add new keys to the template.
+Voices per language, TTS model and settings, duration limits, `music` (source, model, length, loop crossfade, volume, fades, ducking, prompt template), `pipeline` (gate flags, `maxReviewLoops`, `autoTrimOverlong`, `asyncMarketing`, `autoPromoteKit`, `publish`, `defaultLanguages`) and `marketing` (TikTok post settings). Edited by the owner. `config-template.json` holds the default values: tools read `config.json` merged over it, so a key missing from `config.json` falls back to the default. Never regenerate `config.json` from scratch; copy the template only when the file is missing, and add new keys to the template.
 
 ## 6. Build and render pipeline (data-driven)
 
@@ -193,6 +205,7 @@ Each video folder also has `STATUS` with the same word.
 
 | Situation | Behaviour |
 | --- | --- |
+| ElevenLabs Music refused or unreachable (401/402/403/422/429/5xx, no key) | `music-gen` prints the reason and `music: fallback`, exits 0; `music-loop` uses `assets/music.*` or no music. Never blocks; logged. |
 | No `.env` key and no `audio/voice.<lang>.mp3` | Stop `/produce`, tell the owner: add key to `.env` or drop an mp3 into `audio/`. |
 | ElevenLabs error (quota, 401, 429) | Stop, show the HTTP status and message; never retry more than 2 times. |
 | Owner-provided mp3 without timestamps | `tools/timings-from-silence.mjs` (sentence-accurate, word timing interpolated). |

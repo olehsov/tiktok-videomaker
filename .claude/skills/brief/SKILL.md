@@ -21,6 +21,7 @@ Logging (orchestrator only; skip the run-log lines when `/generate` or another c
    - slug, topic name, the topic's Link from `topics.md` (if any), languages, today's date, mode (new | add-language | revise);
    - absolute paths of the video folder and `docs/`;
    - "Do not ask questions. Make reasonable choices and record them in BRIEF.md under 'Decisions'."
+   - "New video: also write `music.json` (`{ \"topic\": \"<≤ 25 words>\" }`, see the agent file)."
    - "Run `node tools/validate.mjs <slug>` before finishing and fix every error."
 5. **Verify:** run `node tools/validate.mjs <slug>`. If it fails, send the errors back to `brief-writer` once. If it still fails, stop and show the errors.
 6. **Status:** `topics.md` row → `briefed` + languages; `STATUS` → `briefed`.

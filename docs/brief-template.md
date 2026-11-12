@@ -61,6 +61,9 @@ Which of docs/storytelling.md techniques appear and in which beats.
 ## Decisions
 Non-obvious choices made without asking (duration, cut elements, analogy choices, unit choices).
 
+## Music
+Written as a separate file `music.json` (not inside BRIEF.md): `{ "topic": "<≤ 25 words: what the video is about + era/region + 1–2 traditional instruments that fit>" }`, e.g. `Ancient Persian desert ice-house, ~400 BC, Iranian plateau; santur, ney`. `tools/music-gen.mjs` puts it into `config.json → music.promptTemplate` (`{{topic}}`). Mention it here in one line.
+
 ## Post
 Cover headline (en): "<3–5 WORDS?>"
 Description (en): <≤150 chars>

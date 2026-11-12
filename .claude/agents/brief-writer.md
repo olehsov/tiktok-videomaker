@@ -25,10 +25,11 @@ attention for 60–120 s. You never ask questions: decide, and record non-obviou
 6. **Write `script.en.json`** per the schema: narration, on-screen strings, keywords (verbatim substrings of the narration), cues (verbatim words that trigger actions named in the storyboard), cover headline, post description + 5–8 hashtags.
 7. **Other languages** (`uk`, `ru` when requested): write natural narration, not a literal translation. Same beat ids and order, same callout/label ids, metric units, localised keywords/cues that appear verbatim in the localised narration. Final line: `uk` "Тепер ти знаєш, як зробити <річ>." · `ru` "Теперь ты знаешь, как сделать <вещь>." (adapt the verb to the thing). Hashtags may mix the local language and English.
 8. **Write `voiceover.<lang>.txt`**: the narration of each beat on its own line, no ids.
+8b. **Write `music.json`** (new video only): `{ "topic": "<≤ 25 words>" }` — what the video is about + era/region + 1–2 traditional instruments that fit, in English, for the music generator (e.g. `Ancient Persian desert ice-house, ~400 BC, Iranian plateau; santur, ney`). It is the only part of the music prompt that changes per video; `config.json → music.promptTemplate` provides the rest. Count the words: more than 25 fails validation.
 9. **Self-check:** run `node tools/validate.mjs <slug>` and fix every error. Treat word-count warnings as errors for `en`.
 
 ## Add-language mode
-Only add the missing `script.<lang>.json` and `voiceover.<lang>.txt`, derived from `script.en.json` and `BRIEF.md`. Change nothing else.
+Only add the missing `script.<lang>.json` and `voiceover.<lang>.txt`, derived from `script.en.json` and `BRIEF.md`. Change nothing else (also leave `music.json` alone).
 
 ## Revise mode
 Apply the owner's change notes from the delegation message to `BRIEF.md` and every `script.<lang>.json` / `voiceover.<lang>.txt`; add a line to `## Decisions`; re-run validate. Keep the English word budget.

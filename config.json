@@ -35,9 +35,20 @@
     }
   },
   "music": {
+    "source": "elevenlabs",
+    "model": "music_v2",
+    "lengthSec": 30,
+    "loopCrossfadeSec": 2,
     "volume": 0.12,
     "fadeInSec": 1,
-    "fadeOutSec": 2
+    "fadeOutSec": 2,
+    "ducking": {
+      "enabled": true,
+      "duckDb": -8,
+      "attackMs": 150,
+      "releaseMs": 600
+    },
+    "promptTemplate": "Calm, curious documentary background music. Soft felt piano and kalimba over warm ambient pads, gentle light pulse around 80 BPM, major / lydian feeling of discovery and wonder. Instrumental only: no vocals, no strong lead melody, no drum hits, no sudden changes, steady energy from start to end. Seamless loop: the ending flows naturally back into the beginning — same key, tempo and texture at the start and at the end, no intro, no outro, no final cadence. Cultural colour (subtle, in texture only): {{topic}}"
   },
   "pipeline": {
     "defaultLanguages": [

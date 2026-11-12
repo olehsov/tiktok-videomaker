@@ -1,13 +1,13 @@
 ---
 name: generate
 description: Make one video end to end - topic, brief, voice, plan, build, review, preview, final render, marketing, upload file - stopping only at the approval gates set in config.json. Use for a whole video in one command, or to resume an interrupted one.
-argument-hint: "[--unattended] [--resume [<slug>]]"
+argument-hint: "[--unattended] [--remusic] [--resume [<slug>]]"
 disable-model-invocation: true
 ---
 
 # Generate one video
 
-Arguments: `$ARGUMENTS` → flags `--unattended`, `--resume [<slug>]`. One video per run.
+Arguments: `$ARGUMENTS` → flags `--unattended`, `--remusic` (passed on to `produce`; ignored with `--resume`), `--resume [<slug>]`. One video per run.
 Read `docs/ARCHITECTURE.md` **Gates** and **Logging** first. Gate rules, the hard needs-owner rule and logging are defined in the `produce` skill
 ("Gates", "Logging", "Resume") and apply here unchanged. `--unattended` makes every **approval gate** true for this run only (topic, production, plan, preview, upload);
 it is never written to `config.json`, and it does not override `pipeline.publish` or `pipeline.autoPromoteKit`.
@@ -32,7 +32,7 @@ a) **Topic.** `pipeline.autoSelectTopic` (or `--unattended`) true → **call the
 b) **Brief.** **Call the `brief` skill** (template copy via `tools/new-video.mjs`, `brief-writer`, validate, status, commit) with languages = `pipeline.defaultLanguages` (plus any the owner named when picking).
 c) **Marketing, async.** `pipeline.asyncMarketing` true → right now, per language run `node tools/script-hash.mjs <slug> L` and start `marketing-writer` **in the background** (delegation: slug, languages, folder path, hash per language, `config.marketing.alsoShortsAndReels`, "Do not ask questions; write `marketing.<lang>.json` and `MARKETING.md`"). Log `marketing start (async)`.
 d) **Production gate** (`autoStartProduction`). Request changes → `brief-writer` revise mode with the notes, validate, restart the marketing-writer if it was started (hashes change), gate again.
-e–l) **Produce.** **Call the `produce` skill** for this slug, passing `<slug> --unattended` when this run is unattended, starting at P1 (or at the resume point). It covers: voice + music (e), plan + plan gate (f), build ⇄ review (g), preview gate + final render + cover (h), marketing — it waits for the async run, or runs now when `asyncMarketing` is false (i), upload gate + `prepare-upload` with the exit-3 retry (j), publish stub → `ready` (k), kit promotion or the `/promote` suggestion (l).
+e–l) **Produce.** **Call the `produce` skill** for this slug, passing `<slug>` plus `--unattended` / `--remusic` when given, starting at P1 (or at the resume point). It covers: voice + music (e: the voice for every language, then `music-gen` once per video and `music-loop` per language), plan + plan gate (f), build ⇄ review (g), preview gate + final render + cover (h), marketing — it waits for the async run, or runs now when `asyncMarketing` is false (i), upload gate + `prepare-upload` with the exit-3 retry (j), publish stub → `ready` (k), kit promotion or the `/promote` suggestion (l).
    Do not repeat any of those steps here.
 
 ## Report

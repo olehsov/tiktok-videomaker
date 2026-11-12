@@ -12,7 +12,7 @@ The owner gives a topic and approves the final preview. Everything else is autom
 | --- | --- | --- | --- |
 | 1 | `/topics` | Propose 10 new, varied topics; owner picks one | yes — pick a topic |
 | 2 | `/brief <topic> [langs]` | `brief-writer` agent researches facts, writes `BRIEF.md` + `script.<lang>.json`; creates `videos/<slug>/` from `_template` | ends; owner runs step 3 |
-| 3 | `/produce <slug> [langs]` | voice (ElevenLabs) → `video-architect` plan → `video-builder` build → `video-reviewer` QA (≤ `pipeline.maxReviewLoops` fix rounds) → preview → final render, cover → marketing → `upload.<lang>.json` → `ready` | per gates in `config.json` |
+| 3 | `/produce <slug> [langs] [--revoice] [--remusic]` | voice (ElevenLabs) → `video-architect` plan → `video-builder` build → `video-reviewer` QA (≤ `pipeline.maxReviewLoops` fix rounds) → preview → final render, cover → marketing → `upload.<lang>.json` → `ready` | per gates in `config.json` |
 | — | `/promote <slug>` | Copy improved reusable components from a video back into `videos/_template/kit/` | owner-invoked |
 | — | `/generate [--unattended] [--resume [<slug>]]` | One video, topic → brief → produce → `ready`; stops only at gates that `config.json → pipeline` leaves closed | per config |
 | — | `/topics-auto` | Like `/topics` but picks the best-scored topic and briefs it | no |
@@ -33,7 +33,7 @@ Default language is `en`. Extra languages (`uk`, `ru`) are optional and named at
 - `docs/examples/yakhchal/` — a reference brief + script showing the expected quality.
 - `config.json` — voices, TTS model, duration limits, music settings, `pipeline` gate flags, `marketing` post settings.
 - `topics.md` — registry of every topic ever proposed, with status.
-- `tools/` — Node scripts (no npm deps): TTS with timestamps, silence-based timings, music loop.
+- `tools/` — Node scripts (no npm deps): TTS with timestamps, silence-based timings, music generation (ElevenLabs Music), music loop with ducking.
 - `videos/_template/` — HyperFrames project + shared kit (overlay components, palette tokens, low-poly assets).
 - `videos/<slug>/` — one folder per video (copy of `_template`).
 

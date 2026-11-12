@@ -1,6 +1,6 @@
 // Validate a video's scripts (and timings if present). No dependencies.
 // Usage: node tools/validate.mjs <slug>
-import { readdirSync, existsSync } from "node:fs";
+import { readdirSync, existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { videoDir, readJson, parseArgs, die, config, scriptHash } from "./lib.mjs";
 
@@ -101,6 +101,23 @@ for (const f of files) {
       if (u.source_info?.source !== "FILE_UPLOAD") E("source_info.source must be FILE_UPLOAD");
       if (!["ready", "published"].includes(u.status)) E("status invalid");
     } catch (e) { E(`invalid JSON — ${e.message}`); }
+  }
+}
+
+// music.json (topic for the music prompt): required for videos still at selected/briefed, a warning for older ones
+{
+  const mp = join(dir, "music.json");
+  const statusFile = join(dir, "STATUS");
+  const status = existsSync(statusFile) ? readFileSync(statusFile, "utf8").trim() : "";
+  const early = status === "" || status === "selected" || status === "briefed";
+  if (!existsSync(mp)) (early ? errors : warnings).push("music.json is missing — brief-writer writes { \"topic\": \"<≤ 25 words>\" }");
+  else {
+    try {
+      const t = readJson(mp).topic;
+      const n = typeof t === "string" ? t.trim().split(/\s+/).filter(Boolean).length : 0;
+      if (!n) errors.push("music.json: 'topic' must be a non-empty string");
+      else if (n > 25) errors.push(`music.json: topic has ${n} words (max 25)`);
+    } catch (e) { errors.push(`music.json: invalid JSON — ${e.message}`); }
   }
 }
 

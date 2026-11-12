@@ -1,12 +1,12 @@
 ---
 name: produce
 description: Turn a briefed video into a finished MP4 - voice, plan, build, review, preview, final render, cover, marketing copy and upload file. Owns the production steps that /generate also uses.
-argument-hint: "<slug> [langs] [--revoice] [--unattended] [--resume]"
+argument-hint: "<slug> [langs] [--revoice] [--remusic] [--unattended] [--resume]"
 ---
 
 # Produce a video
 
-Arguments: `$ARGUMENTS` → slug, optional languages (default: every `script.<lang>.json` in the folder), optional `--revoice`, `--unattended`, `--resume`.
+Arguments: `$ARGUMENTS` → slug, optional languages (default: every `script.<lang>.json` in the folder), optional `--revoice`, `--remusic`, `--unattended`, `--resume`.
 You are the orchestrator: run tools, delegate to agents, check their files, talk to the owner. Do not write scenes yourself.
 Read `docs/ARCHITECTURE.md` §4–§10 (**Gates** and **Logging** are binding) once at the start.
 
@@ -44,12 +44,15 @@ For each language `L`:
 - Otherwise → `node --env-file=.env tools/tts.mjs <slug> L` (re-uses saved audio when the text has not changed; never spends credits twice).
 - If `.env` is missing and there is no audio → stop: "Add ELEVENLABS_API_KEY to .env, or put voice.L.mp3 into videos/<slug>/audio/, then run /produce again."
 - Log the characters sent to TTS per language (`details: "L: <N> chars"`; 0 when audio was re-used).
-- Then `node tools/music-loop.mjs <slug> L` (does nothing when there is no music file).
 - Then `node tools/validate.mjs <slug>`. If a video is longer than 120 s:
   - manual run → stop and list the 2–3 longest beats as cut candidates;
   - `--unattended` and `pipeline.autoTrimOverlong` true (default) → trim automatically **once**: delegate to `brief-writer` (revise mode: cut the longest beats by about the overshoot plus 5 %, keep cues and keywords valid, validate), then redo P1 for the affected languages (**this spends ElevenLabs credits a second time** — log the characters of both runs); still > 120 s → hard stop below;
   - `--unattended` and `autoTrimOverlong` false → no trim: hard stop;
   - hard stop = `STATUS` `needs-owner` (and the `topics.md` row), `PENDING.md` (first line `Previous status: voiced`, the measured duration and the 2–3 longest beats), log `needs-owner`, report and end.
+- **Music** (after the voice of **all** languages is final and the length check passed, so no music credits are spent on a script that gets trimmed):
+  - `config.json → music.source` = `elevenlabs` → once per video (not per language) `node --env-file=.env tools/music-gen.mjs <slug>`; it reuses `audio/music.source.mp3` when it exists (no credits). `--remusic` adds `--force` (a new track, spends credits) — **ignored with `--resume`**: a resumed run never regenerates music. The tool never blocks: on any API error it prints `music: fallback — <reason>` and exits 0; the loop step then uses `assets/music.*` or no music.
+  - Log `music generated | reused | fallback (<reason>)` to the video log (from the tool's output line).
+  - Then per language `node tools/music-loop.mjs <slug> L` (seamless loop to the video length, fades, volume, ducking under `audio/voice.L.mp3`; skips quietly when there is no music or `music.source` = `off`). Log its result line.
 Status → `voiced`.
 
 ## P2 Plan
