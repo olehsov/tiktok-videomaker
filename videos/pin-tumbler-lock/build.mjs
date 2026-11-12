@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 // Data → HyperFrames composition.   node build.mjs <lang> [--root <dir>] [--out <dir>] [--no-voice] [--cover [--at <sec>]]
+import { execFileSync } from "node:child_process";
 //
 //   <root>/script.<lang>.json + <root>/timings.<lang>.json + <root>/src/scenes.mjs + ./kit
 //        └──▶ <out>/index.html (+ assets/voice.mp3, assets/music.mp3)      default out: <root>/build/<lang>
@@ -84,14 +85,18 @@ const tlParts = [];
 const sceneHtml = [];
 const anchorsByBeat = new Map();
 
-scenes.forEach((sc, i) => {
-  const t0 = r3(starts[i]), t1 = r3(starts[i + 1] ?? D), dur = r3(t1 - t0);
-  const beats = sc.beats.map((id) => ({ id, script: sOf.get(id), start: tOf.get(id).start, end: tOf.get(id).end, words: tOf.get(id).words, cues: cuesOf.get(id) }));
+const overlaysByBeat = new Map(); // beatId → { stepAt?, meter? } returned by scene render()
+
+/** Scene/extra context. idFn builds element ids; world = selector of the scene's root ("" for extras). */
+function makeCtx(beatIds, t0, t1, idFn, world, label) {
+  const dur = r3(t1 - t0);
+  const beats = beatIds.map((id) => ({ id, script: sOf.get(id), start: tOf.get(id).start, end: tOf.get(id).end, words: tOf.get(id).words, cues: cuesOf.get(id) }));
   const find = (action) => beats.flatMap((b) => b.cues).find((c) => c.action === action);
+  const sc = { id: label };
   const ctx = {
     lang, script, timings, kit, t0, t1, dur, beats,
-    id: (s) => `${sc.id}-${s}`,
-    world: `#sc-${sc.id}-world`,
+    id: idFn,
+    world,
     beat: (id) => beats.find((b) => b.id === id) ?? die(`scene ${sc.id}: no beat ${id}`),
     /** absolute seconds of the cue's word; throws if the script has no such cue */
     cue: (action) => find(action)?.start ?? die(`scene ${sc.id}: script has no cue with action "${action}"`),
@@ -107,7 +112,15 @@ scenes.forEach((sc, i) => {
       return die(`scene ${sc.id}: word "${text}" #${occ} not found in beat ${beatId}`);
     },
   };
+  return ctx;
+}
+
+scenes.forEach((sc, i) => {
+  const t0 = r3(starts[i]), t1 = r3(starts[i + 1] ?? D);
+  const ctx = makeCtx(sc.beats, t0, t1, (s) => `${sc.id}-${s}`, `#sc-${sc.id}-world`, sc.id);
+  const dur = ctx.dur;
   const r = sc.render(ctx);
+  if (r.overlays) for (const [b, o] of Object.entries(r.overlays)) overlaysByBeat.set(b, o);
   if (r.css) cssSet.add(r.css);
   if (r.tl) tlParts.push(`// scene ${sc.id}\n${r.tl}`);
   for (const b of sc.beats) anchorsByBeat.set(b, r.anchors ?? {});
@@ -116,6 +129,20 @@ scenes.forEach((sc, i) => {
       `<div id="sc-${sc.id}-world" class="kit-world" data-layout-allow-overflow style="${kit.lightingStyle(sc.light ?? "day")}">${r.html}</div></div>`,
   );
 });
+
+// extras: optional full-frame clips above the scenes (track 2, z 4) that span several beats (e.g. a persistent inset)
+const extrasHtml = [];
+for (const ex of mod.extras ?? []) {
+  const i0 = sIds.indexOf(ex.from), i1 = sIds.indexOf(ex.to);
+  if (i0 < 0 || i1 < i0) die(`extra ${ex.id}: bad from/to (${ex.from} → ${ex.to})`);
+  const t0 = r3(tOf.get(ex.from).start);
+  const tEnd = i1 + 1 < sIds.length ? r3(tOf.get(sIds[i1 + 1]).start - 0.1) : D;
+  const ctx = makeCtx(sIds.slice(i0, i1 + 1), t0, tEnd, (s) => `ex-${ex.id}-${s}`, "", `ex-${ex.id}`);
+  const r = ex.render(ctx);
+  if (r.css) cssSet.add(r.css);
+  if (r.tl) tlParts.push(`// extra ${ex.id}\n${r.tl}`);
+  extrasHtml.push(`<div id="ex-${ex.id}" class="clip kit-abs" data-start="${t0}" data-duration="${r3(tEnd - t0)}" data-track-index="2" style="z-index:4;left:0;top:0;width:${W}px;height:${H}px">${r.html}</div>`);
+}
 
 // ---------------------------------------------------------------- overlays (from script data)
 const ovHtml = [];
@@ -137,41 +164,45 @@ if (!COVER) {
     // plates: threat at beat start; step at the first non-ghost cue when both are present
     if (os.threatPlate && os.stepPlate) {
       const c = cues.find((x) => !/^ghost/.test(x.action));
-      const stepAt = r3(Math.max(c ? c.start : (bs + hide) / 2, bs + 0.8));
+      const ovr = overlaysByBeat.get(sb.id);
+      const stepAt = r3(Math.max(ovr?.stepAt ?? (c ? c.start : (bs + hide) / 2), bs + 0.8));
       addOv(kit.ThreatBadge({ id: `${pid}-threat`, text: os.threatPlate, at: bs, dur: r3(stepAt - bs) }));
       addOv(kit.StepBadge({ id: `${pid}-step`, text: os.stepPlate, at: stepAt, dur: r3(hide - stepAt) }));
     } else {
       if (os.threatPlate) addOv(kit.ThreatBadge({ id: `${pid}-threat`, text: os.threatPlate, at: bs, dur: r3(hide - bs) }));
-      if (os.stepPlate) addOv(kit.StepBadge({ id: `${pid}-step`, text: os.stepPlate, at: bs, dur: r3(hide - bs) }));
+      if (os.stepPlate) { const sa = overlaysByBeat.get(sb.id)?.stepAt; const at = sa != null ? r3(Math.min(Math.max(sa, bs), hide - 0.8)) : bs; addOv(kit.StepBadge({ id: `${pid}-step`, text: os.stepPlate, at, dur: r3(hide - at) })); }
     }
 
     // callouts: at cue "callout-<id>" if the script has it, else staggered after the beat start
     (os.callouts ?? []).forEach((c, j) => {
       const cue = cues.find((x) => x.action === `callout-${c.id}`);
-      const at = r3(Math.min(cue ? cue.start : bs + 0.35 + 0.4 * j, hide - 0.8));
       const a = anchors[c.id];
+      const at = r3(Math.min(a?.at != null ? Math.max(a.at, bs) : cue ? cue.start : bs + 0.35 + 0.4 * j, hide - 0.8));
       if (!a) warn(`beat ${sb.id}: scene gave no anchor for callout "${c.id}" — placed at a default spot, no leader line`);
       const card = a?.card ?? { x: 48, y: 640 + j * 190 };
-      addOv(kit.Callout({ id: `${pid}-co-${c.id}`, title: c.title, subtitle: c.subtitle, card, target: a?.target ?? null, at, dur: r3(hide - at) }));
+      addOv(kit.Callout({ id: `${pid}-co-${c.id}`, title: c.title, subtitle: c.subtitle, card, target: a?.target ?? null, width: a?.width, at, dur: r3(hide - at) }));
     });
 
     // in-scene labels
     (os.labels ?? []).forEach((l, j) => {
       const a = anchors[l.id];
       if (!a) warn(`beat ${sb.id}: scene gave no anchor for label "${l.id}" — placed at screen center`);
-      const at = r3(bs + 0.3 + 0.2 * j);
-      addOv(kit.Label({ id: `${pid}-lb-${l.id}`, text: l.text, x: a?.x ?? W / 2, y: a?.y ?? H / 2, at, dur: r3(hide - at) }));
+      const at = a?.at != null ? r3(Math.min(Math.max(a.at, bs), hide - 0.8)) : r3(bs + 0.3 + 0.2 * j);
+      addOv(kit.Label({ id: `${pid}-lb-${l.id}`, text: l.text, x: a?.x ?? W / 2, y: a?.y ?? H / 2, at, dur: r3(hide - at), ...(a?.maxWidth != null ? { maxWidth: a.maxWidth } : {}), ...(a?.max != null ? { max: a.max } : {}) }));
     });
 
     if (os.gauge) addOv(kit.Gauge({ id: `${pid}-gauge`, text: os.gauge, x: 48, y: 330, at: r3(bs + 0.15), dur: r3(hide - bs - 0.15), tone: /°?\s*[−-]|cold|cool|ice/i.test(os.gauge) ? "cold" : "heat" }));
 
     if (os.meter) {
       const m = meters.get(os.meter.label) ?? meters.set(os.meter.label, { label: os.meter.label, at: r3(bs + 0.15), frames: [] }).get(os.meter.label);
-      m.frames.push({ t: r3(m.frames.length ? bs + 0.3 : m.at), value: os.meter.value });
+      const mo = overlaysByBeat.get(sb.id)?.meter;
+      if (mo) for (const fr of mo) m.frames.push({ t: r3(Math.max(fr.t, bs)), value: fr.value ?? os.meter.value });
+      else m.frames.push({ t: r3(m.frames.length ? bs + 0.3 : m.at), value: os.meter.value });
     }
   });
   let mi = 0;
   for (const m of meters.values()) {
+    m.frames.sort((a, b) => a.t - b.t);
     addOv(kit.StakesMeter({ id: `ov-meter${mi}`, label: m.label, x: 48, y: 470 + mi * 100, keyframes: m.frames, at: m.at, dur: r3(D - m.at) }));
     mi++;
   }
@@ -201,13 +232,14 @@ mkdirSync(join(OUT, "assets"), { recursive: true });
 if (!opt["no-voice"] && !COVER) {
   const src = join(ROOT, timings.audio ?? `audio/voice.${lang}.mp3`);
   if (!existsSync(src)) die(`voice file missing: ${src} (use --no-voice for a silent build)`);
-  copyFileSync(src, join(OUT, "assets/voice.mp3"));
+  execFileSync("ffmpeg",["-y","-v","error","-i",src,"-af","loudnorm=I=-13:TP=-1.5:LRA=7","-ar","44100","-b:a","192k",join(OUT,"assets/voice.mp3")]);
   audioHtml.push(`<audio id="voice" class="clip" src="assets/voice.mp3" data-start="0" data-duration="${r3(Math.min(D, timings.durationSec))}" data-track-index="0" data-volume="1"></audio>`);
   const music = join(ROOT, "audio", `music.loop.${lang}.mp3`);
   if (existsSync(music)) {
     let vol = 0.12;
     for (let d = ROOT, n = 0; n < 5; d = dirname(d), n++) if (existsSync(join(d, "config.json"))) { vol = JSON.parse(readFileSync(join(d, "config.json"), "utf8")).music?.volume ?? vol; break; }
-    copyFileSync(music, join(OUT, "assets/music.mp3"));
+    execFileSync("ffmpeg",["-y","-v","error","-i",music,"-af","loudnorm=I=-24:TP=-3:LRA=7","-ar","44100","-b:a","192k",join(OUT,"assets/music.mp3")]);
+    vol = 0.5;
     audioHtml.push(`<audio id="music" class="clip" src="assets/music.mp3" data-start="0" data-duration="${D}" data-track-index="-1" data-volume="${vol}"></audio>`);
   }
 }
@@ -222,7 +254,7 @@ html,body{width:${W}px;height:${H}px;overflow:hidden;background:var(--canvas-bg)
 .kit-stage{position:absolute;left:0;top:0}
 `;
 const tokens = kit.TOKENS_CSS; // generated by tools/apply-look.mjs (KIT_TOKENS overrides the file)
-const body = [...sceneHtml, ...ovHtml, capHtml, ...audioHtml].join("\n");
+const body = [...sceneHtml, ...extrasHtml, ...ovHtml, capHtml, ...audioHtml].join("\n");
 const html = `<!doctype html>
 <html lang="${lang}">
 <head>

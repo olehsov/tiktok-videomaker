@@ -8,3 +8,4 @@ export { KaraokeCaption, norm } from "./KaraokeCaption.mjs";
 export { Cover } from "./Cover.mjs";
 export { ForceArrows } from "./ForceArrows.mjs";
 export { LayerInset } from "./LayerInset.mjs";
+export { RecapPills } from "./RecapPills.mjs";

@@ -4,10 +4,11 @@ import { poly, shade, tint, f, groundShadow } from "../lowpoly.mjs";
 // via the SVG `transform` attribute (GSAP `attr` plugin), so there are no transform-origin surprises.
 // Rotation: 0 = hanging down, negative = swing forward/up (-90 forward, -180 overhead).
 
-const DEFAULT = { body: 0, torso: 0, head: 0, armL: 0, armR: 0, legL: 0, legR: 0, dy: 0, sweat: 0, closed: 0, shovel: 0 };
+const DEFAULT = { body: 0, torso: 0, head: 0, armL: 0, armR: 0, legL: 0, legR: 0, dy: 0, sweat: 0, closed: 0, shovel: 0, key: 0 };
 
 export const POSES = {
   stand: {},
+  holdKey: { armR: -75, key: 1 },
   wipeSweat: { armR: -150, head: -4, sweat: 1 },
   dig: { armL: -28, armR: -24, torso: 14, shovel: 1 },
   carry: { armL: -80, armR: -80, torso: -3 },
@@ -41,7 +42,11 @@ export function puppet({ id, x = 0, y = 0, s = 1, flip = false, jacket = "water"
     `<g id="${id}-shovel" style="opacity:0">` +
     poly([[-3, 66], [3, 66], [3, 152], [-3, 152]], "var(--wood)") +
     poly([[-17, 152], [17, 152], [12, 188], [-12, 188]], "var(--stone)") +
-    poly([[0, 152], [17, 152], [12, 188], [0, 188]], shade("stone", 22)) + `</g>`;
+    poly([[0, 152], [17, 152], [12, 188], [0, 188]], shade("stone", 22)) + `</g>` +
+    `<g id="${id}-key" style="opacity:0">` +
+    poly([[-8, 70], [8, 70], [10, 86], [-10, 86]], tint("stone", 30)) +
+    poly([[-2, 86], [4, 86], [4, 116], [-2, 116]], tint("stone", 30)) +
+    poly([[4, 96], [9, 99], [4, 102]], shade("stone", 10)) + poly([[4, 106], [9, 109], [4, 112]], shade("stone", 10)) + `</g>`;
   const torso =
     poly([[-26, 0], [2, 0], [4, -74], [-30, -74]], tint(jacket, 4)) +
     poly([[2, 0], [26, 0], [30, -74], [4, -74]], shade(jacket, 16));
@@ -77,7 +82,7 @@ export function puppet({ id, x = 0, y = 0, s = 1, flip = false, jacket = "water"
       }
     }
     if (cur.dy !== next.dy) lines.push(`tl.fromTo("#${id}-lift", {attr:{transform:"translate(0 ${cur.dy})"}}, {attr:{transform:"translate(0 ${next.dy})"}, duration:${dur}, ease:"power1.inOut", immediateRender:false}, ${at});`);
-    for (const [p, sel] of [["sweat", "sweat"], ["shovel", "shovel"]]) {
+    for (const [p, sel] of [["sweat", "sweat"], ["shovel", "shovel"], ["key", "key"]]) {
       if (cur[p] !== next[p]) lines.push(`tl.fromTo("#${id}-${sel}", {opacity:${cur[p]}}, {opacity:${next[p]}, duration:${Math.min(dur, 0.2)}, ease:"none", immediateRender:false}, ${at});`);
     }
     if (cur.closed !== next.closed) {

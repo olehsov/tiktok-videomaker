@@ -18,7 +18,7 @@ const TONES = { yellow: "var(--ui-yellow)", blue: "var(--ui-blue)", green: "var(
  */
 export function StakesMeter({ id, label, x, y, w = 380, keyframes, at, dur, tone = "yellow", exit = false }) {
   const text = label.toLocaleUpperCase();
-  const { size } = fitFont(text, { maxWidth: w - 32, max: num("meter-size", 30), min: 28, letterSpacing: 0.06 });
+  const { size } = fitFont(text, { maxWidth: w - 32, max: Math.max(36, num("meter-size", 30)), min: 34, letterSpacing: 0.06 });
   const first = keyframes[0]?.value ?? 0;
   const html =
     `<div id="${id}" ${clipAttrs(at, dur)} style="left:${x}px;top:${y}px;width:${w}px;height:${Math.round(84 * S)}px"><div id="${id}-i" class="kit-meter" style="opacity:0;width:${w}px">` +
