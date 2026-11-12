@@ -4,8 +4,8 @@ import { esc } from "../lowpoly.mjs";
 
 const CSS = `
 .kit-cover{z-index:8;left:0;top:0;width:${W}px;height:1920px;pointer-events:none}
-.kit-cover-shade{position:absolute;left:0;top:0;width:100%;height:760px;background:linear-gradient(180deg,rgba(10,16,28,.72),rgba(10,16,28,0))}
-.kit-cover-h{position:absolute;left:100px;width:800px;top:300px;font-family:var(--font-ui);font-weight:900;color:#fff;text-shadow:var(--text-shadow);line-height:1.05;letter-spacing:.01em}
+.kit-cover-shade{position:absolute;left:0;top:0;width:100%;height:760px;background:linear-gradient(180deg,var(--cover-shade-top),transparent)}
+.kit-cover-h{position:absolute;left:100px;width:800px;top:300px;font-family:var(--font-ui);font-weight:900;color:var(--ui-white);text-shadow:var(--text-shadow);line-height:1.05;letter-spacing:.01em}
 .kit-cover-bar{position:absolute;left:100px;width:180px;height:14px;border-radius:7px;background:var(--ui-yellow)}
 `;
 

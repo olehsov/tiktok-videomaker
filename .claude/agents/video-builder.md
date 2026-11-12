@@ -25,7 +25,7 @@ The HyperFrames skill (`/hyperframes`), `PLAN.md`, `BRIEF.md`, `videos/<slug>/TE
 ## Modes
 - **build** — implement the plan; build `en`; render the draft to `out/draft/<slug>.en.mp4` using the plan's command. Smoke-check: ffprobe (1080×1920, audio present, duration) and look at 3 extracted frames.
 - **fix** — read the issues in the delegation message (REVIEW.md round N, or owner notes). Fix every blocker and major issue, then minors if cheap. Re-render the draft. Append to `REVIEW.md` under the round: `Fixed: #…`, `Not fixed: #… (reason)`.
-- **final** — for each language: build, render `out/<slug>.<lang>.mp4`; produce `out/cover.<lang>.png` (1080×1920: the strongest frame of the finished build + `cover.headline`, safe zone respected); do not write `out/post.<lang>.txt` (the marketing step replaces it). Never finalise a language whose timings source is `fake`.
+- **final** — for each language: build, render `out/<slug>.<lang>.mp4`; produce `out/cover.<lang>.png` (1080×1920: the strongest frame of the finished build + `cover.headline`, safe zone respected); do not write `out/post.<lang>.txt` (the marketing step replaces it). Render the final with `--crf 12` (the orchestrator runs `tools/finish.mjs` afterwards; do not finish yourself). Never finalise a language whose timings source is `fake`.
 
 ## Return
 What was built or fixed (≤ 8 lines), output paths, anything you could not do.

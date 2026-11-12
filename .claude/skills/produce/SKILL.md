@@ -74,6 +74,7 @@ Show: draft path, live preview command from `PLAN.md`, the reviewer verdict and 
 ## P6 Final render
 - Refuse to finalise any language whose `timings.L.json` source is `fake`.
 - Delegate to `video-builder` (mode: final, languages): renders `out/<slug>.L.mp4` and `out/cover.L.png` for every language (no post text; marketing replaces it).
+- **Finishing** (look: sharpen / grain / vignette, CRF, x264 tune): for each language run `node tools/finish.mjs videos/<slug>/out/<slug>.L.mp4` and `node tools/finish.mjs videos/<slug>/out/cover.L.png` (once per render; drafts are never finished). Log it.
 - Verify each MP4 with ffprobe: 1080×1920, ~30 fps, has audio, duration 60–120 s. Fix via builder if not.
 - Status → `rendered`. Commit `"<slug>: rendered"` (renders, audio and logs are git-ignored).
 

@@ -5,3 +5,5 @@ export * from "./lighting.mjs";
 export * from "./lowpoly.mjs";
 export * from "./measure.mjs";
 export * from "./layout.mjs";
+export * from "./look.mjs";
+export * from "./color.mjs";

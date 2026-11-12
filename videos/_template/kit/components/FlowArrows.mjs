@@ -2,10 +2,10 @@ import { f } from "../lowpoly.mjs";
 import { r3, clipAttrs } from "./_anim.mjs";
 
 const KINDS = {
-  heat: { color: "#FF6A3D", dir: [0, -1], wavy: true },
-  cold: { color: "#3BA3FF", dir: [0, 1], wavy: false },
-  water: { color: "#3BA3FF", dir: null, wavy: false },
-  load: { color: "#F5C518", dir: [0, 1], wavy: false },
+  heat: { color: "var(--ui-heat)", dir: [0, -1], wavy: true },
+  cold: { color: "var(--ui-blue)", dir: [0, 1], wavy: false },
+  water: { color: "var(--ui-blue)", dir: null, wavy: false },
+  load: { color: "var(--ui-yellow)", dir: [0, 1], wavy: false },
 };
 const DIRS = { up: [0, -1], down: [0, 1], left: [-1, 0], right: [1, 0] };
 
@@ -17,8 +17,8 @@ function arrow(points, color, width, head) {
   const tip = [x2 + ca * head * 0.6, y2 + sa * head * 0.6];
   const l = [x2 - ca * head * 0.4 - sa * head * 0.6, y2 - sa * head * 0.4 + ca * head * 0.6];
   const r = [x2 - ca * head * 0.4 + sa * head * 0.6, y2 - sa * head * 0.4 - ca * head * 0.6];
-  return `<path d="${d}" fill="none" stroke="${color}" stroke-width="${width}" stroke-linecap="round" stroke-linejoin="round"/>` +
-    `<polygon points="${[tip, l, r].map((p) => p.map(f).join(",")).join(" ")}" fill="${color}"/>`;
+  return `<path d="${d}" style="fill:none;stroke:${color}" stroke-width="${width}" stroke-linecap="round" stroke-linejoin="round"/>` +
+    `<polygon points="${[tip, l, r].map((p) => p.map(f).join(",")).join(" ")}" style="fill:${color}"/>`;
 }
 
 /**
@@ -37,12 +37,12 @@ export function FlowArrows({ id, kind, x, y, w, h, count = 4, dir, points, at, d
   if (kind === "water") {
     if (!points || points.length < 2) throw new Error("FlowArrows water needs points: [[x,y],…] (local coordinates)");
     const d = points.map(([px, py], i) => `${i ? "L" : "M"}${px} ${py}`).join(" ");
-    body = `<path id="${id}-flow" d="${d}" fill="none" stroke="${color}" stroke-width="${width}" stroke-linecap="round" stroke-dasharray="26 18"/>`;
+    body = `<path id="${id}-flow" d="${d}" style="fill:none;stroke:${color}" stroke-width="${width}" stroke-linecap="round" stroke-dasharray="26 18"/>`;
     const [x1, y1] = points[points.length - 2], [x2, y2] = points[points.length - 1];
     const a = Math.atan2(y2 - y1, x2 - x1), hd = width * 3.2;
     const tip = [x2 + Math.cos(a) * hd, y2 + Math.sin(a) * hd];
     const l = [x2 - Math.sin(a) * hd * 0.6, y2 + Math.cos(a) * hd * 0.6], r = [x2 + Math.sin(a) * hd * 0.6, y2 - Math.cos(a) * hd * 0.6];
-    body += `<polygon id="${id}-head" points="${[tip, l, r].map((p) => p.map(f).join(",")).join(" ")}" fill="${color}"/>`;
+    body += `<polygon id="${id}-head" points="${[tip, l, r].map((p) => p.map(f).join(",")).join(" ")}" style="fill:${color}"/>`;
     // dashes travel along the path direction: offset decreases linearly (44 px per dash period)
     tl += `tl.fromTo("#${id}-flow", {strokeDashoffset:0}, {strokeDashoffset:${-Math.round(44 * dur * 1.5)}, duration:${r3(dur)}, ease:"none"}, ${r3(at)});`;
     tl += `\ntl.fromTo("#${id}-svg", {opacity:0}, {opacity:1, duration:0.2}, ${r3(at)});`;

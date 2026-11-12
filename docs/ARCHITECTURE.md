@@ -52,6 +52,10 @@ Agents do not spawn other agents (their tool lists exclude `Agent`).
 | `tools/script-hash.mjs` | Node script | — | `script.<lang>.json` | sha256 of all narration on stdout |
 | `tools/prepare-upload.mjs` | Node script | — | final mp4, cover, `marketing.<lang>.json`, timings | `out/upload.<lang>.json`, Cover line in `MARKETING.md`; exit 3 = stale marketing |
 | `tools/publish-tiktok.mjs` | Node script (stub) | — | `out/upload.<lang>.json`, `config.json` | nothing (no network); validates and reports |
+| `style-preview` | skill, owner-only | session model | `config.json → look`, specimen | `videos/_template/style/previews/`, `config.json` (`--apply`) |
+| `tools/apply-look.mjs` | Node script | — | `kit/tokens.base.css`, `config.json → look` | `kit/tokens.css` (generated) |
+| `tools/finish.mjs` | Node script | — | final mp4 / png, `config.json → look` | same file, finished (sharpen, grain, vignette, CRF, x264 tune) |
+| `tools/style-preview.mjs` | Node script | — | specimen, look | still frames, `compare.png` / `grid.png`, `look.json` |
 | `tools/log.mjs` | Node script | — | args | one line in `videos/<slug>/logs/pipeline.log` or `logs/runs.log` |
 
 ## 3. Repository layout
@@ -62,10 +66,10 @@ assets/                      # optional music.mp3 (git-ignored)
 docs/  PRD.md  ARCHITECTURE.md  style-guide.md  tech-requirements.md  storytelling.md
        brief-template.md  script.schema.json  marketing.schema.json  upload.schema.json  examples/yakhchal/
 tools/ tts.mjs  timings-from-silence.mjs  music-loop.mjs  fake-voice.mjs  validate.mjs  lib.mjs
-       script-hash.mjs  prepare-upload.mjs  publish-tiktok.mjs  log.mjs
+       script-hash.mjs  prepare-upload.mjs  publish-tiktok.mjs  log.mjs  apply-look.mjs  finish.mjs  style-preview.mjs
 logs/runs.log                # run log (git-ignored)
 .claude/settings.json
-.claude/skills/{topics,topics-auto,brief,produce,generate,promote}/SKILL.md
+.claude/skills/{topics,topics-auto,brief,produce,generate,promote,style-preview}/SKILL.md
 .claude/agents/{brief-writer,video-architect,video-builder,video-reviewer,marketing-writer}.md
 videos/_template/            # created by BOOTSTRAP_PROMPT.md
 videos/<slug>/
@@ -153,7 +157,9 @@ Rules:
 ## 7. Template and kit
 
 `videos/_template/` = output of `npx hyperframes init` + the shared kit:
-- `kit/tokens.css` — palette and typography as CSS variables (from `docs/style-guide.md`).
+- `kit/tokens.base.css` — the original palette and typography as CSS variables (from `docs/style-guide.md`); never modified by tools.
+- `kit/tokens.css` — **generated** from `tokens.base.css` + `config.json → look` by `tools/apply-look.mjs` (see style guide → Look parameters). Kit code uses only these variables (and, at build time, reads the same file through `kit/look.mjs`).
+- `style/specimen/` — a composition with every kit asset and overlay in day / night / tense; `/style-preview` renders stills of it to tune the look without rendering a video. Final renders and covers get the look's finishing (`tools/finish.mjs`).
 - `kit/components/` — `StepBadge`, `ThreatBadge`, `Callout`, `Gauge`, `FlowArrows`, `IceMeter`/`StakesMeter`, `KaraokeCaption`, `Cover`.
 - `kit/assets/` — reusable low-poly SVG pieces (terrain cross-section, sky day/night, puppet character with poses, trees, rocks, water, generic props).
 - `build.mjs` — the data → composition builder.

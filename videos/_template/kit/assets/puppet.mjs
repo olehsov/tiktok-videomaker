@@ -1,4 +1,4 @@
-import { poly, shade, tint, f } from "../lowpoly.mjs";
+import { poly, shade, tint, f, groundShadow } from "../lowpoly.mjs";
 
 // Block puppet, ~200 px tall, feet at (0,0), facing right. Each limb is its own group, rotated about its joint
 // via the SVG `transform` attribute (GSAP `attr` plugin), so there are no transform-origin surprises.
@@ -55,7 +55,7 @@ export function puppet({ id, x = 0, y = 0, s = 1, flip = false, jacket = "water"
 
   const svg =
     `<g id="${id}" transform="translate(${f(x)} ${f(y)})"><g transform="scale(${flip ? -s : s} ${s})">` +
-    `<g id="${id}-lift" transform="translate(0 0)"><g id="${id}-body" transform="rotate(0)">` +
+    groundShadow(0, 0, 90) + `<g id="${id}-lift" transform="translate(0 0)"><g id="${id}-body" transform="rotate(0)">` +
     part("legL", -14, -92, legShape(true)) +
     part("legR", 14, -92, legShape(false)) +
     part("torso", 0, -92,

@@ -31,9 +31,10 @@ The generated composition is **one** `index.html` with one paused GSAP timeline 
 | Look at frames | `npx hyperframes snapshot build/<lang> --at 3,10.5 --no-end -o review/frames` |
 | Live preview | `npx hyperframes preview build/<lang> --background` (stop: `npx hyperframes preview build/<lang> --stop`) |
 | Draft render | `npx hyperframes render build/en -o out/draft/<slug>.en.mp4 --quality draft` |
-| Final render | `npx hyperframes render build/<lang> -o out/<slug>.<lang>.mp4 --quality delivery` |
+| Final render | `npx hyperframes render build/<lang> -o out/<slug>.<lang>.mp4 --quality delivery --crf 12`, then `node tools/finish.mjs out/<slug>.<lang>.mp4` (see Look, tokens and finishing) |
 | Partial render | add `--start 0 --end 15` |
 | Cover | `node build.mjs <lang> --cover [--at <sec>]` → `out/cover.<lang>.png` (builds `build/<lang>-cover/` and snapshots it; default frame = 0.5 s into the last beat) |
+| Style stills | `/style-preview [key=value …]` (specimen, three states) |
 | Kit showcase | `node build.mjs en --root showcase --no-voice && npx hyperframes render showcase/build/en -o out/showcase.mp4 --quality draft` |
 
 `build.mjs <lang> [--root <dir>] [--out <dir>] [--no-voice] [--cover [--at <sec>]]`. Post text is not built by `build.mjs`:
@@ -93,6 +94,17 @@ attribute (`attr`), as the puppet does. Anything visible must trace back to `scr
 - Text sizes come from `kit/measure.mjs` (conservative width estimates, no browser needed). The builder warns when text
   cannot fit at the minimum size: shorten the script string instead of overflowing.
 - Min readable text 28 px; every line stays on screen long enough to read (`check` craft warning `line_unread`).
+
+## Look, tokens and finishing
+
+- `kit/tokens.css` is **generated** by `node tools/apply-look.mjs` from `kit/tokens.base.css` (the original palette, never edited by tools) + `config.json → look`. Do not edit it by hand; edit `config.json` (or run `/style-preview … --apply`). Parameters: `docs/style-guide.md` → "Look parameters".
+- Kit code uses only `var(--…)` tokens (colors, sizes, `--face-k`, `--outline-w`, `--shadow-op`, `--depth-fade`, `--ui-scale`, …) and, at build time, the same file through `kit/look.mjs` (`KIT_TOKENS=<file>` points a build at another tokens file, as `/style-preview` does). No hex colors in components, assets, lighting or scenes.
+- `kit/lowpoly.mjs`: `shade`/`tint` (scaled by `--face-k`), `poly` (outline), `far()` (depth fade), `groundShadow()`.
+- **Specimen**: `style/specimen/` is a composition with every kit asset and overlay in three states (day, night, tense). `/style-preview` renders stills of it into `style/previews/<stamp>/` (git-ignored). Build by hand: `node build.mjs en --root style/specimen --no-voice`.
+- **Finishing** (final renders and covers only; drafts skip it). HyperFrames `render` accepts `--crf` but not x264 tune or sharpening, so the final render is followed by one ffmpeg step:
+  `node tools/finish.mjs out/<slug>.<lang>.mp4` →
+  `ffmpeg -i IN -map 0:v:0 -map 0:a? -vf "unsharp=5:5:<sharpen>:5:5:0[,noise=alls=<grain*24>:all_seed=1:allf=t][,vignette=angle=<1.5-vignette>]" -c:v libx264 -crf <crf> -tune <x264Tune> -preset medium -pix_fmt yuv420p -c:a copy` (omitted filters when 0).
+  Render the final with `npx hyperframes render build/<lang> -o out/<slug>.<lang>.mp4 --quality delivery --crf 12` first, so finishing re-encodes from a near-lossless source. The same call finishes the cover: `node tools/finish.mjs out/cover.<lang>.png`. Run finishing once per render.
 
 ## Known notes
 

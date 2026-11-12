@@ -1,10 +1,10 @@
-import { poly, shade, tint } from "../lowpoly.mjs";
+import { poly, shade, tint, groundShadow } from "../lowpoly.mjs";
 
 /** Bucket with optional water level (0..1). (x,y) = bottom center, s = scale (1 ≈ 90 px tall). Water polygon id: `${id}-water`. */
 export function bucket({ id = "", x = 0, y = 0, s = 1, fill = 0.6 } = {}) {
   const P = (px, py) => [x + px * s, y + py * s];
   const body = [P(-34, -90), P(34, -90), P(26, 0), P(-26, 0)];
-  let out = poly(body, "var(--stone)");
+  let out = groundShadow(x, y, 80 * s) + poly(body, "var(--stone)");
   out += poly([P(0, -90), P(34, -90), P(26, 0), P(0, 0)], shade("stone", 20));
   const level = -90 + 90 * (1 - fill);
   const wl = (yy) => 34 - (yy + 90) * (8 / 90);

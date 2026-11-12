@@ -17,6 +17,8 @@ The owner gives a topic and approves the final preview. Everything else is autom
 | — | `/generate [--unattended] [--resume [<slug>]]` | One video, topic → brief → produce → `ready`; stops only at gates that `config.json → pipeline` leaves closed | per config |
 | — | `/topics-auto` | Like `/topics` but picks the best-scored topic and briefs it | no |
 
+| — | `/style-preview [key=value …] [--apply]` | Render stills of the style specimen (day / night / tense) for the `config.json → look` values and compare; no video is rendered | owner-invoked |
+
 Default language is `en`. Extra languages (`uk`, `ru`) are optional and named at step 2.
 
 ## Where things live

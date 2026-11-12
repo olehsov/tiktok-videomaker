@@ -30,3 +30,7 @@ videos/*/showcase/out/
 # pipeline logs
 logs/
 videos/*/logs/
+
+# style previews and specimen builds (generated)
+videos/_template/style/previews/
+videos/_template/style/specimen/build/

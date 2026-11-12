@@ -1,18 +1,20 @@
 import { W, H } from "../layout.mjs";
+import { LOOK, num } from "../look.mjs";
 import { fitFont, fitLines, textWidth } from "../measure.mjs";
 import { esc } from "../lowpoly.mjs";
 import { pop, fade, clipAttrs } from "./_anim.mjs";
 
-const CARD_W = 560, PAD_L = 36, PAD_R = 28, PAD_Y = 22, BAR = 10;
+const S = LOOK.uiScale;
+const CARD_W = Math.round(560 * S), PAD_L = Math.round(36 * S), PAD_R = Math.round(28 * S), PAD_Y = Math.round(22 * S), BAR = Math.round(10 * S);
 const CSS = `
 .kit-callout{left:0;top:0;width:${W}px;height:${H}px;pointer-events:none}
-.kit-callout-card{position:absolute;background:#fff;border-radius:14px;box-shadow:0 8px 24px rgba(10,16,28,.3);overflow:hidden;font-family:var(--font-ui);color:var(--ui-ink)}
+.kit-callout-card{position:absolute;background:var(--ui-white);border-radius:14px;box-shadow:var(--shadow-card);overflow:hidden;font-family:var(--font-ui);color:var(--ui-ink)}
 .kit-callout-card::before{content:"";position:absolute;left:0;top:0;bottom:0;width:${BAR}px;background:var(--ui-yellow)}
 .kit-callout-title{font-weight:900;white-space:nowrap;letter-spacing:.01em}
-.kit-callout-sub{font-weight:700;color:#3C4756;margin-top:6px}
+.kit-callout-sub{font-weight:700;color:var(--ui-ink-soft);margin-top:6px}
 .kit-callout-svg{position:absolute;left:0;top:0}
-.kit-label{font-family:var(--font-ui);font-weight:900;color:#fff;white-space:nowrap;letter-spacing:.02em}
-.kit-label-i{display:block;background:rgba(14,22,36,.78);border-radius:10px;padding:6px 16px}
+.kit-label{font-family:var(--font-ui);font-weight:900;color:var(--ui-white);white-space:nowrap;letter-spacing:.02em}
+.kit-label-i{display:block;background:var(--panel-bg);border-radius:10px;padding:6px 16px}
 `;
 
 /**
@@ -22,8 +24,8 @@ const CSS = `
  */
 export function Callout({ id, title, subtitle = "", card, target, at, dur }) {
   const inner = CARD_W - PAD_L - PAD_R;
-  const t = fitFont(title.toLocaleUpperCase(), { maxWidth: inner, max: 38, min: 26 });
-  const sub = subtitle ? fitLines(subtitle, { maxWidth: inner, max: 28, min: 28, maxLines: 2, weight: 700 }) : null;
+  const t = fitFont(title.toLocaleUpperCase(), { maxWidth: inner, max: num("callout-title-size", 38), min: Math.round(26 * S) });
+  const sub = subtitle ? fitLines(subtitle, { maxWidth: inner, max: num("callout-sub-size", 28), min: num("callout-sub-size", 28), maxLines: 2, weight: 700 }) : null;
   const h = Math.ceil(PAD_Y * 2 + t.size * 1.2 + (sub ? 6 + sub.lines.length * sub.size * 1.28 : 0));
   // leader starts at the card-edge midpoint nearest the target
   const hasT = !!target;
@@ -33,9 +35,9 @@ export function Callout({ id, title, subtitle = "", card, target, at, dur }) {
   const html =
     `<div id="${id}" ${clipAttrs(at, dur, 3, "kit-callout")}>` +
     (hasT ? `<svg id="${id}-line" class="kit-callout-svg" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" style="opacity:0">` +
-    `<line x1="${sx}" y1="${sy}" x2="${target.x}" y2="${target.y}" stroke="rgba(10,16,28,.4)" stroke-width="8" stroke-linecap="round"/>` +
-    `<line x1="${sx}" y1="${sy}" x2="${target.x}" y2="${target.y}" stroke="#fff" stroke-width="4" stroke-dasharray="14 10" stroke-linecap="round"/>` +
-    `<circle cx="${target.x}" cy="${target.y}" r="11" fill="#F5C518" stroke="#fff" stroke-width="4"/></svg>` : "") +
+    `<line x1="${sx}" y1="${sy}" x2="${target.x}" y2="${target.y}" style="stroke:var(--leader-halo)" stroke-width="8" stroke-linecap="round"/>` +
+    `<line x1="${sx}" y1="${sy}" x2="${target.x}" y2="${target.y}" style="stroke:var(--ui-white)" stroke-width="4" stroke-dasharray="14 10" stroke-linecap="round"/>` +
+    `<circle cx="${target.x}" cy="${target.y}" r="11" style="fill:var(--ui-yellow);stroke:var(--ui-white)" stroke-width="4"/></svg>` : "") +
     `<div id="${id}-card" class="kit-callout-card" style="left:${card.x}px;top:${card.y}px;width:${CARD_W}px;height:${h}px;padding:${PAD_Y}px ${PAD_R}px ${PAD_Y}px ${PAD_L}px;opacity:0">` +
     `<div class="kit-callout-title" style="font-size:${t.size}px;line-height:1.2">${esc(title.toLocaleUpperCase())}</div>` +
     (sub ? `<div class="kit-callout-sub" style="font-size:${sub.size}px;line-height:1.28">${sub.lines.map(esc).join("<br>")}</div>` : "") +
@@ -46,7 +48,7 @@ export function Callout({ id, title, subtitle = "", card, target, at, dur }) {
 
 /** Small in-scene text tag (dimension lines, "16–20 in"). { id, text, x, y (center), at, dur } */
 export function Label({ id, text, x, y, at, dur }) {
-  const { size } = fitFont(text, { maxWidth: 360, max: 30, min: 20 });
+  const { size } = fitFont(text, { maxWidth: 360, max: num("label-size", 30), min: 20 });
   const w = Math.ceil(textWidth(text, size) + 32);
   const html = `<div id="${id}" ${clipAttrs(at, dur, 3, "kit-label")} style="left:${Math.round(x - w / 2)}px;top:${Math.round(y - size)}px;width:${w}px;font-size:${size}px"><span id="${id}-i" class="kit-label-i" style="opacity:0">${esc(text)}</span></div>`;
   return { html, css: CSS, tl: pop(`#${id}-i`, at, dur) };

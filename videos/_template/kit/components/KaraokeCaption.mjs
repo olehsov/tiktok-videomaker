@@ -1,5 +1,6 @@
 import { W, CAPTION_Y, UI_HEX } from "../layout.mjs";
 import { fitFont } from "../measure.mjs";
+import { num } from "../look.mjs";
 import { esc } from "../lowpoly.mjs";
 import { r3, clipAttrs } from "./_anim.mjs";
 
@@ -68,7 +69,7 @@ export function KaraokeCaption({ id = "cap", beats, lang = "en", endAt }) {
     const end = Math.min(nextStart ?? endAt ?? stop, Math.max(stop, start + 0.35), endAt ?? Infinity);
     const dur = Math.max(0.3, end - start);
     const text = g.words.map((w) => w.text.toLocaleUpperCase(lang)).join(" ");
-    const fit = fitFont(text, { maxWidth: W * 0.9, max: 96, min: 56 });
+    const fit = fitFont(text, { maxWidth: W * 0.9, max: num("caption-size-max", 96), min: num("caption-size-min", 56) });
     overflow ||= fit.overflow;
     const gid = `${id}${gi}`;
     html += `<div id="${gid}" ${clipAttrs(start, dur, 9, "kit-cap")} style="top:${Math.round(CAPTION_Y - BAND_H / 2)}px"><div id="${gid}-i" class="kit-cap-inner" style="font-size:${fit.size}px;opacity:0">` +

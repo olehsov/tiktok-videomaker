@@ -50,8 +50,8 @@ export function loadScript(slug, lang) {
   return readJson(p);
 }
 
-export function run(cmd, args) {
-  const r = spawnSync(cmd, args, { encoding: "utf8", maxBuffer: 64 * 1024 * 1024 });
+export function run(cmd, args, opts = {}) {
+  const r = spawnSync(cmd, args, { encoding: "utf8", maxBuffer: 64 * 1024 * 1024, ...opts });
   if (r.error) die(`${cmd} not found or failed to start: ${r.error.message}`);
   return r;
 }
@@ -237,4 +237,16 @@ export function isoLocal(d = new Date()) {
   const p = (n, l = 2) => String(n).padStart(l, "0");
   const off = -d.getTimezoneOffset(), sign = off >= 0 ? "+" : "-", a = Math.abs(off);
   return `${d.getFullYear()}-${p(d.getMonth() + 1)}-${p(d.getDate())}T${p(d.getHours())}:${p(d.getMinutes())}:${p(d.getSeconds())}${sign}${p(Math.floor(a / 60))}:${p(a % 60)}`;
+}
+
+/**
+ * ffmpeg -vf chain for the "finishing" of final renders and style-preview stills (look.sharpen / grain / vignette).
+ * Returns "" when everything is off. The same chain is used for stills and videos so they match.
+ */
+export function finishFilters(look) {
+  const f = [];
+  if (look.sharpen > 0) f.push(`unsharp=5:5:${look.sharpen}:5:5:0`);
+  if (look.grain > 0) f.push(`noise=alls=${Math.round(look.grain * 24)}:all_seed=1:allf=t`);
+  if (look.vignette > 0) f.push(`vignette=angle=${(1.5 - look.vignette).toFixed(3)}:eval=init`);
+  return f.join(",");
 }

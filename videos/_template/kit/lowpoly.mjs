@@ -3,11 +3,17 @@ export const f = (n) => Math.round(n * 10) / 10;
 export const pts = (arr) => arr.map(([x, y]) => `${f(x)},${f(y)}`).join(" ");
 const isRaw = (t) => /^(#|rgb|color-mix|var\()/.test(t);
 export const col = (t) => (isRaw(t) ? t : `var(--${t})`);
-/** Darker tone of a palette token (p = percent toward near-black navy). */
-export const shade = (t, p) => `color-mix(in srgb, ${col(t)} ${100 - p}%, #0b1220)`;
-/** Lighter tone of a palette token (p = percent toward white). */
-export const tint = (t, p) => `color-mix(in srgb, ${col(t)} ${100 - p}%, #ffffff)`;
-export const poly = (points, fill, extra = "") => `<polygon points="${pts(points)}" style="fill:${fill}" ${extra}/>`;
+// Face tones: p is the original step in percent; --face-k (= look.faceShading / 0.5) scales every step, 1 = original look.
+/** Darker tone of a palette token (p = percent toward --shade-target, near-black navy). */
+export const shade = (t, p) => `color-mix(in srgb, ${col(t)} calc(100% - ${p}% * var(--face-k, 1)), var(--shade-target, #0b1220))`;
+/** Lighter tone of a palette token (p = percent toward --tint-target, white). */
+export const tint = (t, p) => `color-mix(in srgb, ${col(t)} calc(100% - ${p}% * var(--face-k, 1)), var(--tint-target, #ffffff))`;
+/** Far-layer colour: blends toward the sky by look.depthFade × depth (0 = near, 1 = farthest). */
+export const far = (color, depth = 1) => `color-mix(in srgb, ${color} calc(100% - var(--depth-fade, 0) * ${Math.round(depth * 100)}%), var(--sky-2))`;
+/** Polygon: flat fill + optional outline (look.outline → --outline-w, 0 = none). */
+export const poly = (points, fill, extra = "") => `<polygon points="${pts(points)}" style="fill:${fill};stroke:var(--outline-c, none);stroke-width:var(--outline-w, 0);stroke-linejoin:round" ${extra}/>`;
+/** Soft ground shadow ellipse (look.shadowOpacity → --shadow-op). (cx,y) = centre on the ground line. */
+export const groundShadow = (cx, y, w, h = Math.max(8, w * 0.12)) => `<ellipse cx="${f(cx)}" cy="${f(y + h * 0.3)}" rx="${f(w / 2)}" ry="${f(h)}" style="fill:var(--shade-target, #0b1220);opacity:var(--shadow-op, 0)"/>`;
 export const esc = (s) => String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 /** Deterministic PRNG (mulberry32). Never use Math.random in a composition. */
 export function prng(seed = 1) {

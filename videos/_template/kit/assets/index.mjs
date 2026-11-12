@@ -10,3 +10,4 @@ export { waterSurface } from "./waterSurface.mjs";
 export { iceBlock } from "./iceBlock.mjs";
 export { bucket } from "./bucket.mjs";
 export { pit } from "./pit.mjs";
+export { deciduousTree, palmTree, bush, grassTufts, clouds, roots, snowCap, logs, stoneWall, fire, smoke, lizard, crow, leaves, pool } from "./nature.mjs";
