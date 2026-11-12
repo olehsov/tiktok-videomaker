@@ -47,7 +47,9 @@ For each language `L`:
 - Then `node tools/music-loop.mjs <slug> L` (does nothing when there is no music file).
 - Then `node tools/validate.mjs <slug>`. If a video is longer than 120 s:
   - manual run → stop and list the 2–3 longest beats as cut candidates;
-  - `--unattended` → trim automatically **once**: delegate to `brief-writer` (revise mode: cut the longest beats by about the overshoot plus 5 %, keep cues and keywords valid, validate), then redo P1 for the affected languages (this spends TTS credits again — log the characters); still > 120 s → `PENDING.md` and stop.
+  - `--unattended` and `pipeline.autoTrimOverlong` true (default) → trim automatically **once**: delegate to `brief-writer` (revise mode: cut the longest beats by about the overshoot plus 5 %, keep cues and keywords valid, validate), then redo P1 for the affected languages (**this spends ElevenLabs credits a second time** — log the characters of both runs); still > 120 s → hard stop below;
+  - `--unattended` and `autoTrimOverlong` false → no trim: hard stop;
+  - hard stop = `STATUS` `needs-owner` (and the `topics.md` row), `PENDING.md` (first line `Previous status: voiced`, the measured duration and the 2–3 longest beats), log `needs-owner`, report and end.
 Status → `voiced`.
 
 ## P2 Plan

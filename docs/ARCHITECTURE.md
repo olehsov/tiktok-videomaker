@@ -136,7 +136,7 @@ Defined by `docs/script.schema.json`. Key ideas:
 - Video duration = `durationSec + config.tailSec`.
 
 ### 5.3 `config.json`
-Voices per language, TTS model and settings, duration limits, music volume, `pipeline` (gate flags, `maxReviewLoops`, `asyncMarketing`, `autoPromoteKit`, `publish`, `defaultLanguages`) and `marketing` (TikTok post settings). Edited by the owner. `config-template.json` holds the default values: tools read `config.json` merged over it, so a key missing from `config.json` falls back to the default. Never regenerate `config.json` from scratch; copy the template only when the file is missing, and add new keys to the template.
+Voices per language, TTS model and settings, duration limits, music volume, `pipeline` (gate flags, `maxReviewLoops`, `autoTrimOverlong`, `asyncMarketing`, `autoPromoteKit`, `publish`, `defaultLanguages`) and `marketing` (TikTok post settings). Edited by the owner. `config-template.json` holds the default values: tools read `config.json` merged over it, so a key missing from `config.json` falls back to the default. Never regenerate `config.json` from scratch; copy the template only when the file is missing, and add new keys to the template.
 
 ## 6. Build and render pipeline (data-driven)
 
@@ -214,7 +214,7 @@ Approval gates and the config flags that make them automatic (`config.json → p
 | upload | `autoPrepareUpload` | after the final render and marketing, before `prepare-upload` |
 
 - Flag true → continue automatically. Flag false → ask with AskUserQuestion: **Approve / Request changes**.
-- `/generate --unattended`: for this run only, every approval gate counts as true. Never written to `config.json`. It does **not** override `publish` or `autoPromoteKit`, which always come from `config.json`.
+- `/generate --unattended`: for this run only, every approval gate counts as true. Never written to `config.json`. It does **not** override `publish` or `autoPromoteKit`, which always come from `config.json`. With `autoPromoteKit` true, `produce` P9 follows `promote`'s Auto mode (generic, compatible changes only, no question); with false it only suggests `/promote`.
 - **Hard rule** — nothing bypasses it: last review `FAIL` after `maxReviewLoops` → stop, `STATUS needs-owner`, one-paragraph reason in `videos/<slug>/PENDING.md` (first line `Previous status: <status>`).
 - `autoApprovePreview` only ever applies when the last review is `PASS`.
 - `/generate --resume [<slug>]` continues from `STATUS` (slug omitted = most recently updated unfinished video). Finished steps are never redone and existing audio never costs TTS credits again. `needs-owner` + `--resume` shows the open issues and asks **Approve anyway / Request changes**; with `--unattended` a `needs-owner` video is never passed automatically.
@@ -225,7 +225,7 @@ Approval gates and the config flags that make them automatic (`config.json → p
   - Called: `topics-auto` and `topics` (with `--no-brief`), `brief`, `produce` (with `--unattended` when set). None of them asks a question in an unattended run.
   - Reused: `promote` — `produce` P9 follows `promote`'s **Auto mode** (generic, backward-compatible changes only, no question) when `pipeline.autoPromoteKit` is true; the skill itself stays owner-only because it rewrites the shared template. `autoPromoteKit` is never opened by `--unattended`.
   - `/generate`, `/promote`, `/style-preview` stay owner-invoked.
-- **Nothing waits on a question in an unattended run.** Besides the `needs-owner` hard rule, blocking errors (missing key, validation, tool failure) log `error`, write `PENDING.md` (STATUS unchanged) and stop; `--resume` re-runs the failed step. A voice over 120 s is trimmed automatically once (`brief-writer` revise + new TTS, credits logged) before it stops.
+- **Nothing waits on a question in an unattended run.** Besides the `needs-owner` hard rule, blocking errors (missing key, validation, tool failure) log `error`, write `PENDING.md` (STATUS unchanged) and stop; `--resume` re-runs the failed step. A voice over 120 s is trimmed automatically once (`brief-writer` revise + new TTS) when `pipeline.autoTrimOverlong` is true (default); this **spends ElevenLabs credits a second time** and both runs' characters are logged. Still too long, or `autoTrimOverlong` false → hard stop: `STATUS needs-owner`, `PENDING.md`.
 
 ## 12. Logging
 
