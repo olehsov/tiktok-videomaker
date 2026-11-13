@@ -1,0 +1,131 @@
+{
+  "slug": "roman-arch",
+  "lang": "en",
+  "title": "Roman Arch — A Bridge of Loose Stones",
+  "targetDurationSec": 110,
+  "finalLine": "Now you know how to build a Roman arch.",
+  "beats": [
+    {
+      "id": "b01", "type": "hook",
+      "narration": "A bridge of loose stones. No glue, no mortar. Cars still cross it, nineteen hundred years later.",
+      "onScreen": { "gauge": "1,900 YEARS", "meter": { "label": "STABILITY", "value": 0 } },
+      "keywords": [ { "text": "loose stones.", "color": "yellow" }, { "text": "No glue, no mortar.", "color": "red" }, { "text": "nineteen hundred years", "color": "yellow" } ],
+      "cues": [ { "word": "Cars", "action": "car-cross" } ]
+    },
+    {
+      "id": "b02", "type": "attempt",
+      "narration": "Easy way: one long stone slab across the river. It sags, its belly stretches — and stone hates stretching. Crack.",
+      "onScreen": { "threatPlate": "⚠ SLAB CRACKS" },
+      "keywords": [ { "text": "stone hates stretching.", "color": "red" }, { "text": "Crack.", "color": "red" } ],
+      "cues": [ { "word": "slab", "action": "slab-place" }, { "word": "sags,", "action": "slab-sag" }, { "word": "Crack.", "action": "ghost-slab-crack" } ]
+    },
+    {
+      "id": "b03", "type": "step", "step": 1,
+      "narration": "So you'll use many small stones. First, the pier. On river mud it sinks. So ring the spot with oak stakes and clay, pump it dry, dig to rock.",
+      "onScreen": {
+        "threatPlate": "⚠ PIER SINKS",
+        "stepPlate": "✓ STEP 1 · DRY FOOTING",
+        "callouts": [ { "id": "cofferdam", "title": "COFFERDAM", "subtitle": "oak stakes + rammed clay, water pumped out" } ],
+        "meter": { "label": "STABILITY", "value": 15 }
+      },
+      "keywords": [ { "text": "small stones.", "color": "yellow" }, { "text": "sinks.", "color": "red" }, { "text": "oak stakes and clay,", "color": "yellow" }, { "text": "rock.", "color": "yellow" } ],
+      "cues": [ { "word": "small", "action": "stones-pile" }, { "word": "sinks.", "action": "ghost-pier-sink" }, { "word": "ring", "action": "cofferdam-ring" }, { "word": "dig", "action": "dig-to-rock" } ]
+    },
+    {
+      "id": "b04", "type": "step", "step": 2,
+      "narration": "But loose stones can't float. So carpenters build a wooden half-circle — the centering.",
+      "onScreen": {
+        "stepPlate": "✓ STEP 2 · CENTERING",
+        "callouts": [ { "id": "centering", "title": "CENTERING", "subtitle": "temporary wooden frame" } ],
+        "meter": { "label": "STABILITY", "value": 25 }
+      },
+      "keywords": [ { "text": "can't float.", "color": "red" }, { "text": "wooden half-circle", "color": "yellow" }, { "text": "centering.", "color": "yellow" } ],
+      "cues": [ { "word": "float.", "action": "ghost-stones-fall" }, { "word": "carpenters", "action": "centering-build" } ]
+    },
+    {
+      "id": "b05", "type": "step", "step": 3,
+      "narration": "On it you lay stones cut as wedges, wider on top. Square blocks would slip out. A wedge can't. Like a cork.",
+      "onScreen": {
+        "stepPlate": "✓ STEP 3 · WEDGE STONES",
+        "callouts": [ { "id": "voussoir", "title": "VOUSSOIR", "subtitle": "wedge stone, wide end up" } ],
+        "meter": { "label": "STABILITY", "value": 40 }
+      },
+      "keywords": [ { "text": "wedges,", "color": "yellow" }, { "text": "wider on top.", "color": "yellow" }, { "text": "slip out.", "color": "red" }, { "text": "cork.", "color": "yellow" } ],
+      "cues": [ { "word": "lay", "action": "wedges-lay" }, { "word": "Square", "action": "ghost-square-slip" }, { "word": "cork.", "action": "cork-inset" } ]
+    },
+    {
+      "id": "b06", "type": "step", "step": 4,
+      "narration": "One gap stays open at the very top. The last wedge drops in — the keystone. Now every stone is locked.",
+      "onScreen": {
+        "stepPlate": "✓ STEP 4 · KEYSTONE",
+        "callouts": [ { "id": "keystone", "title": "KEYSTONE", "subtitle": "last stone in, locks the ring" } ],
+        "meter": { "label": "STABILITY", "value": 60 }
+      },
+      "keywords": [ { "text": "keystone.", "color": "yellow" }, { "text": "locked.", "color": "green" } ],
+      "cues": [ { "word": "gap", "action": "gap-highlight" }, { "word": "drops", "action": "keystone-drop" }, { "word": "locked.", "action": "ring-lock" } ]
+    },
+    {
+      "id": "b07", "type": "threat",
+      "narration": "Now the scary part: knock the frame away. Too early, and it all falls. After the keystone, it stands alone.",
+      "onScreen": { "threatPlate": "⚠ NO SUPPORT", "meter": { "label": "STABILITY", "value": 70 } },
+      "keywords": [ { "text": "Too early,", "color": "red" }, { "text": "falls.", "color": "red" }, { "text": "stands alone.", "color": "green" } ],
+      "cues": [ { "word": "knock", "action": "frame-strike" }, { "word": "Too early,", "action": "ghost-early-collapse" }, { "word": "stands", "action": "arch-stands" } ]
+    },
+    {
+      "id": "b08", "type": "step", "step": 5,
+      "narration": "But an arch never sleeps. It pushes sideways, day and night. Weak sides spread, and the top drops. So each end leans on a massive stone shoulder in the bank.",
+      "onScreen": {
+        "threatPlate": "⚠ SIDES SPREAD",
+        "stepPlate": "✓ STEP 5 · ABUTMENTS",
+        "callouts": [ { "id": "abutment", "title": "ABUTMENT", "subtitle": "takes the sideways push" } ],
+        "labels": [ { "id": "span", "text": "94 ft / 29 m" } ],
+        "meter": { "label": "STABILITY", "value": 80 }
+      },
+      "keywords": [ { "text": "never sleeps.", "color": "red" }, { "text": "pushes sideways,", "color": "orange" }, { "text": "the top drops.", "color": "red" }, { "text": "massive stone shoulder", "color": "yellow" } ],
+      "cues": [ { "word": "pushes", "action": "thrust-arrows" }, { "word": "spread,", "action": "ghost-spread" }, { "word": "shoulder", "action": "abutment-build" } ]
+    },
+    {
+      "id": "b09", "type": "step", "step": 6,
+      "narration": "Then you pile stone on top, up to a flat road. Strange, but that weight squeezes the wedges tighter.",
+      "onScreen": { "stepPlate": "✓ STEP 6 · FLAT ROAD", "meter": { "label": "STABILITY", "value": 90 } },
+      "keywords": [ { "text": "flat road.", "color": "yellow" }, { "text": "squeezes the wedges tighter.", "color": "yellow" } ],
+      "cues": [ { "word": "pile", "action": "fill-rise" }, { "word": "squeezes", "action": "squeeze-arrows" } ]
+    },
+    {
+      "id": "b10", "type": "step", "step": 7,
+      "narration": "Last enemy: floods. High water slams the bridge. So you leave a hole through the pier. Floodwater runs straight through.",
+      "onScreen": {
+        "threatPlate": "⚠ FLOOD",
+        "stepPlate": "✓ STEP 7 · FLOOD HOLE",
+        "callouts": [ { "id": "flood-hole", "title": "FLOOD HOLE", "subtitle": "extra waterway through the pier" } ],
+        "meter": { "label": "STABILITY", "value": 95 }
+      },
+      "keywords": [ { "text": "floods.", "color": "red" }, { "text": "slams", "color": "red" }, { "text": "hole through the pier.", "color": "yellow" } ],
+      "cues": [ { "word": "floods.", "action": "flood-push" }, { "word": "slams", "action": "ghost-shove" }, { "word": "hole", "action": "pier-hole" }, { "word": "Floodwater", "action": "flood-through" } ]
+    },
+    {
+      "id": "b11", "type": "climax",
+      "narration": "Spring flood. Brown water roars below. Carts rumble overhead. Not one stone moves.",
+      "onScreen": { "stepPlate": "✓ STILL STANDING", "gauge": "148 ft / 45 m", "meter": { "label": "STABILITY", "value": 100 } },
+      "keywords": [ { "text": "Brown water roars", "color": "red" }, { "text": "Not one stone moves.", "color": "green" } ],
+      "cues": [ { "word": "roars", "action": "flood-roar" }, { "word": "Carts", "action": "carts-cross" }, { "word": "moves.", "action": "heron-land" } ]
+    },
+    {
+      "id": "b12", "type": "recap",
+      "narration": "",
+      "holdSec": 2.5,
+      "onScreen": {}
+    },
+    {
+      "id": "b13", "type": "ending",
+      "narration": "Now you know how to build a Roman arch.",
+      "onScreen": { "labels": [ { "id": "title", "text": "ALCÁNTARA · AD 106" } ] },
+      "keywords": [ { "text": "Roman arch.", "color": "yellow" } ]
+    }
+  ],
+  "cover": { "headline": "NO GLUE. 1,900 YEARS?" },
+  "post": {
+    "description": "A Roman bridge of loose stones, no mortar, still carrying cars after 1,900 years. One wedge holds it all.",
+    "hashtags": ["#history", "#engineering", "#ancientrome", "#architecture", "#howitworks", "#learnontiktok", "#romanbridge"]
+  }
+}
