@@ -11,7 +11,7 @@ const CSS = `
 /** Thermometer + value text. { id, text, x, y (top-left), level 0..1, tone:'heat'|'cold', at, dur } */
 export function Gauge({ id, text, x, y, level = 0.8, tone = "heat", at, dur }) {
   const label = text.toLocaleUpperCase();
-  const { size, overflow } = fitFont(label, { maxWidth: 420, max: num("gauge-size", 40), min: 24 });
+  const { size, overflow } = fitFont(label, { maxWidth: 420, max: Math.max(40, num("gauge-size", 40)), min: 36 });
   const w = Math.ceil(textWidth(label, size) + 18 + 28 + 40 + 16);
   const color = tone === "cold" ? "var(--ui-blue)" : "var(--ui-heat)";
   const tubeTop = 14, tubeH = 54;

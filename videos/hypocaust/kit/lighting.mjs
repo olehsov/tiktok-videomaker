@@ -26,5 +26,5 @@ const vars = (name) => {
 export const lightingStyle = (name) => Object.entries(vars(name)).map(([k, v]) => `${k}:${v}`).join(";");
 /** GSAP code (string) that blends the world from one preset to another. Call after the world exists. */
 export function lightTween(sel, from, to, at, dur, ease = "power1.inOut") {
-  return `tl.fromTo(${JSON.stringify(sel)}, ${JSON.stringify(vars(from))}, ${JSON.stringify({ ...vars(to), duration: dur, ease })}, ${at});`;
+  return `tl.fromTo(${JSON.stringify(sel)}, ${JSON.stringify(vars(from))}, ${JSON.stringify({ ...vars(to), duration: dur, ease, immediateRender: false })}, ${at});`;
 }
