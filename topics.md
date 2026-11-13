@@ -47,6 +47,16 @@ Categories: see docs/storytelling.md.
 | drystone-wall | Drystone wall — a wall with no mortar that stands for centuries | craft-material | proposed |  | 2026-11-12 | 22 (h4 v5 d4 f4 va5) | https://en.wikipedia.org/wiki/Dry_stone | ~90 s |
 | castle-gatehouse | Castle gatehouse — the entrance built to kill attackers | defense-fortification | proposed |  | 2026-11-12 | 23 (h4 v5 d5 f4 va5) | https://en.wikipedia.org/wiki/Gatehouse | ~100 s |
 | wheelbarrow | Wheelbarrow — why one wheel carries more than two hands | everyday-object | proposed |  | 2026-11-12 | 19 (h3 v4 d3 f4 va5) | https://en.wikipedia.org/wiki/Wheelbarrow | ~60 s |
+| shaduf | Shaduf — a lever that lifts water with one hand | water | proposed |  | 2026-11-13 | 17 (h3 v5 d3 f4 va2) | https://en.wikipedia.org/wiki/Shadoof | ~60 s |
+| pound-lock | Pound lock — a staircase of water that lifts boats uphill | transport | proposed |  | 2026-11-13 | 23 (h4 v5 d4 f5 va5) | https://en.wikipedia.org/wiki/Lock_(water_navigation) | ~90 s |
+| onggi | Onggi — a clay jar that breathes and keeps kimchi for years | food-preservation | proposed |  | 2026-11-13 | 22 (h4 v5 d4 f4 va5) | https://en.wikipedia.org/wiki/Onggi | ~75 s |
+| motte-and-bailey | Motte and bailey — a castle built in a few weeks | defense-fortification | proposed |  | 2026-11-13 | 20 (h3 v4 d4 f4 va5) | https://en.wikipedia.org/wiki/Motte-and-bailey_castle | ~90 s |
+| astrolabe | Astrolabe — a brass disc that finds time and place from the stars | navigation-signal | proposed |  | 2026-11-13 | 21 (h4 v3 d4 f5 va5) | https://en.wikipedia.org/wiki/Astrolabe | ~90 s |
+| post-mill | Post mill — a windmill that turns to face the wind | farming | proposed |  | 2026-11-13 | 22 (h3 v5 d4 f5 va5) | https://en.wikipedia.org/wiki/Post_mill | ~90 s |
+| sod-house | Sod house — walls cut from grass on a treeless prairie | shelter | proposed |  | 2026-11-13 | 19 (h3 v4 d3 f4 va5) | https://en.wikipedia.org/wiki/Sod_house | ~75 s |
+| charcoal-clamp | Charcoal clamp — turning a wood pile into fuel with almost no air | craft-material | proposed |  | 2026-11-13 | 22 (h4 v5 d4 f4 va5) | https://en.wikipedia.org/wiki/Charcoal | ~90 s |
+| japanese-joinery | Japanese joinery — wooden joints with no nails or glue | craft-material | proposed |  | 2026-11-13 | 22 (h5 v4 d4 f4 va5) | https://en.wikipedia.org/wiki/Japanese_carpentry | ~90 s |
+| hypocaust | Hypocaust — the Roman floor heated by hot air from below | fire-heat | selected | en uk | 2026-11-13 | 24 (h4 v5 d5 f5 va5) | https://en.wikipedia.org/wiki/Hypocaust | auto-picked: total 24, highest; hook 4, visual 5, depth 5 |
 
 Score column: `<total> (h hook · v visual · d depth · f facts · va variety)`, each 1–5. `—` = proposed before scoring existed.
 Link column: reference page for the topic (Wikipedia via `tools/wiki-lookup.mjs`; a search fallback is marked `(related)`). The brief-writer reads it first.
