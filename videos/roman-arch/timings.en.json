@@ -1,0 +1,1269 @@
+{
+  "lang": "en",
+  "audio": "audio/voice.en.mp3",
+  "source": "elevenlabs",
+  "durationSec": 93.336,
+  "videoDurationSec": 94.836,
+  "beats": [
+    {
+      "id": "b01",
+      "start": 0,
+      "end": 6.037,
+      "words": [
+        {
+          "text": "A",
+          "start": 0,
+          "end": 0.081
+        },
+        {
+          "text": "bridge",
+          "start": 0.163,
+          "end": 0.476
+        },
+        {
+          "text": "of",
+          "start": 0.499,
+          "end": 0.557
+        },
+        {
+          "text": "loose",
+          "start": 0.615,
+          "end": 0.836
+        },
+        {
+          "text": "stones.",
+          "start": 0.871,
+          "end": 1.486
+        },
+        {
+          "text": "No",
+          "start": 1.869,
+          "end": 2.032
+        },
+        {
+          "text": "glue,",
+          "start": 2.101,
+          "end": 2.45
+        },
+        {
+          "text": "no",
+          "start": 2.496,
+          "end": 2.589
+        },
+        {
+          "text": "mortar.",
+          "start": 2.659,
+          "end": 3.228
+        },
+        {
+          "text": "Cars",
+          "start": 3.379,
+          "end": 3.762
+        },
+        {
+          "text": "still",
+          "start": 3.796,
+          "end": 3.982
+        },
+        {
+          "text": "cross",
+          "start": 4.029,
+          "end": 4.284
+        },
+        {
+          "text": "it,",
+          "start": 4.342,
+          "end": 4.621
+        },
+        {
+          "text": "nineteen",
+          "start": 4.795,
+          "end": 5.155
+        },
+        {
+          "text": "hundred",
+          "start": 5.19,
+          "end": 5.399
+        },
+        {
+          "text": "years",
+          "start": 5.422,
+          "end": 5.573
+        },
+        {
+          "text": "later.",
+          "start": 5.608,
+          "end": 6.037
+        }
+      ]
+    },
+    {
+      "id": "b02",
+      "start": 6.548,
+      "end": 15.151,
+      "words": [
+        {
+          "text": "Easy",
+          "start": 6.548,
+          "end": 6.803
+        },
+        {
+          "text": "way:",
+          "start": 6.861,
+          "end": 7.256
+        },
+        {
+          "text": "one",
+          "start": 7.697,
+          "end": 7.93
+        },
+        {
+          "text": "long",
+          "start": 7.976,
+          "end": 8.185
+        },
+        {
+          "text": "stone",
+          "start": 8.231,
+          "end": 8.475
+        },
+        {
+          "text": "slab",
+          "start": 8.499,
+          "end": 8.731
+        },
+        {
+          "text": "across",
+          "start": 8.777,
+          "end": 9.009
+        },
+        {
+          "text": "the",
+          "start": 9.044,
+          "end": 9.114
+        },
+        {
+          "text": "river.",
+          "start": 9.149,
+          "end": 9.555
+        },
+        {
+          "text": "It",
+          "start": 9.729,
+          "end": 9.892
+        },
+        {
+          "text": "sags,",
+          "start": 9.973,
+          "end": 10.623
+        },
+        {
+          "text": "its",
+          "start": 10.67,
+          "end": 10.855
+        },
+        {
+          "text": "belly",
+          "start": 10.913,
+          "end": 11.192
+        },
+        {
+          "text": "stretches",
+          "start": 11.262,
+          "end": 11.761
+        },
+        {
+          "text": "—",
+          "start": 11.935,
+          "end": 12.016
+        },
+        {
+          "text": "and",
+          "start": 12.132,
+          "end": 12.434
+        },
+        {
+          "text": "stone",
+          "start": 12.516,
+          "end": 12.852
+        },
+        {
+          "text": "hates",
+          "start": 12.899,
+          "end": 13.201
+        },
+        {
+          "text": "stretching.",
+          "start": 13.235,
+          "end": 13.862
+        },
+        {
+          "text": "Crack.",
+          "start": 14.466,
+          "end": 15.151
+        }
+      ]
+    },
+    {
+      "id": "b03",
+      "start": 15.592,
+      "end": 25.74,
+      "words": [
+        {
+          "text": "So",
+          "start": 15.592,
+          "end": 15.859
+        },
+        {
+          "text": "you'll",
+          "start": 15.929,
+          "end": 16.126
+        },
+        {
+          "text": "use",
+          "start": 16.184,
+          "end": 16.359
+        },
+        {
+          "text": "many",
+          "start": 16.394,
+          "end": 16.568
+        },
+        {
+          "text": "small",
+          "start": 16.603,
+          "end": 16.812
+        },
+        {
+          "text": "stones.",
+          "start": 16.846,
+          "end": 17.45
+        },
+        {
+          "text": "First,",
+          "start": 17.833,
+          "end": 18.507
+        },
+        {
+          "text": "the",
+          "start": 18.832,
+          "end": 18.936
+        },
+        {
+          "text": "pier.",
+          "start": 18.983,
+          "end": 19.505
+        },
+        {
+          "text": "On",
+          "start": 20.202,
+          "end": 20.364
+        },
+        {
+          "text": "river",
+          "start": 20.446,
+          "end": 20.666
+        },
+        {
+          "text": "mud",
+          "start": 20.713,
+          "end": 20.933
+        },
+        {
+          "text": "it",
+          "start": 20.991,
+          "end": 21.061
+        },
+        {
+          "text": "sinks.",
+          "start": 21.107,
+          "end": 21.723
+        },
+        {
+          "text": "So",
+          "start": 21.897,
+          "end": 22.048
+        },
+        {
+          "text": "ring",
+          "start": 22.117,
+          "end": 22.28
+        },
+        {
+          "text": "the",
+          "start": 22.326,
+          "end": 22.396
+        },
+        {
+          "text": "spot",
+          "start": 22.419,
+          "end": 22.663
+        },
+        {
+          "text": "with",
+          "start": 22.698,
+          "end": 22.802
+        },
+        {
+          "text": "oak",
+          "start": 22.86,
+          "end": 23
+        },
+        {
+          "text": "stakes",
+          "start": 23.058,
+          "end": 23.336
+        },
+        {
+          "text": "and",
+          "start": 23.371,
+          "end": 23.441
+        },
+        {
+          "text": "clay,",
+          "start": 23.476,
+          "end": 23.894
+        },
+        {
+          "text": "pump",
+          "start": 24.01,
+          "end": 24.207
+        },
+        {
+          "text": "it",
+          "start": 24.254,
+          "end": 24.3
+        },
+        {
+          "text": "dry,",
+          "start": 24.335,
+          "end": 24.776
+        },
+        {
+          "text": "dig",
+          "start": 24.904,
+          "end": 25.101
+        },
+        {
+          "text": "to",
+          "start": 25.159,
+          "end": 25.206
+        },
+        {
+          "text": "rock.",
+          "start": 25.275,
+          "end": 25.74
+        }
+      ]
+    },
+    {
+      "id": "b04",
+      "start": 26.181,
+      "end": 31.103,
+      "words": [
+        {
+          "text": "But",
+          "start": 26.181,
+          "end": 26.378
+        },
+        {
+          "text": "loose",
+          "start": 26.448,
+          "end": 26.657
+        },
+        {
+          "text": "stones",
+          "start": 26.68,
+          "end": 26.97
+        },
+        {
+          "text": "can't",
+          "start": 27.017,
+          "end": 27.203
+        },
+        {
+          "text": "float.",
+          "start": 27.237,
+          "end": 27.644
+        },
+        {
+          "text": "So",
+          "start": 28.027,
+          "end": 28.155
+        },
+        {
+          "text": "carpenters",
+          "start": 28.224,
+          "end": 28.689
+        },
+        {
+          "text": "build",
+          "start": 28.735,
+          "end": 28.921
+        },
+        {
+          "text": "a",
+          "start": 28.956,
+          "end": 28.979
+        },
+        {
+          "text": "wooden",
+          "start": 29.014,
+          "end": 29.246
+        },
+        {
+          "text": "half-circle",
+          "start": 29.292,
+          "end": 30.047
+        },
+        {
+          "text": "—",
+          "start": 30.07,
+          "end": 30.128
+        },
+        {
+          "text": "the",
+          "start": 30.279,
+          "end": 30.395
+        },
+        {
+          "text": "centering.",
+          "start": 30.442,
+          "end": 31.103
+        }
+      ]
+    },
+    {
+      "id": "b05",
+      "start": 31.545,
+      "end": 39.369,
+      "words": [
+        {
+          "text": "On",
+          "start": 31.545,
+          "end": 31.73
+        },
+        {
+          "text": "it",
+          "start": 31.777,
+          "end": 31.847
+        },
+        {
+          "text": "you",
+          "start": 31.893,
+          "end": 31.974
+        },
+        {
+          "text": "lay",
+          "start": 32.043,
+          "end": 32.194
+        },
+        {
+          "text": "stones",
+          "start": 32.264,
+          "end": 32.647
+        },
+        {
+          "text": "cut",
+          "start": 32.717,
+          "end": 32.961
+        },
+        {
+          "text": "as",
+          "start": 33.019,
+          "end": 33.112
+        },
+        {
+          "text": "wedges,",
+          "start": 33.181,
+          "end": 33.855
+        },
+        {
+          "text": "wider",
+          "start": 34.064,
+          "end": 34.435
+        },
+        {
+          "text": "on",
+          "start": 34.505,
+          "end": 34.609
+        },
+        {
+          "text": "top.",
+          "start": 34.667,
+          "end": 35.132
+        },
+        {
+          "text": "Square",
+          "start": 35.376,
+          "end": 35.677
+        },
+        {
+          "text": "blocks",
+          "start": 35.712,
+          "end": 36.026
+        },
+        {
+          "text": "would",
+          "start": 36.061,
+          "end": 36.188
+        },
+        {
+          "text": "slip",
+          "start": 36.211,
+          "end": 36.386
+        },
+        {
+          "text": "out.",
+          "start": 36.444,
+          "end": 36.815
+        },
+        {
+          "text": "A",
+          "start": 37.198,
+          "end": 37.291
+        },
+        {
+          "text": "wedge",
+          "start": 37.361,
+          "end": 37.628
+        },
+        {
+          "text": "can't.",
+          "start": 37.686,
+          "end": 38.197
+        },
+        {
+          "text": "Like",
+          "start": 38.522,
+          "end": 38.719
+        },
+        {
+          "text": "a",
+          "start": 38.742,
+          "end": 38.766
+        },
+        {
+          "text": "cork.",
+          "start": 38.835,
+          "end": 39.369
+        }
+      ]
+    },
+    {
+      "id": "b06",
+      "start": 39.811,
+      "end": 46.231,
+      "words": [
+        {
+          "text": "One",
+          "start": 39.811,
+          "end": 40.031
+        },
+        {
+          "text": "gap",
+          "start": 40.078,
+          "end": 40.31
+        },
+        {
+          "text": "stays",
+          "start": 40.368,
+          "end": 40.577
+        },
+        {
+          "text": "open",
+          "start": 40.635,
+          "end": 40.867
+        },
+        {
+          "text": "at",
+          "start": 40.925,
+          "end": 41.006
+        },
+        {
+          "text": "the",
+          "start": 41.041,
+          "end": 41.111
+        },
+        {
+          "text": "very",
+          "start": 41.157,
+          "end": 41.355
+        },
+        {
+          "text": "top.",
+          "start": 41.413,
+          "end": 41.866
+        },
+        {
+          "text": "The",
+          "start": 41.958,
+          "end": 42.075
+        },
+        {
+          "text": "last",
+          "start": 42.133,
+          "end": 42.342
+        },
+        {
+          "text": "wedge",
+          "start": 42.4,
+          "end": 42.62
+        },
+        {
+          "text": "drops",
+          "start": 42.655,
+          "end": 42.934
+        },
+        {
+          "text": "in",
+          "start": 43.003,
+          "end": 43.166
+        },
+        {
+          "text": "—",
+          "start": 43.41,
+          "end": 43.468
+        },
+        {
+          "text": "the",
+          "start": 43.851,
+          "end": 43.955
+        },
+        {
+          "text": "keystone.",
+          "start": 44.002,
+          "end": 44.652
+        },
+        {
+          "text": "Now",
+          "start": 44.977,
+          "end": 45.151
+        },
+        {
+          "text": "every",
+          "start": 45.221,
+          "end": 45.395
+        },
+        {
+          "text": "stone",
+          "start": 45.43,
+          "end": 45.627
+        },
+        {
+          "text": "is",
+          "start": 45.662,
+          "end": 45.72
+        },
+        {
+          "text": "locked.",
+          "start": 45.778,
+          "end": 46.231
+        }
+      ]
+    },
+    {
+      "id": "b07",
+      "start": 46.614,
+      "end": 54.207,
+      "words": [
+        {
+          "text": "Now",
+          "start": 46.614,
+          "end": 46.765
+        },
+        {
+          "text": "the",
+          "start": 46.811,
+          "end": 46.881
+        },
+        {
+          "text": "scary",
+          "start": 46.916,
+          "end": 47.183
+        },
+        {
+          "text": "part:",
+          "start": 47.241,
+          "end": 47.659
+        },
+        {
+          "text": "knock",
+          "start": 47.938,
+          "end": 48.182
+        },
+        {
+          "text": "the",
+          "start": 48.24,
+          "end": 48.31
+        },
+        {
+          "text": "frame",
+          "start": 48.344,
+          "end": 48.553
+        },
+        {
+          "text": "away.",
+          "start": 48.588,
+          "end": 49.076
+        },
+        {
+          "text": "Too",
+          "start": 49.401,
+          "end": 49.61
+        },
+        {
+          "text": "early,",
+          "start": 49.68,
+          "end": 50.179
+        },
+        {
+          "text": "and",
+          "start": 50.423,
+          "end": 50.608
+        },
+        {
+          "text": "it",
+          "start": 50.666,
+          "end": 50.724
+        },
+        {
+          "text": "all",
+          "start": 50.759,
+          "end": 50.864
+        },
+        {
+          "text": "falls.",
+          "start": 50.91,
+          "end": 51.433
+        },
+        {
+          "text": "After",
+          "start": 52.036,
+          "end": 52.315
+        },
+        {
+          "text": "the",
+          "start": 52.373,
+          "end": 52.454
+        },
+        {
+          "text": "keystone,",
+          "start": 52.536,
+          "end": 53.174
+        },
+        {
+          "text": "it",
+          "start": 53.232,
+          "end": 53.36
+        },
+        {
+          "text": "stands",
+          "start": 53.395,
+          "end": 53.65
+        },
+        {
+          "text": "alone.",
+          "start": 53.685,
+          "end": 54.207
+        }
+      ]
+    },
+    {
+      "id": "b08",
+      "start": 54.591,
+      "end": 66.607,
+      "words": [
+        {
+          "text": "But",
+          "start": 54.591,
+          "end": 54.753
+        },
+        {
+          "text": "an",
+          "start": 54.776,
+          "end": 54.834
+        },
+        {
+          "text": "arch",
+          "start": 54.881,
+          "end": 55.264
+        },
+        {
+          "text": "never",
+          "start": 55.868,
+          "end": 56.088
+        },
+        {
+          "text": "sleeps.",
+          "start": 56.135,
+          "end": 56.715
+        },
+        {
+          "text": "It",
+          "start": 57.156,
+          "end": 57.284
+        },
+        {
+          "text": "pushes",
+          "start": 57.319,
+          "end": 57.644
+        },
+        {
+          "text": "sideways,",
+          "start": 57.69,
+          "end": 58.538
+        },
+        {
+          "text": "day",
+          "start": 58.782,
+          "end": 59.223
+        },
+        {
+          "text": "and",
+          "start": 59.351,
+          "end": 59.536
+        },
+        {
+          "text": "night.",
+          "start": 59.594,
+          "end": 60.117
+        },
+        {
+          "text": "Weak",
+          "start": 60.396,
+          "end": 60.628
+        },
+        {
+          "text": "sides",
+          "start": 60.697,
+          "end": 61.069
+        },
+        {
+          "text": "spread,",
+          "start": 61.115,
+          "end": 61.638
+        },
+        {
+          "text": "and",
+          "start": 61.661,
+          "end": 61.812
+        },
+        {
+          "text": "the",
+          "start": 61.858,
+          "end": 61.928
+        },
+        {
+          "text": "top",
+          "start": 61.951,
+          "end": 62.16
+        },
+        {
+          "text": "drops.",
+          "start": 62.207,
+          "end": 62.845
+        },
+        {
+          "text": "So",
+          "start": 63.228,
+          "end": 63.391
+        },
+        {
+          "text": "each",
+          "start": 63.472,
+          "end": 63.646
+        },
+        {
+          "text": "end",
+          "start": 63.716,
+          "end": 63.96
+        },
+        {
+          "text": "leans",
+          "start": 64.053,
+          "end": 64.331
+        },
+        {
+          "text": "on",
+          "start": 64.401,
+          "end": 64.517
+        },
+        {
+          "text": "a",
+          "start": 64.563,
+          "end": 64.587
+        },
+        {
+          "text": "massive",
+          "start": 64.668,
+          "end": 65.144
+        },
+        {
+          "text": "stone",
+          "start": 65.179,
+          "end": 65.504
+        },
+        {
+          "text": "shoulder",
+          "start": 65.55,
+          "end": 65.887
+        },
+        {
+          "text": "in",
+          "start": 65.945,
+          "end": 66.015
+        },
+        {
+          "text": "the",
+          "start": 66.049,
+          "end": 66.119
+        },
+        {
+          "text": "bank.",
+          "start": 66.154,
+          "end": 66.607
+        }
+      ]
+    },
+    {
+      "id": "b09",
+      "start": 67.117,
+      "end": 73.48,
+      "words": [
+        {
+          "text": "Then",
+          "start": 67.117,
+          "end": 67.303
+        },
+        {
+          "text": "you",
+          "start": 67.361,
+          "end": 67.443
+        },
+        {
+          "text": "pile",
+          "start": 67.512,
+          "end": 67.802
+        },
+        {
+          "text": "stone",
+          "start": 67.837,
+          "end": 68.058
+        },
+        {
+          "text": "on",
+          "start": 68.093,
+          "end": 68.162
+        },
+        {
+          "text": "top,",
+          "start": 68.22,
+          "end": 68.569
+        },
+        {
+          "text": "up",
+          "start": 68.604,
+          "end": 68.731
+        },
+        {
+          "text": "to",
+          "start": 68.789,
+          "end": 68.859
+        },
+        {
+          "text": "a",
+          "start": 68.975,
+          "end": 69.01
+        },
+        {
+          "text": "flat",
+          "start": 69.056,
+          "end": 69.3
+        },
+        {
+          "text": "road.",
+          "start": 69.37,
+          "end": 69.788
+        },
+        {
+          "text": "Strange,",
+          "start": 70.229,
+          "end": 70.844
+        },
+        {
+          "text": "but",
+          "start": 71.227,
+          "end": 71.39
+        },
+        {
+          "text": "that",
+          "start": 71.425,
+          "end": 71.599
+        },
+        {
+          "text": "weight",
+          "start": 71.669,
+          "end": 71.947
+        },
+        {
+          "text": "squeezes",
+          "start": 72.063,
+          "end": 72.505
+        },
+        {
+          "text": "the",
+          "start": 72.551,
+          "end": 72.621
+        },
+        {
+          "text": "wedges",
+          "start": 72.655,
+          "end": 72.934
+        },
+        {
+          "text": "tighter.",
+          "start": 72.981,
+          "end": 73.48
+        }
+      ]
+    },
+    {
+      "id": "b10",
+      "start": 74.083,
+      "end": 81.699,
+      "words": [
+        {
+          "text": "Last",
+          "start": 74.083,
+          "end": 74.351
+        },
+        {
+          "text": "enemy:",
+          "start": 74.397,
+          "end": 74.861
+        },
+        {
+          "text": "floods.",
+          "start": 75.244,
+          "end": 75.895
+        },
+        {
+          "text": "High",
+          "start": 76.22,
+          "end": 76.429
+        },
+        {
+          "text": "water",
+          "start": 76.464,
+          "end": 76.696
+        },
+        {
+          "text": "slams",
+          "start": 76.731,
+          "end": 76.998
+        },
+        {
+          "text": "the",
+          "start": 77.032,
+          "end": 77.102
+        },
+        {
+          "text": "bridge.",
+          "start": 77.125,
+          "end": 77.555
+        },
+        {
+          "text": "So",
+          "start": 77.799,
+          "end": 78.031
+        },
+        {
+          "text": "you",
+          "start": 78.101,
+          "end": 78.17
+        },
+        {
+          "text": "leave",
+          "start": 78.228,
+          "end": 78.379
+        },
+        {
+          "text": "a",
+          "start": 78.402,
+          "end": 78.426
+        },
+        {
+          "text": "hole",
+          "start": 78.472,
+          "end": 78.6
+        },
+        {
+          "text": "through",
+          "start": 78.623,
+          "end": 78.786
+        },
+        {
+          "text": "the",
+          "start": 78.809,
+          "end": 78.878
+        },
+        {
+          "text": "pier.",
+          "start": 78.902,
+          "end": 79.343
+        },
+        {
+          "text": "Floodwater",
+          "start": 79.726,
+          "end": 80.26
+        },
+        {
+          "text": "runs",
+          "start": 80.33,
+          "end": 80.736
+        },
+        {
+          "text": "straight",
+          "start": 80.91,
+          "end": 81.235
+        },
+        {
+          "text": "through.",
+          "start": 81.258,
+          "end": 81.699
+        }
+      ]
+    },
+    {
+      "id": "b11",
+      "start": 82.082,
+      "end": 88.398,
+      "words": [
+        {
+          "text": "Spring",
+          "start": 82.082,
+          "end": 82.5
+        },
+        {
+          "text": "flood.",
+          "start": 82.57,
+          "end": 83.069
+        },
+        {
+          "text": "Brown",
+          "start": 83.452,
+          "end": 83.766
+        },
+        {
+          "text": "water",
+          "start": 83.824,
+          "end": 84.102
+        },
+        {
+          "text": "roars",
+          "start": 84.195,
+          "end": 84.416
+        },
+        {
+          "text": "below.",
+          "start": 84.462,
+          "end": 84.985
+        },
+        {
+          "text": "Carts",
+          "start": 85.31,
+          "end": 85.612
+        },
+        {
+          "text": "rumble",
+          "start": 85.658,
+          "end": 85.937
+        },
+        {
+          "text": "overhead.",
+          "start": 85.972,
+          "end": 86.587
+        },
+        {
+          "text": "Not",
+          "start": 86.97,
+          "end": 87.156
+        },
+        {
+          "text": "one",
+          "start": 87.214,
+          "end": 87.411
+        },
+        {
+          "text": "stone",
+          "start": 87.458,
+          "end": 87.76
+        },
+        {
+          "text": "moves.",
+          "start": 87.806,
+          "end": 88.398
+        }
+      ]
+    },
+    {
+      "id": "b12",
+      "start": 88.7,
+      "end": 91.2,
+      "words": []
+    },
+    {
+      "id": "b13",
+      "start": 91.502,
+      "end": 93.29,
+      "words": [
+        {
+          "text": "Now",
+          "start": 91.502,
+          "end": 91.653
+        },
+        {
+          "text": "you",
+          "start": 91.699,
+          "end": 91.781
+        },
+        {
+          "text": "know",
+          "start": 91.827,
+          "end": 91.931
+        },
+        {
+          "text": "how",
+          "start": 91.99,
+          "end": 92.071
+        },
+        {
+          "text": "to",
+          "start": 92.117,
+          "end": 92.164
+        },
+        {
+          "text": "build",
+          "start": 92.187,
+          "end": 92.326
+        },
+        {
+          "text": "a",
+          "start": 92.361,
+          "end": 92.384
+        },
+        {
+          "text": "Roman",
+          "start": 92.419,
+          "end": 92.616
+        },
+        {
+          "text": "arch.",
+          "start": 92.663,
+          "end": 93.29
+        }
+      ]
+    }
+  ]
+}

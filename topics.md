@@ -64,7 +64,7 @@ Categories: see docs/storytelling.md.
 | sundial | Sundial — telling the time with a stick and a shadow | navigation-signal | proposed |  | 2026-11-13 | 19 (h3 v3 d3 f5 va5) | https://en.wikipedia.org/wiki/Sundial | ~75 s |
 | drawbridge | Drawbridge — a bridge that lifts itself with counterweights | defense-fortification | proposed |  | 2026-11-13 | 22 (h4 v5 d4 f4 va5) | https://en.wikipedia.org/wiki/Drawbridge | ~90 s |
 | noria | Noria — a wheel that lifts river water with the river itself | water | proposed |  | 2026-11-13 | 20 (h4 v5 d4 f5 va2) | https://en.wikipedia.org/wiki/Noria | ~75 s |
-| roman-arch | Roman arch — a bridge of loose stones held up by one wedge | craft-material | briefed | en | 2026-11-13 | 24 (h4 v5 d5 f5 va5) | https://en.wikipedia.org/wiki/Arch | auto-picked: total 24, highest; visual 5, depth 5, facts 5 |
+| roman-arch | Roman arch — a bridge of loose stones held up by one wedge | craft-material | rendered | en | 2026-11-13 | 24 (h4 v5 d5 f5 va5) | https://en.wikipedia.org/wiki/Arch | auto-picked: total 24, highest; visual 5, depth 5, facts 5 |
 | pottery-kiln | Pottery kiln — a clay oven that turns mud into stone | craft-material | proposed |  | 2026-11-13 | 21 (h3 v5 d4 f4 va5) | https://en.wikipedia.org/wiki/Kiln | ~90 s |
 | bellows | Bellows — how a leather bag makes a fire hot enough to melt iron | fire-heat | proposed |  | 2026-11-13 | 16 (h3 v5 d3 f4 va1) | https://en.wikipedia.org/wiki/Bellows | ~60 s |
 

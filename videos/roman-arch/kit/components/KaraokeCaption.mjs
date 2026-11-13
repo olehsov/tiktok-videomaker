@@ -7,7 +7,7 @@ import { r3, clipAttrs } from "./_anim.mjs";
 const BAND_H = 220;
 const CSS = `
 .kit-cap{z-index:10;left:0;width:${W}px;height:${BAND_H}px;display:flex;align-items:center;justify-content:center;pointer-events:none}
-.kit-cap-inner{display:flex;gap:0.28em;white-space:nowrap;font-family:var(--font-ui);font-weight:900;text-transform:none;text-shadow:var(--text-shadow);letter-spacing:.01em;line-height:1.1}
+.kit-cap-inner{display:flex;gap:0.28em;white-space:nowrap;font-family:var(--font-ui);font-weight:900;text-transform:none;text-shadow:var(--text-shadow);-webkit-text-stroke:11px rgba(14,20,32,.92);paint-order:stroke fill;stroke-linejoin:round;letter-spacing:.01em;line-height:1.1}
 .kit-cap-w{color:var(--text-muted)}
 `;
 
@@ -36,7 +36,9 @@ function group(words) {
     const next = words[i + 1];
     const endsClause = /[.!?,;:—…]$/.test(w.text);
     const pause = next && next.start - w.end > 0.35;
-    if (cur.length >= 4 || (cur.length >= 2 && endsClause) || (cur.length >= 1 && pause && cur.length >= 2) || !next) {
+    const len = cur.reduce((n, j) => n + words[j].text.length + 1, 0);
+    const tooLong = next && cur.length >= 2 && len + next.text.length > 20;
+    if (tooLong || cur.length >= 4 || (cur.length >= 2 && endsClause) || (cur.length >= 1 && pause && cur.length >= 2) || !next) {
       groups.push(cur);
       cur = [];
     }

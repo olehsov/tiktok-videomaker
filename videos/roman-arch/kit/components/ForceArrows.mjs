@@ -1,7 +1,7 @@
 import { f } from "../lowpoly.mjs";
 import { r3, clipAttrs } from "./_anim.mjs";
 
-const COLORS = { blue: "var(--ui-blue)", heat: "var(--ui-heat)", yellow: "var(--ui-yellow)" };
+const COLORS = { blue: "var(--ui-blue)", heat: "var(--ui-heat)", yellow: "var(--ui-yellow)", red: "var(--ui-red)" };
 
 function sample(path, frac) {
   const seg = [];
@@ -34,7 +34,7 @@ function arrowPoly(o, d, len, width, color) {
  */
 export function ForceArrows({ id, tone, mode, path, count = 3, len = 64, width = 10, gap = 18, at, dur, period = 1.2 }) {
   const color = COLORS[tone];
-  if (!color) throw new Error(`ForceArrows tone '${tone}' unknown (blue, heat, yellow)`);
+  if (!color) throw new Error(`ForceArrows tone '${tone}' unknown (blue, heat, yellow, red)`);
   if (!["squeeze", "stretch", "along"].includes(mode)) throw new Error(`ForceArrows mode '${mode}' unknown`);
   const arrows = [];
   for (let i = 0; i < count; i++) {
