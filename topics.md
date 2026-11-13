@@ -56,7 +56,7 @@ Categories: see docs/storytelling.md.
 | sod-house | Sod house — walls cut from grass on a treeless prairie | shelter | proposed |  | 2026-11-13 | 19 (h3 v4 d3 f4 va5) | https://en.wikipedia.org/wiki/Sod_house | ~75 s |
 | charcoal-clamp | Charcoal clamp — turning a wood pile into fuel with almost no air | craft-material | proposed |  | 2026-11-13 | 22 (h4 v5 d4 f4 va5) | https://en.wikipedia.org/wiki/Charcoal | ~90 s |
 | japanese-joinery | Japanese joinery — wooden joints with no nails or glue | craft-material | proposed |  | 2026-11-13 | 22 (h5 v4 d4 f4 va5) | https://en.wikipedia.org/wiki/Japanese_carpentry | ~90 s |
-| hypocaust | Hypocaust — the Roman floor heated by hot air from below | fire-heat | rendered | en uk | 2026-11-13 | 24 (h4 v5 d5 f5 va5) | https://en.wikipedia.org/wiki/Hypocaust | auto-picked: total 24, highest; hook 4, visual 5, depth 5 |
+| hypocaust | Hypocaust — the Roman floor heated by hot air from below | fire-heat | ready | en uk | 2026-11-13 | 24 (h4 v5 d5 f5 va5) | https://en.wikipedia.org/wiki/Hypocaust | auto-picked: total 24, highest; hook 4, visual 5, depth 5 |
 
 Score column: `<total> (h hook · v visual · d depth · f facts · va variety)`, each 1–5. `—` = proposed before scoring existed.
 Link column: reference page for the topic (Wikipedia via `tools/wiki-lookup.mjs`; a search fallback is marked `(related)`). The brief-writer reads it first.

@@ -9,7 +9,7 @@ Roman central heating in seven simple fixes: a furnace outside, tile pillars, a 
 ```
 - **Hashtags:** #history #ancientrome #hypocaust #romanbaths #howitworks
 - **Keywords:** hypocaust, roman central heating, how roman baths worked, underfloor heating history, ancient roman engineering, roman bath house
-- **Cover:** _filled by prepare-upload_
+- **Cover:** `out/cover.en.png` — frame at 82232 ms (82.2 s)
 - **Pinned comment:** Extra fact: the name comes from Greek hupó (under) + kaustós (burnt). Vitruvius describes the system around 15 BC. Source: English Heritage, Baths and Bathing in Roman Britain
 - **Upload checklist:** AI-generated label ON · comments / duet / stitch as in config.marketing · original sound · no location · privacy per config
 - **Shorts title:** Fire under the floor: how a Roman hypocaust worked
@@ -24,7 +24,7 @@ Roman central heating in seven simple fixes: a furnace outside, tile pillars, a 
 ```
 - **Hashtags:** #історія #античність #гіпокауст #римськітерми #якпрацює
 - **Keywords:** гіпокауст, римське центральне опалення, як працювали римські терми, тепла підлога в давнину, інженерія стародавнього риму, римська лазня
-- **Cover:** _filled by prepare-upload_
+- **Cover:** `out/cover.uk.png` — frame at 94226 ms (94.2 s)
 - **Pinned comment:** Додатковий факт: назва походить від грецьких hupó («під») і kaustós («спалений»). Вітрувій описує цю систему близько 15 р. до н. е. Джерело: English Heritage, Baths and Bathing in Roman Britain
 - **Upload checklist:** AI-generated label ON · comments / duet / stitch as in config.marketing · original sound · no location · privacy per config
 - **Shorts title:** Вогонь під підлогою: як працював римський гіпокауст
