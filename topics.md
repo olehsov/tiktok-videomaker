@@ -57,6 +57,16 @@ Categories: see docs/storytelling.md.
 | charcoal-clamp | Charcoal clamp — turning a wood pile into fuel with almost no air | craft-material | proposed |  | 2026-11-13 | 22 (h4 v5 d4 f4 va5) | https://en.wikipedia.org/wiki/Charcoal | ~90 s |
 | japanese-joinery | Japanese joinery — wooden joints with no nails or glue | craft-material | proposed |  | 2026-11-13 | 22 (h5 v4 d4 f4 va5) | https://en.wikipedia.org/wiki/Japanese_carpentry | ~90 s |
 | hypocaust | Hypocaust — the Roman floor heated by hot air from below | fire-heat | ready | en uk | 2026-11-13 | 24 (h4 v5 d5 f5 va5) | https://en.wikipedia.org/wiki/Hypocaust | auto-picked: total 24, highest; hook 4, visual 5, depth 5 |
+| tipi | Tipi — a tent that stays warm and smoke-free in a blizzard | shelter | proposed |  | 2026-11-13 | 21 (h3 v5 d4 f4 va5) | https://en.wikipedia.org/wiki/Tipi | ~90 s |
+| stirrup | Stirrup — a small loop of metal that changed warfare | transport | proposed |  | 2026-11-13 | 19 (h4 v3 d3 f4 va5) | https://en.wikipedia.org/wiki/Stirrup | ~75 s |
+| amphora | Amphora — a pointed jar built to be stacked on ships | food-preservation | proposed |  | 2026-11-13 | 20 (h3 v4 d4 f4 va5) | https://en.wikipedia.org/wiki/Amphora | ~75 s |
+| scythe | Scythe — why the handle bends and the blade is set sideways | farming | proposed |  | 2026-11-13 | 19 (h3 v4 d3 f4 va5) | https://en.wikipedia.org/wiki/Scythe | ~75 s |
+| sundial | Sundial — telling the time with a stick and a shadow | navigation-signal | proposed |  | 2026-11-13 | 19 (h3 v3 d3 f5 va5) | https://en.wikipedia.org/wiki/Sundial | ~75 s |
+| drawbridge | Drawbridge — a bridge that lifts itself with counterweights | defense-fortification | proposed |  | 2026-11-13 | 22 (h4 v5 d4 f4 va5) | https://en.wikipedia.org/wiki/Drawbridge | ~90 s |
+| noria | Noria — a wheel that lifts river water with the river itself | water | proposed |  | 2026-11-13 | 20 (h4 v5 d4 f5 va2) | https://en.wikipedia.org/wiki/Noria | ~75 s |
+| roman-arch | Roman arch — a bridge of loose stones held up by one wedge | craft-material | selected | en | 2026-11-13 | 24 (h4 v5 d5 f5 va5) | https://en.wikipedia.org/wiki/Arch | auto-picked: total 24, highest; visual 5, depth 5, facts 5 |
+| pottery-kiln | Pottery kiln — a clay oven that turns mud into stone | craft-material | proposed |  | 2026-11-13 | 21 (h3 v5 d4 f4 va5) | https://en.wikipedia.org/wiki/Kiln | ~90 s |
+| bellows | Bellows — how a leather bag makes a fire hot enough to melt iron | fire-heat | proposed |  | 2026-11-13 | 16 (h3 v5 d3 f4 va1) | https://en.wikipedia.org/wiki/Bellows | ~60 s |
 
 Score column: `<total> (h hook · v visual · d depth · f facts · va variety)`, each 1–5. `—` = proposed before scoring existed.
 Link column: reference page for the topic (Wikipedia via `tools/wiki-lookup.mjs`; a search fallback is marked `(related)`). The brief-writer reads it first.
