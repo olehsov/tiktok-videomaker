@@ -1,0 +1,559 @@
+{
+  "slug": "hypocaust",
+  "lang": "en",
+  "title": "Hypocaust — Fire Under the Floor",
+  "targetDurationSec": 115,
+  "finalLine": "Now you know how to build a hypocaust.",
+  "beats": [
+    {
+      "id": "b01",
+      "type": "hook",
+      "narration": "A fire. Right under your floor. And you walk on it, warm and safe.",
+      "onScreen": {
+        "meter": {
+          "label": "WARMTH",
+          "value": 10
+        }
+      },
+      "keywords": [
+        {
+          "text": "fire.",
+          "color": "orange"
+        },
+        {
+          "text": "under your floor.",
+          "color": "yellow"
+        }
+      ],
+      "cues": [
+        {
+          "word": "fire.",
+          "action": "furnace-glow-reveal"
+        },
+        {
+          "word": "walk",
+          "action": "puppet-walk-floor"
+        }
+      ]
+    },
+    {
+      "id": "b02",
+      "type": "attempt",
+      "narration": "Easy way: a fire in the middle of the room. Smoke in your eyes, soot on the walls, cold feet.",
+      "onScreen": {
+        "threatPlate": "⚠ SMOKE",
+        "meter": {
+          "label": "WARMTH",
+          "value": 15
+        }
+      },
+      "keywords": [
+        {
+          "text": "Smoke",
+          "color": "red"
+        },
+        {
+          "text": "soot",
+          "color": "red"
+        },
+        {
+          "text": "cold feet.",
+          "color": "blue"
+        }
+      ],
+      "cues": [
+        {
+          "word": "middle",
+          "action": "ghost-room-fire"
+        },
+        {
+          "word": "Smoke",
+          "action": "smoke-fill-cat-flees"
+        },
+        {
+          "word": "feet.",
+          "action": "cold-floor-arrows"
+        }
+      ]
+    },
+    {
+      "id": "b03",
+      "type": "step",
+      "step": 1,
+      "narration": "So the fire moves outside. A furnace behind the wall sends heat one way: under the floor.",
+      "onScreen": {
+        "stepPlate": "✓ STEP 1 · FURNACE",
+        "callouts": [
+          {
+            "id": "furnace",
+            "title": "PRAEFURNIUM",
+            "subtitle": "furnace outside, fed through a stokehole"
+          }
+        ],
+        "meter": {
+          "label": "WARMTH",
+          "value": 25
+        }
+      },
+      "keywords": [
+        {
+          "text": "outside.",
+          "color": "yellow"
+        },
+        {
+          "text": "furnace",
+          "color": "orange"
+        },
+        {
+          "text": "under the floor.",
+          "color": "yellow"
+        }
+      ],
+      "cues": [
+        {
+          "word": "outside.",
+          "action": "furnace-build"
+        },
+        {
+          "word": "under",
+          "action": "heat-arrows-under"
+        }
+      ]
+    },
+    {
+      "id": "b04",
+      "type": "step",
+      "step": 2,
+      "narration": "But the floor sits on solid ground. So you raise it on tile stacks, two feet tall. That’s a hypocaust — heated from below.",
+      "onScreen": {
+        "threatPlate": "⚠ NO WAY UNDER",
+        "stepPlate": "✓ STEP 2 · PILLARS",
+        "callouts": [
+          {
+            "id": "pilae",
+            "title": "PILAE",
+            "subtitle": "stacks of square tiles"
+          }
+        ],
+        "labels": [
+          {
+            "id": "pilae-height",
+            "text": "2 ft / 60 cm"
+          }
+        ],
+        "meter": {
+          "label": "WARMTH",
+          "value": 40
+        }
+      },
+      "keywords": [
+        {
+          "text": "solid ground.",
+          "color": "red"
+        },
+        {
+          "text": "tile stacks,",
+          "color": "yellow"
+        },
+        {
+          "text": "two feet",
+          "color": "yellow"
+        },
+        {
+          "text": "hypocaust",
+          "color": "yellow"
+        },
+        {
+          "text": "heated from below.",
+          "color": "orange"
+        }
+      ],
+      "cues": [
+        {
+          "word": "solid",
+          "action": "ghost-heat-blocked"
+        },
+        {
+          "word": "stacks",
+          "action": "pilae-rise"
+        },
+        {
+          "word": "hypocaust",
+          "action": "hot-air-between-pilae"
+        }
+      ]
+    },
+    {
+      "id": "b05",
+      "type": "step",
+      "step": 3,
+      "narration": "But thin tiles scorch over the flames and stay cold elsewhere. So you lay a thick sandwich: tiles, concrete, more tiles. It spreads the heat, like a pizza stone.",
+      "onScreen": {
+        "threatPlate": "⚠ HOT SPOT",
+        "stepPlate": "✓ STEP 3 · THICK FLOOR",
+        "callouts": [
+          {
+            "id": "floor-layers",
+            "title": "FLOOR SANDWICH",
+            "subtitle": "tiles · concrete · tiles"
+          }
+        ],
+        "meter": {
+          "label": "WARMTH",
+          "value": 55
+        }
+      },
+      "keywords": [
+        {
+          "text": "scorch",
+          "color": "red"
+        },
+        {
+          "text": "thick sandwich:",
+          "color": "yellow"
+        },
+        {
+          "text": "spreads the heat,",
+          "color": "orange"
+        },
+        {
+          "text": "pizza stone.",
+          "color": "yellow"
+        }
+      ],
+      "cues": [
+        {
+          "word": "scorch",
+          "action": "ghost-hot-spot"
+        },
+        {
+          "word": "tiles,",
+          "occurrence": 1,
+          "action": "layer-big-tiles"
+        },
+        {
+          "word": "concrete,",
+          "action": "layer-concrete"
+        },
+        {
+          "word": "more",
+          "action": "layer-top-tiles"
+        },
+        {
+          "word": "spreads",
+          "action": "floor-glow-even"
+        }
+      ]
+    },
+    {
+      "id": "b06",
+      "type": "step",
+      "step": 4,
+      "narration": "The smoke is trapped. It chokes the fire. So you line the walls with hollow box tiles. Hot air rises through them to the roof, pulling the fire, warming the walls.",
+      "onScreen": {
+        "threatPlate": "⚠ TRAPPED SMOKE",
+        "stepPlate": "✓ STEP 4 · WALL FLUES",
+        "callouts": [
+          {
+            "id": "tubuli",
+            "title": "BOX TILES",
+            "subtitle": "hollow flues inside the walls"
+          }
+        ],
+        "meter": {
+          "label": "WARMTH",
+          "value": 70
+        }
+      },
+      "keywords": [
+        {
+          "text": "smoke is trapped.",
+          "color": "red"
+        },
+        {
+          "text": "chokes the fire",
+          "color": "red"
+        },
+        {
+          "text": "hollow box tiles.",
+          "color": "yellow"
+        },
+        {
+          "text": "Hot air rises",
+          "color": "orange"
+        }
+      ],
+      "cues": [
+        {
+          "word": "trapped.",
+          "action": "ghost-smoke-backflow"
+        },
+        {
+          "word": "hollow",
+          "action": "box-tiles-in-walls"
+        },
+        {
+          "word": "rises",
+          "action": "hot-air-up-walls"
+        },
+        {
+          "word": "roof,",
+          "action": "roof-vent-smoke"
+        }
+      ]
+    },
+    {
+      "id": "b07",
+      "type": "step",
+      "step": 5,
+      "narration": "One fire, three rooms. The air cools as it travels. So the hot room sits by the furnace, the warm room next. The cold room gets none.",
+      "onScreen": {
+        "stepPlate": "✓ STEP 5 · HOT · WARM · COLD",
+        "callouts": [
+          {
+            "id": "caldarium",
+            "title": "CALDARIUM",
+            "subtitle": "hot room, next to the furnace"
+          },
+          {
+            "id": "tepidarium",
+            "title": "TEPIDARIUM",
+            "subtitle": "warm room"
+          },
+          {
+            "id": "frigidarium",
+            "title": "FRIGIDARIUM",
+            "subtitle": "cold room, no heat"
+          }
+        ],
+        "meter": {
+          "label": "WARMTH",
+          "value": 75
+        }
+      },
+      "keywords": [
+        {
+          "text": "three rooms.",
+          "color": "yellow"
+        },
+        {
+          "text": "air cools",
+          "color": "blue"
+        },
+        {
+          "text": "hot room",
+          "color": "orange"
+        },
+        {
+          "text": "warm room",
+          "color": "orange"
+        },
+        {
+          "text": "cold room",
+          "color": "blue"
+        }
+      ],
+      "cues": [
+        {
+          "word": "cools",
+          "action": "air-cools-gradient"
+        },
+        {
+          "word": "hot",
+          "action": "room-hot-glow"
+        },
+        {
+          "word": "warm",
+          "action": "room-warm-glow"
+        },
+        {
+          "word": "cold",
+          "action": "room-cold-plain"
+        }
+      ]
+    },
+    {
+      "id": "b08",
+      "type": "step",
+      "step": 6,
+      "narration": "But at night the fire dies, and the floor goes cold. So someone feeds it wood all day. Warm floors eat a mountain of firewood.",
+      "onScreen": {
+        "threatPlate": "⚠ FIRE OUT",
+        "stepPlate": "✓ STEP 6 · STOKER",
+        "meter": {
+          "label": "WARMTH",
+          "value": 80
+        }
+      },
+      "keywords": [
+        {
+          "text": "fire dies,",
+          "color": "red"
+        },
+        {
+          "text": "goes cold.",
+          "color": "blue"
+        },
+        {
+          "text": "all day.",
+          "color": "yellow"
+        },
+        {
+          "text": "mountain of firewood.",
+          "color": "orange"
+        }
+      ],
+      "cues": [
+        {
+          "word": "night",
+          "action": "to-night"
+        },
+        {
+          "word": "dies,",
+          "action": "ghost-fire-out"
+        },
+        {
+          "word": "feeds",
+          "action": "stoker-feeds-wood"
+        },
+        {
+          "word": "mountain",
+          "action": "woodpile-grows"
+        }
+      ]
+    },
+    {
+      "id": "b09",
+      "type": "step",
+      "step": 7,
+      "narration": "And one danger you can’t see or smell: carbon monoxide. Through one crack, it seeps into the room. So every joint is sealed, and the draft pulls it out.",
+      "onScreen": {
+        "threatPlate": "⚠ INVISIBLE GAS",
+        "stepPlate": "✓ STEP 7 · SEALED JOINTS",
+        "meter": {
+          "label": "WARMTH",
+          "value": 85
+        }
+      },
+      "keywords": [
+        {
+          "text": "can’t see or smell:",
+          "color": "red"
+        },
+        {
+          "text": "carbon monoxide.",
+          "color": "red"
+        },
+        {
+          "text": "sealed,",
+          "color": "yellow"
+        },
+        {
+          "text": "pulls it out.",
+          "color": "yellow"
+        }
+      ],
+      "cues": [
+        {
+          "word": "carbon",
+          "action": "gas-cloud-under"
+        },
+        {
+          "word": "crack,",
+          "action": "ghost-crack-seep"
+        },
+        {
+          "word": "sealed,",
+          "action": "seal-joints"
+        },
+        {
+          "word": "draft",
+          "action": "gas-up-flues"
+        }
+      ]
+    },
+    {
+      "id": "b10",
+      "type": "climax",
+      "narration": "January on Hadrian’s Wall. Frost outside. In the hot room, a hundred and four. Floors so hot you wear wooden sandals.",
+      "onScreen": {
+        "gauge": "104°F / 40°C",
+        "stepPlate": "✓ WARM IN WINTER",
+        "meter": {
+          "label": "WARMTH",
+          "value": 95
+        }
+      },
+      "keywords": [
+        {
+          "text": "Frost",
+          "color": "blue"
+        },
+        {
+          "text": "a hundred and four.",
+          "color": "yellow"
+        },
+        {
+          "text": "wooden sandals.",
+          "color": "yellow"
+        }
+      ],
+      "cues": [
+        {
+          "word": "Frost",
+          "action": "winter-outside"
+        },
+        {
+          "word": "hot",
+          "occurrence": 1,
+          "action": "inside-warm-glow"
+        },
+        {
+          "word": "sandals.",
+          "action": "puppet-sandals-cat"
+        }
+      ]
+    },
+    {
+      "id": "b11",
+      "type": "recap",
+      "narration": "",
+      "holdSec": 3,
+      "onScreen": {}
+    },
+    {
+      "id": "b12",
+      "type": "ending",
+      "narration": "Now you know how to build a hypocaust.",
+      "onScreen": {
+        "labels": [
+          {
+            "id": "title",
+            "text": "HYPOCAUST · 1st c. BC"
+          }
+        ]
+      },
+      "keywords": [
+        {
+          "text": "hypocaust.",
+          "color": "yellow"
+        }
+      ]
+    }
+  ],
+  "cover": {
+    "headline": "FIRE UNDER THE FLOOR?"
+  },
+  "post": {
+    "description": "2,000 years ago Romans heated floors with fire. No pipes, no electricity. Every pillar and tile has a reason.",
+    "hashtags": [
+      "#history",
+      "#engineering",
+      "#ancientrome",
+      "#romanhistory",
+      "#ancienttech",
+      "#howitworks",
+      "#learnontiktok"
+    ]
+  }
+}
