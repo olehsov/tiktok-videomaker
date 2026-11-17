@@ -1,164 +1,166 @@
 # TikTok Videomaker
 
-Проєкт на базі **Claude Code**, який перетворює тему («igloo», «katana», «yakhchal», «roman aqueduct») на готове вертикальне відео **60–120 секунд** (MP4, 1080×1920, 30 fps) про те, як працює простий винахід, інструмент або споруда. Кожна деталь конструкції показана за схемою **проблема → що ламається без неї → рішення**. Наприкінці кожного відео звучить фраза «Now you know how to build a …».
+A **Claude Code** project that turns a topic ("igloo", "katana", "yakhchal", "roman aqueduct") into a finished vertical video of **60–120 seconds** (MP4, 1080×1920, 30 fps) about how a simple invention, tool or structure works. Every design detail is shown as **problem → what breaks without it → solution**. Every video ends with the line "Now you know how to build a …".
 
-Ти робиш лише три речі: обираєш тему, запускаєш команду і схвалюєш прев'ю. Решту — дослідження фактів, сценарій, озвучку, план монтажу, збірку, перевірку якості, фінальний рендер, обкладинку, текст допису для TikTok і файл для завантаження — роблять скіли, агенти та Node-скрипти.
+You do only three things: pick a topic, run a command and approve the preview. Everything else — fact research, script, voiceover, edit plan, build, quality review, final render, cover, TikTok post copy and the upload file — is done by skills, agents and Node scripts.
 
-> Автоматично публікувати в TikTok проєкт **не вміє** (є лише заглушка `publish-tiktok`): він готує все для ручного завантаження.
+> The project **cannot** publish to TikTok automatically (there is only a `publish-tiktok` stub): it prepares everything for a manual upload.
 
-## Зміст
-1. [Що вміє проєкт](#що-вміє-проєкт)
-2. [Швидкий старт](#швидкий-старт)
-3. [Як користуватися](#як-користуватися)
-4. [Як це працює (діаграми)](#як-це-працює-діаграми)
-5. [Команди (скіли)](#команди-скіли)
-6. [Агенти](#агенти)
-7. [Інструменти `tools/`](#інструменти-tools)
-8. [Конфігурація `config.json`](#конфігурація-configjson)
-9. [Гейти, статуси, відновлення](#гейти-статуси-відновлення)
-10. [Музика](#музика)
-11. [Стиль: `look` і `/style-preview`](#стиль-look-і-style-preview)
-12. [Маркетинг і файл для завантаження](#маркетинг-і-файл-для-завантаження)
-13. [Логи](#логи)
-14. [Структура репозиторію](#структура-репозиторію)
-15. [Як змінити й адаптувати під себе](#як-змінити-й-адаптувати-під-себе)
-16. [Часті проблеми](#часті-проблеми)
-17. [Документація](#документація)
+> **This repository ships only the tool.** Your videos (`videos/<slug>/`), your topic registry (`topics.md`) and your personal settings (`config.json`) are local and git-ignored. A fresh clone starts with no topics and no videos.
+
+## Contents
+1. [What it does](#what-it-does)
+2. [Quick start](#quick-start)
+3. [How to use it](#how-to-use-it)
+4. [How it works (diagrams)](#how-it-works-diagrams)
+5. [Commands (skills)](#commands-skills)
+6. [Agents](#agents)
+7. [Tools in `tools/`](#tools-in-tools)
+8. [Configuration: `config.json`](#configuration-configjson)
+9. [Gates, statuses, resume](#gates-statuses-resume)
+10. [Music](#music)
+11. [Style: `look` and `/style-preview`](#style-look-and-style-preview)
+12. [Marketing and the upload file](#marketing-and-the-upload-file)
+13. [Logs](#logs)
+14. [Repository layout](#repository-layout)
+15. [Customising it](#customising-it)
+16. [Troubleshooting](#troubleshooting)
+17. [Documentation](#documentation)
 
 ---
 
-## Що вміє проєкт
+## What it does
 
-| Етап | Що відбувається | Результат |
+| Stage | What happens | Output |
 | --- | --- | --- |
-| Теми | 10 нових тем з оцінками (1–5) і посиланням на Вікіпедію | `topics.md` |
-| Бриф | Дослідження фактів з джерелами, розкадровка, сценарій для кожної мови | `BRIEF.md`, `script.<мова>.json`, `voiceover.<мова>.txt` |
-| Озвучка й музика | ElevenLabs з часовими мітками слів (або твій власний mp3); для кожного відео ElevenLabs Music генерує свою фонову музику, яка зациклюється без шва й притихає під голосом | `audio/voice.<мова>.mp3`, `timings.<мова>.json`, `audio/music.loop.<мова>.mp3` |
-| План | Технічний план: сцени, ассети, компоненти, команди | `PLAN.md` |
-| Збірка | Сцени на HyperFrames (HTML + GSAP) за даними сценарію й таймінгами озвучки | чернетка `out/draft/` |
-| Перевірка | Рев'юер дивиться кадри чернетки й пише вердикт PASS/FAIL | `REVIEW.md` |
-| Прев'ю | Ти дивишся чернетку й схвалюєш або просиш правок | — |
-| Фінал | Рендер, обкладинка, фінальна обробка (різкість, зерно, віньєтка) | `out/<slug>.<мова>.mp4`, `out/cover.<мова>.png` |
-| Маркетинг | Підпис, хештеги, ключові слова, закріплений коментар | `marketing.<мова>.json`, `MARKETING.md` |
-| Завантаження | Файл у форматі TikTok Content Posting API | `out/upload.<мова>.json` |
+| Topics | 10 new topics with scores (1–5) and a Wikipedia link | `topics.md` |
+| Brief | Fact research with sources, storyboard, a script for each language | `BRIEF.md`, `script.<lang>.json`, `voiceover.<lang>.txt` |
+| Voice and music | ElevenLabs with word timestamps (or your own mp3); ElevenLabs Music generates background music for each video, looped seamlessly and ducked under the voice | `audio/voice.<lang>.mp3`, `timings.<lang>.json`, `audio/music.loop.<lang>.mp3` |
+| Plan | Technical plan: scenes, assets, components, commands | `PLAN.md` |
+| Build | Scenes in HyperFrames (HTML + GSAP) driven by the script data and voice timings | draft in `out/draft/` |
+| Review | The reviewer checks draft frames and writes a PASS/FAIL verdict | `REVIEW.md` |
+| Preview | You watch the draft and approve it or request changes | — |
+| Final | Render, cover, final finishing (sharpen, grain, vignette) | `out/<slug>.<lang>.mp4`, `out/cover.<lang>.png` |
+| Marketing | Caption, hashtags, keywords, pinned comment | `marketing.<lang>.json`, `MARKETING.md` |
+| Upload | A file in TikTok Content Posting API format | `out/upload.<lang>.json` |
 
-Ключові принципи:
-- **Усі тексти на екрані** беруться зі `script.<мова>.json`, **усі таймінги** — з `timings.<мова>.json` (з озвучки), нічого не прописується в розмітці вручну. Тому нова мова — це лише нові дані, без змін коду.
-- **Факти мають джерела** в `BRIEF.md`; пояснення, яких немає в джерелах, позначені як інженерні.
-- **Єдиний стиль** для всіх відео: low-poly з плоскою заливкою, вид збоку в розрізі, кумулятивний кадр, ляльки з блоків, «привид невдачі» перед кожним рішенням (див. `docs/style-guide.md`).
-- **Ключ ElevenLabs** живе лише в `.env`; Claude його не читає, скрипти беруть його через `node --env-file=.env`.
+Key principles:
+- **All on-screen text** comes from `script.<lang>.json` and **all timings** from `timings.<lang>.json` (from the voice); nothing is hard-coded in markup. A new language is just new data, no code changes.
+- **Facts have sources** in `BRIEF.md`; explanations not found in sources are labelled as engineering explanations.
+- **One style** for every video: flat-shaded low-poly, side cross-section view, cumulative frame, block-figure characters, a "ghost of failure" before each solution (see `docs/style-guide.md`).
+- **The ElevenLabs key** lives only in `.env`; Claude never reads it, scripts load it via `node --env-file=.env`.
 
 ---
 
-## Швидкий старт
+## Quick start
 
-### 1. Що встановити (один раз)
-- **Node.js 22+** і **FFmpeg** (`node -v`, `ffmpeg -version`, `ffprobe -version`). Python не потрібен.
+### 1. Install (once)
+- **Node.js 22+** and **FFmpeg** (`node -v`, `ffmpeg -version`, `ffprobe -version`). Python is not needed.
 - **Claude Code**.
-- Плагін **HyperFrames**:
+- The **HyperFrames** plugin:
   ```bash
   claude plugin marketplace add heygen-com/hyperframes
   claude plugin install hyperframes@hyperframes
   ```
-  (або в Claude Code: `/plugin marketplace add heygen-com/hyperframes`, потім `/plugin install hyperframes@hyperframes`). CLI зафіксований на версії `hyperframes@0.9.36`.
-- Для завантаження репозиторію на GitHub (за бажанням) — `gh`.
+  (or inside Claude Code: `/plugin marketplace add heygen-com/hyperframes`, then `/plugin install hyperframes@hyperframes`). The CLI is pinned to `hyperframes@0.9.36`.
+- `gh`, optionally, to push the repository to GitHub.
 
-### 2. Налаштування
-1. Клонуй репозиторій і відкрий його в терміналі.
-2. Створи `.env`: скопіюй `.env.example` → `.env` і впиши `ELEVENLABS_API_KEY=...` (ElevenLabs → профіль → API Keys). Файл у `.gitignore`.
-3. У `config.json → tts.voices` впиши `voice_id` голосу для кожної мови (ElevenLabs → Voices → голос → «Copy voice ID»).
-4. Музика: за замовчуванням її генерує ElevenLabs Music для кожного відео (див. [Музика](#музика)), окремих налаштувань не потрібно. За бажанням поклади `assets/music.mp3` — запасний варіант, якщо генерація не вдалася, або режим `music.source: "file"`.
-5. Увімкни захист від витоку ключів:
+### 2. Setup
+1. Clone the repository and open it in a terminal.
+2. Create `.env`: copy `.env.example` → `.env` and set `ELEVENLABS_API_KEY=...` (ElevenLabs → profile → API Keys). The file is git-ignored.
+3. Create your local config: copy `config-template.json` → `config.json` and set a `voice_id` for each language in `tts.voices` (ElevenLabs → Voices → a voice → "Copy voice ID"). `config.json` is git-ignored; keys you leave out fall back to the template.
+4. Music: by default ElevenLabs Music generates it for each video (see [Music](#music)); no extra setup. Optionally put `assets/music.mp3` there as a fallback if generation fails, or for `music.source: "file"` mode.
+5. Turn on key-leak protection:
    ```bash
    git config core.hooksPath .githooks
    ```
-   Хук `.githooks/pre-commit` блокує коміт, у якому є ключ виду `sk_…` або файл `.env`.
-6. Запусти `claude` у папці проєкту. Шаблон відео (`videos/_template/`) уже в репозиторії; `BOOTSTRAP_PROMPT.md` потрібен лише якщо шаблон треба відновити з нуля.
+   The `.githooks/pre-commit` hook blocks a commit that contains an `sk_…` key or a `.env` file.
+6. Run `claude` in the project folder. The video template (`videos/_template/`) is already in the repo; `BOOTSTRAP_PROMPT.md` is only needed to rebuild the template from scratch. `topics.md` is created from `topics-template.md` the first time you run `/topics`.
 
-### 3. Перше відео
+### 3. First video
 ```text
 /generate
 ```
-Скіл покаже 10 тем, ти обереш номер, далі він проведе відео через усі етапи й зупинятиметься лише там, де потрібне твоє схвалення.
+The skill shows 10 topics, you pick a number, and it takes the video through every stage, stopping only where your approval is needed.
 
 ---
 
-## Як користуватися
+## How to use it
 
-**Найпростіше — одна команда:**
+**Simplest — one command:**
 
-| Що робиш | Команда |
+| What you want | Command |
 | --- | --- |
-| Усе відео від теми до файлу для завантаження | `/generate` |
-| Те саме без жодних питань (усі гейти схвалення відкриті лише на цей запуск) | `/generate --unattended` |
-| Продовжити перерване відео (ліміт токенів, збій, зупинка) | `/generate --resume` або `/generate --resume <slug>` |
+| A whole video, from topic to upload file | `/generate` |
+| The same with no questions (every approval gate is open for this run only) | `/generate --unattended` |
+| Continue an interrupted video (token limit, crash, stop) | `/generate --resume` or `/generate --resume <slug>` |
 
-**Крок за кроком (ручні блоки):**
+**Step by step (manual blocks):**
 
-| Крок | Команда | Що робить |
+| Step | Command | What it does |
 | --- | --- | --- |
-| 1 | `/topics` | 10 тем з оцінками й посиланнями; відповідаєш `3` або `3 uk ru` |
-| 2 | `/brief <тема> [uk] [ru]` | бриф і сценарії (запускається сам після вибору теми) |
-| 3 | `/produce <slug> [мови]` | озвучка → план → збірка → рев'ю → прев'ю → фінал → маркетинг → файл для завантаження |
+| 1 | `/topics` | 10 topics with scores and links; reply `3` or `3 uk ru` |
+| 2 | `/brief <topic> [uk] [ru]` | brief and scripts (starts by itself after you pick a topic) |
+| 3 | `/produce <slug> [langs]` | voice → plan → build → review → preview → final → marketing → upload file |
 
-**Інші сценарії:**
-- **Додати мову до готового відео:** `/brief <slug> uk`, потім `/produce <slug> uk`.
-- **Своя озвучка без API:** поклади `videos/<slug>/audio/voice.<мова>.mp3` до `/produce`; таймінги візьмуться з пауз у звуці.
-- **Змінити озвучку:** `/produce <slug> --revoice` (витрачає кредити ElevenLabs).
-- **Згенерувати нову музику:** `/produce <slug> --remusic` (новий трек, витрачає кредити ElevenLabs; з `--resume` ігнорується).
-- **Реєстр тем:** відповідь `reject 2,5` на `/topics` назавжди прибирає теми.
-- **Підтягнути покращення компонентів у шаблон:** `/promote <slug>`.
-- **Налаштувати картинку без рендеру відео:** `/style-preview` (див. [нижче](#стиль-look-і-style-preview)).
-- **Автоматично обрати тему:** `/topics-auto` (бере тему з найвищим сумарним балом і одразу робить бриф).
+**Other scenarios:**
+- **Add a language to a finished video:** `/brief <slug> uk`, then `/produce <slug> uk`.
+- **Your own voiceover, no API:** put `videos/<slug>/audio/voice.<lang>.mp3` in place before `/produce`; timings come from the pauses in the audio.
+- **Redo the voiceover:** `/produce <slug> --revoice` (spends ElevenLabs credits).
+- **Generate new music:** `/produce <slug> --remusic` (new track, spends ElevenLabs credits; ignored with `--resume`).
+- **Topic registry:** reply `reject 2,5` to `/topics` to remove topics for good.
+- **Bring component improvements back into the template:** `/promote <slug>`.
+- **Tune the look without rendering a video:** `/style-preview` (see [below](#style-look-and-style-preview)).
+- **Pick a topic automatically:** `/topics-auto` (takes the topic with the highest total score and briefs it right away).
 
-Готові файли лежать у `videos/<slug>/out/`: `<slug>.<мова>.mp4`, `cover.<мова>.png`, `upload.<мова>.json`; текст допису, хештеги й закріплений коментар — у `videos/<slug>/MARKETING.md`.
+Finished files are in `videos/<slug>/out/`: `<slug>.<lang>.mp4`, `cover.<lang>.png`, `upload.<lang>.json`; the post text, hashtags and pinned comment are in `videos/<slug>/MARKETING.md`.
 
 ---
 
-## Як це працює (діаграми)
+## How it works (diagrams)
 
-### Загальний конвеєр
+### Overall pipeline
 ```mermaid
 flowchart TD
-    A["Тема<br/>/topics або /topics-auto"] --> B["Бриф<br/>brief-writer"]
-    B --> M["Маркетинг у фоні<br/>marketing-writer"]
-    B --> G1{{"Гейт: старт продакшну"}}
-    G1 --> V["Озвучка + музика<br/>tts.mjs, music-gen.mjs, music-loop.mjs"]
-    V --> P["План<br/>video-architect"]
-    P --> G2{{"Гейт: план"}}
-    G2 --> BU["Збірка + чернетка<br/>video-builder"]
-    BU --> R["Рев'ю<br/>video-reviewer"]
-    R -- "FAIL, є раунди" --> BU
-    R -- "FAIL, раундів немає" --> N["needs-owner<br/>PENDING.md, зупинка"]
-    R -- PASS --> G3{{"Гейт: прев'ю"}}
+    A["Topic<br/>/topics or /topics-auto"] --> B["Brief<br/>brief-writer"]
+    B --> M["Marketing in background<br/>marketing-writer"]
+    B --> G1{{"Gate: start production"}}
+    G1 --> V["Voice + music<br/>tts.mjs, music-gen.mjs, music-loop.mjs"]
+    V --> P["Plan<br/>video-architect"]
+    P --> G2{{"Gate: plan"}}
+    G2 --> BU["Build + draft<br/>video-builder"]
+    BU --> R["Review<br/>video-reviewer"]
+    R -- "FAIL, rounds left" --> BU
+    R -- "FAIL, no rounds left" --> N["needs-owner<br/>PENDING.md, stop"]
+    R -- PASS --> G3{{"Gate: preview"}}
     G3 -- "Request changes" --> BU
-    G3 -- Approve --> F["Фінал: рендер + обкладинка<br/>finish.mjs"]
-    F -- "asyncMarketing = true: чекає на фоновий" --> MK["Маркетинг готовий"]
-    F -- "asyncMarketing = false" --> MW["marketing-writer<br/>зараз"]
+    G3 -- Approve --> F["Final: render + cover<br/>finish.mjs"]
+    F -- "asyncMarketing = true: waits for background run" --> MK["Marketing ready"]
+    F -- "asyncMarketing = false" --> MW["marketing-writer<br/>now"]
     MW --> MK
     M -. "(asyncMarketing)" .-> MK
-    MK --> G4{{"Гейт: завантаження"}}
-    G4 --> U["prepare-upload.mjs<br/>upload.мова.json"]
-    U --> PB["publish-tiktok.mjs<br/>(заглушка)"]
+    MK --> G4{{"Gate: upload"}}
+    G4 --> U["prepare-upload.mjs<br/>upload.lang.json"]
+    U --> PB["publish-tiktok.mjs<br/>(stub)"]
     PB --> RD(["STATUS: ready"])
 ```
 
-### Хто за що відповідає
+### Who does what
 ```mermaid
 flowchart LR
-    O["Власник"] --> MS["Головна сесія Claude Code<br/>(оркестратор, скіли)"]
-    MS --> SK["Скіли<br/>generate, produce, brief, topics,<br/>topics-auto, promote, style-preview"]
-    SK --> AG["Агенти<br/>brief-writer, video-architect,<br/>video-builder, video-reviewer,<br/>marketing-writer"]
-    SK --> TL["Node-скрипти tools/"]
-    AG <--> FL[("Файли відео videos/slug/<br/>BRIEF, script, PLAN, REVIEW ...")]
+    O["Owner"] --> MS["Main Claude Code session<br/>(orchestrator, skills)"]
+    MS --> SK["Skills<br/>generate, produce, brief, topics,<br/>topics-auto, promote, style-preview"]
+    SK --> AG["Agents<br/>brief-writer, video-architect,<br/>video-builder, video-reviewer,<br/>marketing-writer"]
+    SK --> TL["Node scripts tools/"]
+    AG <--> FL[("Video files videos/slug/<br/>BRIEF, script, PLAN, REVIEW ...")]
     TL <--> FL
     CFG["config.json"] --> SK
     CFG --> TL
     TPL["videos/_template<br/>kit + build.mjs"] --> FL
 ```
-Головна сесія лише оркеструє: запускає скрипти, делегує роботу агентам, перевіряє їхні файли й питає власника. Агенти не питають і не викликають один одного: кожна передача — це **файл** (`BRIEF.md` → `PLAN.md` → код → `REVIEW.md`).
+The main session only orchestrates: it runs scripts, delegates work to agents, checks their files and asks the owner. Agents never ask questions or call each other: every hand-off is a **file** (`BRIEF.md` → `PLAN.md` → code → `REVIEW.md`).
 
-### Статуси відео
+### Video statuses
 ```mermaid
 stateDiagram-v2
     [*] --> proposed
@@ -170,356 +172,360 @@ stateDiagram-v2
     built --> approved
     approved --> rendered
     rendered --> ready
-    built --> needs_owner : FAIL після maxReviewLoops
-    needs_owner --> built : --resume, рішення власника
+    built --> needs_owner : FAIL after maxReviewLoops
+    needs_owner --> built : --resume, owner decision
     proposed --> rejected
 ```
-Статус записано в `videos/<slug>/STATUS` і в `topics.md`. `needs_owner` на схемі — це статус `needs-owner`.
+The status is written to `videos/<slug>/STATUS` and to `topics.md`. `needs_owner` in the diagram is the `needs-owner` status.
 
-### Як дані перетворюються на відео
+### How data becomes a video
 ```mermaid
 flowchart LR
-    S["script.мова.json<br/>тексти, ключові слова, cues"] --> BM["build.mjs мова"]
-    T["timings.мова.json<br/>таймінги слів з озвучки"] --> BM
-    SC["src/scenes.mjs<br/>сцени з PLAN.md"] --> BM
-    KT["kit/<br/>компоненти, ассети, tokens.css"] --> BM
-    BM --> HF["build/мова/index.html<br/>одна GSAP-стрічка"]
+    S["script.lang.json<br/>text, keywords, cues"] --> BM["build.mjs lang"]
+    T["timings.lang.json<br/>word timings from the voice"] --> BM
+    SC["src/scenes.mjs<br/>scenes from PLAN.md"] --> BM
+    KT["kit/<br/>components, assets, tokens.css"] --> BM
+    BM --> HF["build/lang/index.html<br/>one GSAP timeline"]
     HF --> RN["hyperframes render"]
-    RN --> FN["finish.mjs<br/>різкість, зерно, CRF"]
-    FN --> MP["out/slug.мова.mp4"]
+    RN --> FN["finish.mjs<br/>sharpen, grain, CRF"]
+    FN --> MP["out/slug.lang.mp4"]
 ```
-Cue-слова зі сценарію (наприклад «wall» → `wall-rise`) прив'язують анімації до слів озвучки, тож синхронізація працює в кожній мові.
+Cue words from the script (for example "wall" → `wall-rise`) tie animations to words in the voiceover, so sync works in every language.
 
-### Конвеєр стилю
+### Style pipeline
 ```mermaid
 flowchart LR
     CF["config.json → look"] --> AL["apply-look.mjs"]
-    TB["kit/tokens.base.css<br/>оригінал, не змінюється"] --> AL
-    AL --> TC["kit/tokens.css<br/>генерується"]
-    TC --> KIT["компоненти й ассети kit"]
-    KIT --> SP["зразок style/specimen"]
+    TB["kit/tokens.base.css<br/>original, never changed"] --> AL
+    AL --> TC["kit/tokens.css<br/>generated"]
+    TC --> KIT["kit components and assets"]
+    KIT --> SP["style/specimen"]
     SP --> SH["style-preview.mjs"]
     SH --> PV["previews: day, night, tense,<br/>compare.png, grid.png"]
 ```
 
 ---
 
-## Команди (скіли)
+## Commands (skills)
 
-Скіли лежать у `.claude/skills/<назва>/SKILL.md` і викликаються як `/назва`.
+Skills live in `.claude/skills/<name>/SKILL.md` and are invoked as `/name`.
 
-| Команда | Аргументи | Що робить |
+| Command | Arguments | What it does |
 | --- | --- | --- |
-| `/generate` | `[--unattended] [--remusic] [--resume [<slug>]]` | Одне відео від теми до `ready`: тема → бриф → маркетинг у фоні → гейт → озвучка → план → збірка ⇄ рев'ю → прев'ю → фінал → маркетинг → файл для завантаження. Зупиняється лише на гейтах, які `config.json` залишає закритими. |
-| `/produce` | `<slug> [мови] [--revoice] [--remusic] [--unattended] [--resume]` | Продакшн готового брифу (кроки P1–P9; ту саму логіку використовує `/generate`). |
-| `/brief` | `<тема або slug> [uk] [ru]` | Створює `videos/<slug>/` з шаблону, викликає `brief-writer`, перевіряє `validate.mjs`. Режими: нове відео, додати мову, правки за нотатками власника. |
-| `/topics` | `[тема або категорія]` | 10 нових тем (макс. 2 на категорію), оцінки 1–5 за hook / visual / depth / facts / variety, посилання на Вікіпедію (колонка Wiki). Далі відповідаєш номером, назвою (+ мови) або `reject 2,5`. |
-| `/topics-auto` | `[тема або категорія]` | Те саме, але сам обирає тему з найвищою сумою (при рівності — категорію, яку найдавніше використовували), записує `auto-picked: причина` у `topics.md`. |
-| `/promote` | `<slug>` | Показує зміни `kit/` і `build.mjs` у відео порівняно з шаблоном, питає, які з них перенести в `videos/_template/`, коміт `template: promote from <slug>`. |
-| `/style-preview` | `[key=value …] [key=v1,v2,v3] [--neutral] [--apply] [--guides]` | Стоп-кадри «зразка» (день, ніч, напруга) для значень `look`, порівняння з попереднім прев'ю. Відео не рендериться. |
+| `/generate` | `[--unattended] [--remusic] [--resume [<slug>]]` | One video from topic to `ready`: topic → brief → marketing in background → gate → voice → plan → build ⇄ review → preview → final → marketing → upload file. Stops only at gates that `config.json` leaves closed. |
+| `/produce` | `<slug> [langs] [--revoice] [--remusic] [--unattended] [--resume]` | Production of a finished brief (steps P1–P9; `/generate` uses the same logic). |
+| `/brief` | `<topic or slug> [uk] [ru]` | Creates `videos/<slug>/` from the template, calls `brief-writer`, checks with `validate.mjs`. Modes: new video, add a language, revise from owner notes. |
+| `/topics` | `[theme or category]` | 10 new topics (max 2 per category), scored 1–5 on hook / visual / depth / facts / variety, with a Wikipedia link (Wiki column). Reply with a number, a name (+ languages) or `reject 2,5`. |
+| `/topics-auto` | `[theme or category]` | The same, but picks the topic with the highest total itself (on a tie, the least recently used category) and records `auto-picked: reason` in `topics.md`. |
+| `/promote` | `<slug>` | Shows changes to `kit/` and `build.mjs` in a video compared with the template, asks which to move into `videos/_template/`, commits `template: promote from <slug>`. |
+| `/style-preview` | `[key=value …] [key=v1,v2,v3] [--neutral] [--apply] [--guides]` | Stills of the style specimen (day, night, tense) for the `look` values, compared with the previous preview. No video is rendered. |
 
-Скіли `/generate`, `/promote` і `/style-preview` запускає лише власник. `/topics`, `/topics-auto`, `/brief` і `/produce` можуть викликатися й з `/generate`, тому вони не мають `disable-model-invocation`. `/promote` у `--unattended`-запуску не викликається, а його «Auto mode» (лише загальні сумісні зміни, без питань) виконується в кінці `/produce`, якщо `autoPromoteKit` = `true`.
+`/generate`, `/promote` and `/style-preview` are run only by the owner. `/topics`, `/topics-auto`, `/brief` and `/produce` can also be called from `/generate`, so they do not set `disable-model-invocation`. `/promote` is never called in an `--unattended` run; its "Auto mode" (only general, compatible changes, no questions) runs at the end of `/produce` when `autoPromoteKit` = `true`.
 
 ---
 
-## Агенти
+## Agents
 
-Агенти лежать у `.claude/agents/`. Вони **не ставлять питань**, а все записують у файли.
+Agents live in `.claude/agents/`. They **never ask questions**; they write everything to files.
 
-| Агент | Модель | Роль | Пише |
+| Agent | Model | Role | Writes |
 | --- | --- | --- | --- |
-| `brief-writer` | Opus | Досліджує тему в мережі (≥ 2 незалежні джерела на кожен факт), будує ланцюжок «проблема → рішення», пише розкадровку й сценарії | `BRIEF.md`, `script.<мова>.json`, `voiceover.<мова>.txt` |
-| `video-architect` | Opus, medium, без shell | Технічний план для збірки (сцени за beat'ами, ассети, компоненти, команди з `TEMPLATE.md`) | `PLAN.md` |
-| `video-builder` | Sonnet, medium | Реалізує план у HyperFrames; режими `build`, `fix`, `final` | `src/`, `build/`, `out/draft/`, `out/` |
-| `video-reviewer` | Sonnet, medium | Дивиться кадри чернетки за чекліст-ом (технічні параметри, кадри beat'ів, субтитри, safe zones, кольори) | `REVIEW.md` (PASS/FAIL) |
-| `marketing-writer` | Sonnet, low, без web і shell | Підпис, хештеги, ключові слова, закріплений коментар, варіанти для Shorts/Reels | `marketing.<мова>.json`, `MARKETING.md` |
+| `brief-writer` | Opus | Researches the topic on the web (≥ 2 independent sources per fact), builds the problem → solution chain, writes the storyboard and scripts | `BRIEF.md`, `script.<lang>.json`, `voiceover.<lang>.txt` |
+| `video-architect` | Opus, medium, no shell | Technical build plan (scenes per beat, assets, components, commands from `TEMPLATE.md`) | `PLAN.md` |
+| `video-builder` | Sonnet, medium | Implements the plan in HyperFrames; modes `build`, `fix`, `final` | `src/`, `build/`, `out/draft/`, `out/` |
+| `video-reviewer` | Sonnet, medium | Checks draft frames against a checklist (technical specs, beat frames, captions, safe zones, colours) | `REVIEW.md` (PASS/FAIL) |
+| `marketing-writer` | Sonnet, low, no web or shell | Caption, hashtags, keywords, pinned comment, Shorts/Reels variants | `marketing.<lang>.json`, `MARKETING.md` |
 
 ---
 
-## Інструменти `tools/`
+## Tools in `tools/`
 
-Node 22 без npm-залежностей (потрібні лише `ffmpeg`/`ffprobe`). Усі запускаються з кореня репозиторію.
+Node 22 with no npm dependencies (only `ffmpeg`/`ffprobe` are needed). Run everything from the repository root.
 
-| Скрипт | Для чого |
+| Script | Purpose |
 | --- | --- |
-| `tts.mjs <slug> <мова> [--force]` | Озвучка ElevenLabs з часовими мітками символів; повторно використовує збережене аудіо, якщо текст не змінився. Запуск: `node --env-file=.env tools/tts.mjs …` |
-| `timings-from-silence.mjs <slug> <мова>` | Таймінги за паузами у власному mp3 (без API) |
-| `music-gen.mjs <slug> [--force]` | Генерує музику відео через ElevenLabs Music: промпт = `music.promptTemplate` + тема з `music.json`. Один трек на відео, повторно використовується без кредитів; будь-яка помилка API → `music: fallback`, код виходу 0 (не блокує). Запуск: `node --env-file=.env tools/music-gen.mjs …` |
-| `music-loop.mjs <slug> <мова> [--no-duck]` | Безшовно зациклює музику до тривалості відео (джерело: `audio/music.source.mp3`, далі `assets/music.*`, далі без музики), додає fade, гучність і притишення під голосом (ducking) |
-| `fake-voice.mjs <slug> <мова>` | Тиха «озвучка» з синтетичними таймінгами для тестів без кредитів (`source: fake`, у фінал не йде) |
-| `new-video.mjs <slug>` | Створює `videos/<slug>/` з шаблону без згенерованих папок (build, out, audio, showcase, style); використовує `/brief`, без `rm` |
-| `validate.mjs <slug>` | Перевірка сценаріїв, таймінгів, а також `marketing.*.json` і `upload.*.json`, якщо вони є. Для `en` помилка, якщо слів > (target − 8) × 2.4 |
-| `script-hash.mjs <slug> <мова>` | sha256 усього тексту озвучки (для виявлення застарілого маркетингу) |
-| `prepare-upload.mjs <slug> <мова>` | Збирає `out/upload.<мова>.json`; код виходу 3 = маркетинг застарів (текст змінився) |
-| `publish-tiktok.mjs <slug> <мова>` | Заглушка: перевіряє `upload.*.json`; при `publish: "off"` пише, що файл готовий |
-| `finish.mjs <файл> [<вихід>]` | Фінальна обробка відео чи PNG за `look` (різкість, зерно, віньєтка, CRF, x264 tune) |
-| `apply-look.mjs [--set k=v] [--neutral]` | Генерує `kit/tokens.css` з `tokens.base.css` і `config.look` |
-| `style-preview.mjs …` | Рушій скіла `/style-preview` |
-| `wiki-lookup.mjs "<назва>" [--lang en]` | Шукає статтю у Вікіпедії, друкує `{title, url, found}` |
-| `log.mjs` | Додає рядок у лог відео або лог запусків (час проставляє скрипт) |
-| `lib.mjs` | Спільні функції (не запускається) |
+| `tts.mjs <slug> <lang> [--force]` | ElevenLabs voiceover with character timestamps; reuses saved audio if the text has not changed. Run: `node --env-file=.env tools/tts.mjs …` |
+| `timings-from-silence.mjs <slug> <lang>` | Timings from the pauses in your own mp3 (no API) |
+| `music-gen.mjs <slug> [--force]` | Generates the video's music with ElevenLabs Music: prompt = `music.promptTemplate` + the topic from `music.json`. One track per video, reused without credits; any API error → `music: fallback`, exit code 0 (non-blocking). Run: `node --env-file=.env tools/music-gen.mjs …` |
+| `music-loop.mjs <slug> <lang> [--no-duck]` | Loops the music seamlessly to the video length (source: `audio/music.source.mp3`, then `assets/music.*`, then no music), adds fades, volume and ducking under the voice |
+| `fake-voice.mjs <slug> <lang>` | A silent "voiceover" with synthetic timings for tests without credits (`source: fake`, never used in a final) |
+| `new-video.mjs <slug>` | Creates `videos/<slug>/` from the template without generated folders (build, out, audio, showcase, style); used by `/brief`, no `rm` |
+| `validate.mjs <slug>` | Checks scripts, timings, and `marketing.*.json` and `upload.*.json` when present. For `en`, an error if words > (target − 8) × 2.4 |
+| `script-hash.mjs <slug> <lang>` | sha256 of the whole voiceover text (to detect stale marketing) |
+| `prepare-upload.mjs <slug> <lang>` | Builds `out/upload.<lang>.json`; exit code 3 = marketing is stale (text changed) |
+| `publish-tiktok.mjs <slug> <lang>` | Stub: checks `upload.*.json`; with `publish: "off"` reports that the file is ready |
+| `finish.mjs <file> [<output>]` | Final finishing of a video or PNG from `look` (sharpen, grain, vignette, CRF, x264 tune) |
+| `apply-look.mjs [--set k=v] [--neutral]` | Generates `kit/tokens.css` from `tokens.base.css` and `config.look` |
+| `style-preview.mjs …` | Engine of the `/style-preview` skill |
+| `wiki-lookup.mjs "<title>" [--lang en]` | Looks up a Wikipedia article, prints `{title, url, found}` |
+| `log.mjs` | Appends a line to the video log or the run log (the script sets the time) |
+| `lib.mjs` | Shared helpers (not run directly) |
 
 ---
 
-## Конфігурація `config.json`
+## Configuration: `config.json`
 
-`config-template.json` — значення за замовчуванням. Скрипти читають `config.json`, **накладений поверх шаблону**: якщо ключа немає в `config.json`, береться значення з шаблону. Тому не створюй `config.json` з нуля: якщо файлу немає — скопіюй шаблон; нові ключі додавай у шаблон.
+`config-template.json` holds the defaults and is in the repo. `config.json` is **your local file** (git-ignored). Scripts read `config.json` **layered over the template**: a key missing from `config.json` falls back to the template value, and if `config.json` does not exist the template is used as is. So start by copying the template and keep only what you change; add new keys to the template.
 
 ### `languages`
-| Ключ | Значення | Що змінює |
+| Key | Value | What it changes |
 | --- | --- | --- |
-| `primary` | `en` | Основна мова: на ній пишуться брифи й плани, чернетки рев'юються англійською |
-| `supported` | `["en","uk","ru"]` | Мови, які дозволені в `script.<мова>.json` |
+| `primary` | `en` | Primary language: briefs and plans are written in it, drafts are reviewed in English |
+| `supported` | `["en","uk","ru"]` | Languages allowed in `script.<lang>.json` |
 
-### `tts` — озвучка (ElevenLabs)
-| Ключ | Типово | Що змінює |
+### `tts` — voiceover (ElevenLabs)
+| Key | Default | What it changes |
 | --- | --- | --- |
-| `provider` | `elevenlabs` | Постачальник озвучки |
-| `model` | `eleven_multilingual_v2` | Модель; підтримує англійську, українську, російську |
-| `outputFormat` | `mp3_44100_128` | Формат аудіо |
-| `voices` | у `config-template.json` — заглушка `REPLACE_WITH_YOUR_ELEVENLABS_VOICE_ID` | Голос для кожної мови — **впиши свій** `voice_id` у `config.json` (скрипт зупиняється, поки значення починається з `REPLACE`) |
-| `voiceSettings` | stability 0.5, similarity_boost 0.75, style 0, use_speaker_boost true, speed 1 | Налаштування голосу. Параметр `speed` для цього голосу практично не скорочує аудіо: якщо відео задовге, скорочуй сценарій |
-| `maxRetries` | `2` | Скільки разів повторювати запит при помилці |
+| `provider` | `elevenlabs` | Voice provider |
+| `model` | `eleven_multilingual_v2` | Model; supports English, Ukrainian, Russian |
+| `outputFormat` | `mp3_44100_128` | Audio format |
+| `voices` | placeholder `REPLACE_WITH_YOUR_ELEVENLABS_VOICE_ID` in `config-template.json` | Voice per language — **set your own** `voice_id` in `config.json` (the script stops while the value starts with `REPLACE`) |
+| `voiceSettings` | stability 0.5, similarity_boost 0.75, style 0, use_speaker_boost true, speed 1 | Voice settings. `speed` barely shortens the audio for this voice: if a video is too long, shorten the script |
+| `maxRetries` | `2` | How many times to retry a failed request |
 
-### `timing` — тривалість і таймінги
-| Ключ | Типово | Що змінює |
+### `timing` — duration and timings
+| Key | Default | What it changes |
 | --- | --- | --- |
-| `minDurationSec` / `maxDurationSec` | 60 / 120 | Межі тривалості відео; довше за максимум — відео не рендериться |
-| `tailSec` | 1.5 | Пауза після озвучки до кінця відео |
-| `silenceDetect` | noiseDb −35, minSilenceSec 0.25 | Параметри пошуку пауз для власного mp3 (без API) |
+| `minDurationSec` / `maxDurationSec` | 60 / 120 | Video length limits; a video over the maximum is not rendered |
+| `tailSec` | 1.5 | Pause after the voiceover until the end of the video |
+| `silenceDetect` | noiseDb −35, minSilenceSec 0.25 | Pause detection for your own mp3 (no API) |
 
 ### `music`
-| Ключ | Типово | Що змінює |
+| Key | Default | What it changes |
 | --- | --- | --- |
-| `source` | `elevenlabs` | Звідки музика: `elevenlabs` (генерація для кожного відео), `file` (без генерації: свій `audio/music.source.mp3` або `assets/music.*`), `off` (без музики) |
-| `model` | `music_v2` | Модель ElevenLabs Music (`music_v1` застаріла, її приберуть у січні 2027) |
-| `lengthSec` | 30 | Довжина згенерованого треку, с |
-| `loopCrossfadeSec` | 2 | Кросфейд кінця з початком для безшовного циклу, с |
-| `volume` | 0.12 | Гучність музики під голосом |
-| `fadeInSec` / `fadeOutSec` | 1 / 2 | Наростання й затухання |
-| `ducking.enabled` | `true` | Притишувати музику, поки звучить голос |
-| `ducking.duckDb` | −8 | На скільки дБ у середньому притихає музика під голосом |
-| `ducking.attackMs` / `releaseMs` | 150 / 600 | Як швидко музика притихає й повертається |
-| `promptTemplate` | текст промпта з `{{topic}}` | Спільна частина промпта для всіх відео; `{{topic}}` замінюється темою з `music.json` |
+| `source` | `elevenlabs` | Where music comes from: `elevenlabs` (generated per video), `file` (no generation: your `audio/music.source.mp3` or `assets/music.*`), `off` (no music) |
+| `model` | `music_v2` | ElevenLabs Music model (`music_v1` is deprecated and will be removed in January 2027) |
+| `lengthSec` | 30 | Length of the generated track, s |
+| `loopCrossfadeSec` | 2 | Crossfade of the end into the start for a seamless loop, s |
+| `volume` | 0.12 | Music volume under the voice |
+| `fadeInSec` / `fadeOutSec` | 1 / 2 | Fade in and fade out |
+| `ducking.enabled` | `true` | Lower the music while the voice is speaking |
+| `ducking.duckDb` | −8 | How many dB, on average, the music drops under the voice |
+| `ducking.attackMs` / `releaseMs` | 150 / 600 | How fast the music drops and comes back |
+| `promptTemplate` | prompt text with `{{topic}}` | Shared part of the prompt for every video; `{{topic}}` is replaced by the topic from `music.json` |
 
-### `pipeline` — автоматизація й гейти
-| Ключ | Типово | Що змінює |
+### `pipeline` — automation and gates
+| Key | Default | What it changes |
 | --- | --- | --- |
-| `defaultLanguages` | `["en"]` | Мови для `/generate` і `/topics-auto` |
-| `autoSelectTopic` | `false` | `true` — тему обирає скіл за найвищим балом, без питання |
-| `autoStartProduction` | `false` | `true` — після брифу одразу йде озвучка |
-| `autoApprovePlan` | `false` | `true` — іде далі після `PLAN.md` без схвалення |
-| `maxReviewLoops` | `2` | Скільки раундів рев'ю можуть запускати виправлення (рев'юер працює щонайменше раз) |
-| `autoApprovePreview` | `false` | `true` — фінальний рендер без твого прев'ю, **лише** якщо останнє рев'ю = PASS |
-| `autoTrimOverlong` | `true` | лише в `--unattended`: озвучка > 120 с скорочується автоматично один раз (кредити ElevenLabs витрачаються вдруге); `false` — зупинка `needs-owner` |
-| `autoPrepareUpload` | `false` | `true` — готує `upload.<мова>.json` без питання |
-| `asyncMarketing` | `true` | Маркетинг-агент стартує у фоні одразу після брифу |
-| `autoPromoteKit` | `false` | `true` — сам переносить покращення компонентів у шаблон |
-| `publish` | `"off"` | Лише `off` (у планах: draft / private / public) |
+| `defaultLanguages` | `["en"]` | Languages for `/generate` and `/topics-auto` |
+| `autoSelectTopic` | `false` | `true` — the skill picks the topic with the highest score, no question |
+| `autoStartProduction` | `false` | `true` — the voiceover starts right after the brief |
+| `autoApprovePlan` | `false` | `true` — continues after `PLAN.md` without approval |
+| `maxReviewLoops` | `2` | How many review rounds can trigger fixes (the reviewer always runs at least once) |
+| `autoApprovePreview` | `false` | `true` — final render without your preview, **only** if the last review = PASS |
+| `autoTrimOverlong` | `true` | `--unattended` only: a voiceover over 120 s is shortened automatically once (ElevenLabs credits are spent a second time); `false` — stop with `needs-owner` |
+| `autoPrepareUpload` | `false` | `true` — prepares `upload.<lang>.json` without asking |
+| `asyncMarketing` | `true` | The marketing agent starts in the background right after the brief |
+| `autoPromoteKit` | `false` | `true` — moves component improvements into the template by itself |
+| `publish` | `"off"` | Only `off` for now (planned: draft / private / public) |
 
-`false` = скіл питає тебе (**Approve / Request changes**).
+`false` = the skill asks you (**Approve / Request changes**).
 
-### `marketing` — налаштування допису TikTok
-| Ключ | Типово | Що змінює |
+### `marketing` — TikTok post settings
+| Key | Default | What it changes |
 | --- | --- | --- |
-| `privacyLevel` | `SELF_ONLY` | Видимість допису (`SELF_ONLY`, `MUTUAL_FOLLOW_FRIENDS`, `FOLLOWER_OF_CREATOR`, `PUBLIC_TO_EVERYONE`) |
-| `disableDuet` / `disableStitch` / `disableComment` | `false` | Заборона дуетів, stitch, коментарів |
-| `isAigc` | `true` | Мітка «AI-generated» |
-| `alsoShortsAndReels` | `true` | Чи писати ще варіанти для Shorts і Reels |
+| `privacyLevel` | `SELF_ONLY` | Post visibility (`SELF_ONLY`, `MUTUAL_FOLLOW_FRIENDS`, `FOLLOWER_OF_CREATOR`, `PUBLIC_TO_EVERYONE`) |
+| `disableDuet` / `disableStitch` / `disableComment` | `false` | Disable duets, stitches, comments |
+| `isAigc` | `true` | "AI-generated" label |
+| `alsoShortsAndReels` | `true` | Also write variants for Shorts and Reels |
 
-### `look` — зовнішній вигляд
-Описано в розділі [Стиль](#стиль-look-і-style-preview).
+### `look` — appearance
+See [Style](#style-look-and-style-preview).
 
 ---
 
-## Гейти, статуси, відновлення
+## Gates, statuses, resume
 
-**Гейти схвалення** — п'ять місць, де конвеєр може зупинитися й спитати тебе:
+**Approval gates** — five places where the pipeline can stop and ask you:
 
-| Гейт | Прапорець | Де |
+| Gate | Flag | Where |
 | --- | --- | --- |
-| тема | `autoSelectTopic` | `/generate`: `true` → `/topics-auto`, `false` → `/topics` і твій вибір |
-| продакшн | `autoStartProduction` | після брифу, до озвучки (щоб не витрачати кредити без потреби) |
-| план | `autoApprovePlan` | після `PLAN.md` |
-| прев'ю | `autoApprovePreview` | після PASS, до фінального рендеру |
-| завантаження | `autoPrepareUpload` | після фіналу й маркетингу |
+| topic | `autoSelectTopic` | `/generate`: `true` → `/topics-auto`, `false` → `/topics` and your pick |
+| production | `autoStartProduction` | after the brief, before the voiceover (so credits are not spent needlessly) |
+| plan | `autoApprovePlan` | after `PLAN.md` |
+| preview | `autoApprovePreview` | after PASS, before the final render |
+| upload | `autoPrepareUpload` | after the final and marketing |
 
-- Прапорець `true` → гейт проходить сам; `false` → питання **Approve / Request changes**.
-- **`/generate --unattended`**: лише на цей запуск усі гейти схвалення вважаються `true`. У `config.json` нічого не пишеться; `publish` і `autoPromoteKit` завжди беруться з `config.json`.
-- **Жорстке правило** (його не обходить жоден прапорець чи `--unattended`): якщо останнє рев'ю = **FAIL** після `maxReviewLoops` — конвеєр зупиняється, `STATUS` = `needs-owner`, причина в `videos/<slug>/PENDING.md`.
-- **`--resume [<slug>]`** продовжує з того місця, де зупинилося (без slug — найостанніше незавершене відео). Готові кроки не повторюються, кредити ElevenLabs не витрачаються повторно. Для `needs-owner` скіл покаже відкриті зауваження й спитає **Approve anyway / Request changes**; з `--unattended` такі відео автоматично не проходять.
-- Перед завершенням чи зупинкою оркестратор чекає на фонові агенти (асинхронний маркетинг).
-- **`autoPromoteKit` під `--unattended`:** `--unattended` його не змінює, значення завжди береться з `config.json`. Якщо `true`, наприкінці `/produce` сам переносить у шаблон лише загальні сумісні зміни `kit/` (без питань, тема-специфічні лишає); якщо `false`, лише пропонує `/promote <slug>`, коли `KIT_CHANGES.md` не порожній. Блокуючі помилки (немає ключа, валідація, збій інструмента) пишуть `PENDING.md`, не змінюють `STATUS` і зупиняють запуск; `--resume` повторює невдалий крок. Озвучка довша за 120 с автоматично скорочується один раз (`brief-writer` переписує сценарій, потім робиться нова озвучка), якщо `pipeline.autoTrimOverlong` = `true` (типово); **це вдруге витрачає кредити ElevenLabs** — перший прогін уже оплачено. З `autoTrimOverlong` = `false` замість цього запуск зупиняється зі статусом `needs-owner` і причиною в `PENDING.md`.
+- Flag `true` → the gate passes by itself; `false` → an **Approve / Request changes** question.
+- **`/generate --unattended`**: for this run only, every approval gate counts as `true`. Nothing is written to `config.json`; `publish` and `autoPromoteKit` always come from `config.json`.
+- **Hard rule** (no flag and no `--unattended` bypasses it): if the last review is **FAIL** after `maxReviewLoops`, the pipeline stops, `STATUS` = `needs-owner`, the reason is in `videos/<slug>/PENDING.md`.
+- **`--resume [<slug>]`** continues from where it stopped (no slug — the most recent unfinished video). Finished steps are not repeated and ElevenLabs credits are not spent again. For `needs-owner` the skill shows the open issues and asks **Approve anyway / Request changes**; with `--unattended` such videos never pass automatically.
+- Before finishing or stopping, the orchestrator waits for background agents (async marketing).
+- **`autoPromoteKit` with `--unattended`:** `--unattended` does not change it; the value always comes from `config.json`. If `true`, at the end of `/produce` it moves only general, compatible `kit/` changes into the template (no questions; topic-specific ones stay); if `false`, it only suggests `/promote <slug>` when `KIT_CHANGES.md` is not empty. Blocking errors (missing key, validation, tool failure) write `PENDING.md`, do not change `STATUS` and stop the run; `--resume` retries the failed step. A voiceover longer than 120 s is shortened automatically once (`brief-writer` rewrites the script, then a new voiceover is made) when `pipeline.autoTrimOverlong` = `true` (default); **this spends ElevenLabs credits a second time** — the first pass is already paid for. With `autoTrimOverlong` = `false` the run stops with status `needs-owner` and the reason in `PENDING.md` instead.
 
-**Рев'ю-цикл:** рев'юер завжди працює щонайменше раз; при FAIL збирач виправляє, і рев'юер перевіряє знову (до `maxReviewLoops` виправлень). Після твого прев'ю дрібні правки (текст, позиція, колір, швидкість) робить збирач, а структурні (додати/прибрати сцени, змінити концепцію) — спершу архітектор, потім збирач.
-
----
-
-## Музика
-
-У кожного відео **своя фонова музика**, згенерована ElevenLabs Music. Це один інструментальний трек на відео (не на мову), який потім для кожної мови зациклюється до тривалості відео й притихає під голосом.
-
-- **Промпт** = `config.json → music.promptTemplate`, де `{{topic}}` замінено полем `topic` із `videos/<slug>/music.json`. Файл `music.json` пише `brief-writer` (до 25 слів: про що відео, епоха й регіон, 1–2 характерні інструменти, наприклад `Ancient Persian desert ice-house, ~400 BC, Iranian plateau; santur, ney`); `validate.mjs` перевіряє, що він є й має ≤ 25 слів.
-- **Режими** (`music.source`): `elevenlabs` — генерація для кожного відео; `file` — без генерації, береться твій `videos/<slug>/audio/music.source.mp3` або `assets/music.mp3`; `off` — без музики.
-- **Як змінити звучання для всіх відео:** відредагуй `promptTemplate` у `config.json` (стиль, інструменти, темп; фраза про безшовний цикл важлива). Для одного відео — змінити `music.json` і запустити `/produce <slug> --remusic`.
-- **Нова музика:** `--remusic` примусово генерує новий трек і витрачає кредити. Без прапорця наявний `audio/music.source.mp3` використовується повторно; `--resume` музику ніколи не перегенерує.
-- **Безшовний цикл:** кінець треку кросфейдиться з його початком (`loopCrossfadeSec`), тож повтор не чути; потім fade in/out і `volume`.
-- **Притишення (ducking):** `ducking.duckDb` (типово −8 дБ), `attackMs`, `releaseMs`; вимкнути — `ducking.enabled: false`. Музика притихає під голосом і повертається в паузах.
-- **Не блокує:** якщо API відмовило (ключ, план, ліміт, збій), `music-gen` пише причину й `music: fallback`, а `music-loop` бере `assets/music.mp3` або працює без музики. Усе пишеться в лог відео.
-- Файли: `music.json` (у git), `audio/music.source.mp3`, `audio/music.meta.json` (промпт, модель, довжина, час генерації) і `audio/music.loop.<мова>.mp3` (не в git).
+**Review loop:** the reviewer always runs at least once; on FAIL the builder fixes and the reviewer checks again (up to `maxReviewLoops` fixes). After your preview, small changes (text, position, colour, speed) are done by the builder, structural ones (add/remove scenes, change the concept) by the architect first, then the builder.
 
 ---
 
-## Стиль: `look` і `/style-preview`
+## Music
 
-Картинку налаштовуєш на **стоп-кадрах**, без рендеру відео. Скіл збирає «зразок» (`videos/_template/style/specimen/`: усі ассети й оверлеї у трьох станах — день, ніч, напруга), робить кадри, застосовує ту саму фінальну обробку (різкість, зерно, віньєтка) і кладе їх у `videos/_template/style/previews/<дата_час>/` (`day.png`, `night.png`, `tense.png`, `look.json`, `compare.png` — попереднє зліва, нове справа). Папка `previews` у `.gitignore`.
+Each video gets **its own background music**, generated by ElevenLabs Music. It is one instrumental track per video (not per language), which is then looped to the video length for each language and ducked under the voice.
 
-| Що | Команда |
+- **Prompt** = `config.json → music.promptTemplate`, with `{{topic}}` replaced by the `topic` field from `videos/<slug>/music.json`. `music.json` is written by `brief-writer` (up to 25 words: what the video is about, era and region, 1–2 characteristic instruments, e.g. `Ancient Persian desert ice-house, ~400 BC, Iranian plateau; santur, ney`); `validate.mjs` checks that it exists and has ≤ 25 words.
+- **Modes** (`music.source`): `elevenlabs` — generated per video; `file` — no generation, uses your `videos/<slug>/audio/music.source.mp3` or `assets/music.mp3`; `off` — no music.
+- **Changing the sound for all videos:** edit `promptTemplate` in `config.json` (style, instruments, tempo; the phrase about a seamless loop matters). For one video, edit `music.json` and run `/produce <slug> --remusic`.
+- **New music:** `--remusic` forces a new track and spends credits. Without the flag the existing `audio/music.source.mp3` is reused; `--resume` never regenerates music.
+- **Seamless loop:** the end of the track crossfades into its start (`loopCrossfadeSec`), so the repeat is inaudible; then fade in/out and `volume`.
+- **Ducking:** `ducking.duckDb` (default −8 dB), `attackMs`, `releaseMs`; turn off with `ducking.enabled: false`. The music drops under the voice and comes back in pauses.
+- **Non-blocking:** if the API refuses (key, plan, limit, outage), `music-gen` writes the reason and `music: fallback`, and `music-loop` uses `assets/music.mp3` or runs without music. Everything is written to the video log.
+- Files: `music.json`, `audio/music.source.mp3`, `audio/music.meta.json` (prompt, model, length, generation time) and `audio/music.loop.<lang>.mp3`.
+
+---
+
+## Style: `look` and `/style-preview`
+
+You tune the picture on **stills**, without rendering a video. The skill builds the "specimen" (`videos/_template/style/specimen/`: every asset and overlay in three states — day, night, tense), takes frames, applies the same final finishing (sharpen, grain, vignette) and saves them to `videos/_template/style/previews/<date_time>/` (`day.png`, `night.png`, `tense.png`, `look.json`, `compare.png` — previous on the left, new on the right). The `previews` folder is git-ignored.
+
+| What | Command |
 | --- | --- |
-| Кадри за поточним `config.json → look` | `/style-preview` |
-| Базова (оригінальна) палітра | `/style-preview --neutral` |
-| Спробувати значення, не зберігаючи | `/style-preview saturation=1.2 depthFade=0.5` |
-| Порівняти кілька значень (колонка = значення, рядки день і ніч) | `/style-preview lightness=1.0,1.1,1.2` |
-| Зберегти в `config.json` і закомітити | `/style-preview saturation=1.2 --apply` |
-| Показати safe-zone напрямні | `/style-preview --guides` |
+| Frames for the current `config.json → look` | `/style-preview` |
+| Base (original) palette | `/style-preview --neutral` |
+| Try values without saving | `/style-preview saturation=1.2 depthFade=0.5` |
+| Compare several values (column = value, rows day and night) | `/style-preview lightness=1.0,1.1,1.2` |
+| Save to `config.json` and commit the regenerated tokens | `/style-preview saturation=1.2 --apply` |
+| Show safe-zone guides | `/style-preview --guides` |
 
-| Ключ | Діапазон | Типово | Що змінює |
+| Key | Range | Default | What it changes |
 | --- | --- | --- | --- |
-| `saturation` | 0–2 | 1.10 | насиченість кольорів сцени |
-| `lightness` | 0.5–1.5 | 1.10 | яскравість кольорів сцени |
-| `maxLightness` | 0.5–1 | 0.94 | стеля яскравості (сніг лишається відмінним від білого тексту) |
-| `contrast` | 0.5–1.5 | 1.0 | контраст сцени |
-| `temperature` | −1…1 | 0 | холодніше / тепліше |
-| `faceShading` | 0–1 | 0.5 | різниця світлих і темних граней (0.5 = як було) |
-| `outline` | 0–6 | 0 | товщина контуру навколо полігонів, px |
-| `shadowOpacity` | 0–1 | 0.25 | тіні під об'єктами |
-| `depthFade` | 0–1 | 0.3 | далекі шари «тануть» у небо |
-| `nightDarkness` / `nightBlue` | 0–0.8 / 0–1 | 0.35 / 0.5 | наскільки ніч темніша / синіша |
-| `uiScale` | 0.7–1.4 | 1.0 | розмір плашок, виносок, шкал |
-| `captionScale` | 0.7–1.3 | 1.0 | розмір субтитрів |
-| `captionShadow` | 0–2 | 0.6 | тінь субтитрів |
-| `sharpen` | 0–1.5 | 0.3 | різкість у фінальному рендері (0 = вимкнено) |
-| `crf` / `x264Tune` | 10–30 / animation… | 18 / animation | якість і тюнінг кодека фіналу |
-| `grain` / `vignette` | 0–1 | 0 / 0 | зерно / віньєтка (0 = вимкнено) |
+| `saturation` | 0–2 | 1.10 | scene colour saturation |
+| `lightness` | 0.5–1.5 | 1.10 | scene colour brightness |
+| `maxLightness` | 0.5–1 | 0.94 | brightness ceiling (snow stays distinct from white text) |
+| `contrast` | 0.5–1.5 | 1.0 | scene contrast |
+| `temperature` | −1…1 | 0 | cooler / warmer |
+| `faceShading` | 0–1 | 0.5 | difference between light and dark faces (0.5 = original) |
+| `outline` | 0–6 | 0 | outline thickness around polygons, px |
+| `shadowOpacity` | 0–1 | 0.25 | shadows under objects |
+| `depthFade` | 0–1 | 0.3 | distant layers fade into the sky |
+| `nightDarkness` / `nightBlue` | 0–0.8 / 0–1 | 0.35 / 0.5 | how much darker / bluer night is |
+| `uiScale` | 0.7–1.4 | 1.0 | size of chips, callouts, scales |
+| `captionScale` | 0.7–1.3 | 1.0 | caption size |
+| `captionShadow` | 0–2 | 0.6 | caption shadow |
+| `sharpen` | 0–1.5 | 0.3 | sharpening in the final render (0 = off) |
+| `crf` / `x264Tune` | 10–30 / animation… | 18 / animation | quality and codec tune of the final |
+| `grain` / `vignette` | 0–1 | 0 / 0 | grain / vignette (0 = off) |
 
-Як це влаштовано:
-- `kit/tokens.base.css` — оригінальна палітра (інструменти її не змінюють). `kit/tokens.css` **генерується** `apply-look.mjs` з нього й `config.look`. Файл `tokens.css` руками не редагуй: міняй `config.json` або запускай `/style-preview … --apply`.
-- Кольори UI зі значенням (зелений, червоний, жовтий, синій, помаранчевий «тепло», білий, приглушений) `look` не змінює.
-- Чернетки без фінальної обробки; фінал і обкладинка обробляються автоматично (`tools/finish.mjs`). Повний опис: `docs/style-guide.md` → «Look parameters».
-- Нове відео бере поточний `kit/tokens.css` із шаблону; уже готові відео мають власну копію й не змінюються.
-
----
-
-## Маркетинг і файл для завантаження
-
-- `marketing-writer` пише для кожної мови `marketing.<мова>.json` (підпис ≤ 2200 символів, бажано ≤ 300; 3–6 хештегів; 5–8 ключових слів; закріплений коментар із фактом, якого немає у відео, і назвою джерела) і спільний `MARKETING.md` з готовим до вставки підписом і чеклістом завантаження. Факти беруться лише з `BRIEF.md`.
-- У файлі маркетингу зберігається **хеш тексту озвучки**. Якщо текст змінився, `prepare-upload.mjs` завершується з кодом 3 («stale marketing»), і маркетинг перегенеровується.
-- `prepare-upload.mjs` пише `out/upload.<мова>.json` з полями, що відповідають TikTok Content Posting API (Direct Post): `post_info` (title, privacy_level, disable_duet/stitch/comment, video_cover_timestamp_ms, brand_content_toggle, brand_organic_toggle, is_aigc), `source_info`, розмір і тривалість відео. Обкладинка береться з середини кульмінаційного beat'а. Схеми: `docs/marketing.schema.json`, `docs/upload.schema.json`.
-- Публікація вимкнена: `publish: "off"`. Завантажуй відео вручну, використовуючи `MARKETING.md`. Опис майбутнього API-потоку — у коментарі на початку `tools/publish-tiktok.mjs`.
+How it is set up:
+- `kit/tokens.base.css` is the original palette (tools never change it). `kit/tokens.css` is **generated** by `apply-look.mjs` from it and `config.look`. Do not edit `tokens.css` by hand: change `config.json` or run `/style-preview … --apply`.
+- Meaningful UI colours (green, red, yellow, blue, orange "heat", white, muted) are not affected by `look`.
+- Drafts have no final finishing; the final and the cover are finished automatically (`tools/finish.mjs`). Full description: `docs/style-guide.md` → "Look parameters".
+- A new video takes the current `kit/tokens.css` from the template; finished videos have their own copy and do not change.
 
 ---
 
-## Логи
+## Marketing and the upload file
 
-Два журнали, обидва лише дописуються й обидва в `.gitignore`. Рядок має вигляд `час | slug | крок | результат | деталі`; **час проставляє скрипт `tools/log.mjs`**, а не модель, і пишуть їх лише скіли (оркестратор), не агенти.
+- `marketing-writer` writes `marketing.<lang>.json` for each language (caption ≤ 2200 characters, ideally ≤ 300; 3–6 hashtags; 5–8 keywords; a pinned comment with a fact not in the video and the source name) and a shared `MARKETING.md` with a paste-ready caption and an upload checklist. Facts come only from `BRIEF.md`.
+- The marketing file stores a **hash of the voiceover text**. If the text has changed, `prepare-upload.mjs` exits with code 3 ("stale marketing") and the marketing is regenerated.
+- `prepare-upload.mjs` writes `out/upload.<lang>.json` with fields matching the TikTok Content Posting API (Direct Post): `post_info` (title, privacy_level, disable_duet/stitch/comment, video_cover_timestamp_ms, brand_content_toggle, brand_organic_toggle, is_aigc), `source_info`, video size and duration. The cover is taken from the middle of the climax beat. Schemas: `docs/marketing.schema.json`, `docs/upload.schema.json`.
+- Publishing is off: `publish: "off"`. Upload the video by hand using `MARKETING.md`. The future API flow is described in the comment at the top of `tools/publish-tiktok.mjs`.
 
-| Журнал | Де | Що містить |
+---
+
+## Logs
+
+Two logs, both append-only and both git-ignored. A line looks like `time | slug | step | result | details`; **the time is set by `tools/log.mjs`**, not by the model, and only skills (the orchestrator) write them, never agents.
+
+| Log | Where | What it holds |
 | --- | --- | --- |
-| Лог відео | `videos/<slug>/logs/pipeline.log` | детальна історія одного відео: початок і кінець кожного кроку, рішення на гейтах (авто / схвалено / правки), символи TTS по мовах, вердикт рев'ю в кожному раунді, зупинки `needs-owner`, `--resume`, помилки з текстом, шляхи результатів |
-| Лог запусків | `logs/runs.log` у корені | коротко: початок і кінець кожної команди (`/generate`, `/produce`, `/brief`, `/topics`, `/topics-auto`, `/promote`, `/style-preview`) зі slug, прапорцями, фінальним статусом і тривалістю; події без папки відео мають slug `-` |
+| Video log | `videos/<slug>/logs/pipeline.log` | full history of one video: start and end of every step, gate decisions (auto / approved / changes), TTS characters per language, review verdict for each round, `needs-owner` stops, `--resume`, errors with text, output paths |
+| Run log | `logs/runs.log` at the root | short: start and end of each command (`/generate`, `/produce`, `/brief`, `/topics`, `/topics-auto`, `/promote`, `/style-preview`) with slug, flags, final status and duration; events without a video folder use slug `-` |
 
-Додати рядок вручну:
+Add a line by hand:
 ```bash
-node tools/log.mjs <slug> <крок> <результат> "<деталі>"          # лог відео
-node tools/log.mjs --run <команда> <slug|-> <результат> "<деталі>"  # лог запусків
+node tools/log.mjs <slug> <step> <result> "<details>"          # video log
+node tools/log.mjs --run <command> <slug|-> <result> "<details>"  # run log
 ```
 
 ---
 
-## Структура репозиторію
+## Repository layout
 
 ```text
-CLAUDE.md                 правила проєкту для Claude Code
-config.json               твої налаштування (поверх config-template.json)
-config-template.json      значення за замовчуванням
-topics.md                 реєстр тем: статус, оцінки, посилання
-.env                      ключ ElevenLabs (не в git)
-assets/                   необов'язковий music.mp3 — запасна музика (не в git)
+CLAUDE.md                 project rules for Claude Code
+config-template.json      default settings (in the repo)
+config.json               your settings on top of the template (local, not in git)
+topics-template.md        empty topic registry (in the repo)
+topics.md                 your topic registry: status, scores, links (local, not in git)
+.env                      ElevenLabs key (not in git)
+assets/                   optional music.mp3 — fallback music (not in git)
 docs/                     PRD, ARCHITECTURE, style-guide, tech-requirements, storytelling,
-                          brief-template, схеми JSON, приклад examples/yakhchal/
-tools/                    Node-скрипти (див. вище)
-.claude/skills/           скіли (команди)
-.claude/agents/           агенти
-.claude/settings.json     дозволи: node tools/*, ffmpeg, npx hyperframes …; заборонено читати .env; `git push` дозволено
-.githooks/pre-commit      захист від витоку ключів
-logs/runs.log             лог запусків (не в git)
-videos/_template/         шаблон відео: HyperFrames-проєкт + kit + build.mjs + зразок стилю
-videos/<slug>/            одне відео
+                          brief-template, JSON schemas, example in examples/yakhchal/
+tools/                    Node scripts (see above)
+.claude/skills/           skills (commands)
+.claude/agents/           agents
+.claude/settings.json     permissions: node tools/*, ffmpeg, npx hyperframes …; reading .env is denied; `git push` allowed
+.githooks/pre-commit      key-leak protection
+logs/runs.log             run log (not in git)
+videos/_template/         video template: HyperFrames project + kit + build.mjs + style specimen (in the repo)
+videos/<slug>/            one video (local, not in git)
 ```
 
-Папка відео:
+A video folder (all local, not in git):
 ```text
 videos/<slug>/
-  BRIEF.md  script.<мова>.json  voiceover.<мова>.txt   бриф і тексти
-  music.json                                           тема для промпта музики (≤ 25 слів)
-  timings.<мова>.json                                  таймінги (з озвучки)
-  PLAN.md  REVIEW.md  STATUS  PENDING.md                план, рев'ю, статус, причина зупинки
-  KIT_CHANGES.md                                       зміни kit, які варто перенести в шаблон
-  marketing.<мова>.json  MARKETING.md                  маркетинг
-  src/scenes.mjs  kit/  build.mjs                      сцени цього відео, копія kit, збирач
-  audio/  build/  review/  logs/                       не в git: озвучка (voice.*, music.source.mp3, music.meta.json,
-                                                       music.loop.<мова>.mp3), збірки, кадри рев'ю, логи
-  out/draft/  out/<slug>.<мова>.mp4  cover.<мова>.png  upload.<мова>.json   результати (не в git)
+  BRIEF.md  script.<lang>.json  voiceover.<lang>.txt   brief and text
+  music.json                                           topic for the music prompt (≤ 25 words)
+  timings.<lang>.json                                  timings (from the voice)
+  PLAN.md  REVIEW.md  STATUS  PENDING.md               plan, review, status, stop reason
+  KIT_CHANGES.md                                       kit changes worth moving into the template
+  marketing.<lang>.json  MARKETING.md                  marketing
+  src/scenes.mjs  kit/  build.mjs                      this video's scenes, kit copy, builder
+  audio/  build/  review/  logs/                       voice (voice.*, music.source.mp3, music.meta.json,
+                                                       music.loop.<lang>.mp3), builds, review frames, logs
+  out/draft/  out/<slug>.<lang>.mp4  cover.<lang>.png  upload.<lang>.json   results
 ```
 
+**What is shared and what is yours.** The repo holds only the tool: skills, agents, docs, scripts, the template and the reference example. Topics, briefs, scripts, videos and your voice IDs never go into git, so anyone can clone and use the tool without getting your content. If you want to back up your own content, keep it somewhere else (for example a separate private repo for `videos/` and `topics.md`).
+
 ---
 
-## Як змінити й адаптувати під себе
+## Customising it
 
-| Хочеш … | Що робити |
+| You want to … | What to do |
 | --- | --- |
-| Змінити голос | Вкажи інший `voice_id` у `config.json → tts.voices` |
-| Змінити мови за замовчуванням | `config.json → pipeline.defaultLanguages` (наприклад `["en","uk"]`); для кожної мови має бути `voice_id` у `config.json → tts.voices`; нову мову додай ще й у `languages.supported` та `docs/script.schema.json` |
-| Забрати зайві питання | Увімкни потрібні `auto…` прапорці в `config.json → pipeline` або запускай `/generate --unattended` |
-| Дозволити публічні дописи | `config.json → marketing.privacyLevel` (поки публікація ручна) |
-| Налаштувати колір, різкість, зерно | `/style-preview …`, потім `--apply` (або правка `config.json → look`) |
-| Змінити базову палітру чи розміри | Відредагуй `videos/_template/kit/tokens.base.css`, потім `node tools/apply-look.mjs` |
-| Додати власні компоненти й ассети | Розроби їх у відео (`videos/<slug>/kit/`), запиши в `KIT_CHANGES.md`, перенеси в шаблон через `/promote <slug>` |
-| Змінити правила сценаріїв | `docs/storytelling.md`, `docs/brief-template.md`, `docs/script.schema.json` |
-| Змінити поведінку скілів чи агентів | Відредагуй `.claude/skills/<назва>/SKILL.md` або `.claude/agents/<назва>.md` (перед цим прочитай `docs/ARCHITECTURE.md`) |
-| Змінити музику | Спільний стиль — `config.json → music.promptTemplate`; одне відео — `music.json` і `/produce <slug> --remusic`; своя музика — `music.source: "file"` і `assets/music.mp3` (або `audio/music.source.mp3`); гучність, притишення — `music.volume`, `music.ducking` |
-| Оновити HyperFrames | CLI зафіксований на `hyperframes@0.9.36` (у `package.json` і скриптах шаблону); міняй версію свідомо й перевір збірку |
-| Перейти на новіший шаблон у наявному відео | Скопіюй потрібні файли з `videos/_template/` вручну (готові відео свідомо не змінюються автоматично) |
+| Change the voice | Set a different `voice_id` in `config.json → tts.voices` |
+| Change the default languages | `config.json → pipeline.defaultLanguages` (e.g. `["en","uk"]`); each language needs a `voice_id` in `config.json → tts.voices`; add a new language to `languages.supported` and `docs/script.schema.json` too |
+| Get fewer questions | Turn on the `auto…` flags you need in `config.json → pipeline`, or run `/generate --unattended` |
+| Allow public posts | `config.json → marketing.privacyLevel` (publishing is manual for now) |
+| Tune colour, sharpness, grain | `/style-preview …`, then `--apply` (or edit `config.json → look`) |
+| Change the base palette or sizes | Edit `videos/_template/kit/tokens.base.css`, then run `node tools/apply-look.mjs` |
+| Add your own components and assets | Build them in a video (`videos/<slug>/kit/`), list them in `KIT_CHANGES.md`, move them into the template with `/promote <slug>` |
+| Change the script rules | `docs/storytelling.md`, `docs/brief-template.md`, `docs/script.schema.json` |
+| Change how skills or agents behave | Edit `.claude/skills/<name>/SKILL.md` or `.claude/agents/<name>.md` (read `docs/ARCHITECTURE.md` first) |
+| Change the music | Shared style — `config.json → music.promptTemplate`; one video — `music.json` and `/produce <slug> --remusic`; your own music — `music.source: "file"` and `assets/music.mp3` (or `audio/music.source.mp3`); volume, ducking — `music.volume`, `music.ducking` |
+| Update HyperFrames | The CLI is pinned to `hyperframes@0.9.36` (in `package.json` and the template scripts); change the version deliberately and check the build |
+| Move an existing video to a newer template | Copy the files you need from `videos/_template/` by hand (finished videos are deliberately never changed automatically) |
 
-Правила, які варто знати перед змінами: стек відео — лише **HyperFrames**; Python не використовується; формат — MP4 1080×1920, 30 fps, H.264 + AAC, 60–120 с; ключ ElevenLabs ніколи не друкується, не логується й не комітиться; комітити після кожного завершеного кроку (`igloo: brief`, `igloo: rendered`), але ніколи `.env`, аудіо чи рендери.
-
----
-
-## Часті проблеми
-
-- **Озвучка довша за 120 с** — скорочуй сценарій (бюджет англійської: слів ≤ (target − 8) × 2.3; `validate.mjs` дає помилку понад × 2.4). Зміна `speed` у налаштуваннях голосу не допомагає.
-- **Немає `.env` і немає аудіо** — додай `ELEVENLABS_API_KEY` у `.env` або поклади `voice.<мова>.mp3` у `videos/<slug>/audio/`.
-- **Відео зупинилося зі статусом `needs-owner`** — прочитай `videos/<slug>/PENDING.md`, потім `/generate --resume <slug>`.
-- **`prepare-upload` завершився кодом 3** — текст змінився після маркетингу; скіл сам перегенерує маркетинг один раз (або запусти `marketing-writer`).
-- **Перерване відео (ліміт токенів тощо)** — `/generate --resume`.
-- **Немає музики або вона з `assets/`** — перевір `logs/pipeline.log` відео: `music: fallback — <причина>` означає, що ElevenLabs Music відмовив (ключ, план, ліміт). Виправ причину й запусти `/produce <slug> --remusic`.
-- **Безкоштовний тариф ElevenLabs** — 10 000 символів на місяць (близько 5 мовних версій відео); лише для тестів, комерційне використання на Free заборонене.
-- **Скрипт не бачить ключ** — запускай через `node --env-file=.env tools/tts.mjs …`; Claude `.env` не читає (так налаштовано навмисно).
+Rules worth knowing before you change anything: the video stack is **HyperFrames** only; Python is not used; the format is MP4 1080×1920, 30 fps, H.264 + AAC, 60–120 s; the ElevenLabs key is never printed, logged or committed; only changes to the tool are committed — never `.env`, audio, renders, `config.json`, `topics.md` or video folders.
 
 ---
 
-## Документація
+## Troubleshooting
 
-| Файл | Про що |
+- **The voiceover is longer than 120 s** — shorten the script (English budget: words ≤ (target − 8) × 2.3; `validate.mjs` errors above × 2.4). Changing `speed` in the voice settings does not help.
+- **No `.env` and no audio** — add `ELEVENLABS_API_KEY` to `.env` or put `voice.<lang>.mp3` in `videos/<slug>/audio/`.
+- **"no voice id" error** — copy `config-template.json` to `config.json` and set your `tts.voices`.
+- **A video stopped with status `needs-owner`** — read `videos/<slug>/PENDING.md`, then run `/generate --resume <slug>`.
+- **`prepare-upload` exited with code 3** — the text changed after marketing; the skill regenerates marketing once by itself (or run `marketing-writer`).
+- **An interrupted video (token limit etc.)** — `/generate --resume`.
+- **No music, or music from `assets/`** — check the video's `logs/pipeline.log`: `music: fallback — <reason>` means ElevenLabs Music refused (key, plan, limit). Fix the cause and run `/produce <slug> --remusic`.
+- **ElevenLabs free tier** — 10,000 characters a month (about 5 language versions of a video); for testing only, commercial use is not allowed on Free.
+- **A script cannot see the key** — run it via `node --env-file=.env tools/tts.mjs …`; Claude does not read `.env` (on purpose).
+
+---
+
+## Documentation
+
+| File | About |
 | --- | --- |
-| [`CLAUDE.md`](CLAUDE.md) | правила проєкту й таблиця робочих команд |
-| [`docs/PRD.md`](docs/PRD.md) | що має вміти система (вимоги, критерії приймання) |
-| [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) | компоненти, потоки даних, контракти файлів, гейти, логи; **прочитай перед зміною скілів, агентів чи інструментів** |
-| [`docs/style-guide.md`](docs/style-guide.md) | візуальний стиль, палітра, субтитри, параметри `look` |
-| [`docs/tech-requirements.md`](docs/tech-requirements.md) | формат, тривалість, safe zones, i18n, аудіо |
-| [`docs/storytelling.md`](docs/storytelling.md) | правила й прийоми розповіді, категорії тем |
-| [`docs/brief-template.md`](docs/brief-template.md) | точна структура `BRIEF.md` |
-| [`docs/script.schema.json`](docs/script.schema.json), [`marketing.schema.json`](docs/marketing.schema.json), [`upload.schema.json`](docs/upload.schema.json) | контракти JSON-файлів |
-| [`docs/examples/yakhchal/`](docs/examples/yakhchal/) | еталонні бриф і сценарій |
-| [`videos/_template/TEMPLATE.md`](videos/_template/TEMPLATE.md) | як влаштований шаблон, команди збірки й рендеру |
-| [`videos/_template/kit/README.md`](videos/_template/kit/README.md) | компоненти й ассети kit |
+| [`CLAUDE.md`](CLAUDE.md) | project rules and the command table |
+| [`docs/PRD.md`](docs/PRD.md) | what the system must do (requirements, acceptance criteria) |
+| [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) | components, data flow, file contracts, gates, logs; **read before changing skills, agents or tools** |
+| [`docs/style-guide.md`](docs/style-guide.md) | visual style, palette, captions, `look` parameters |
+| [`docs/tech-requirements.md`](docs/tech-requirements.md) | format, duration, safe zones, i18n, audio |
+| [`docs/storytelling.md`](docs/storytelling.md) | narrative rules and techniques, topic categories |
+| [`docs/brief-template.md`](docs/brief-template.md) | exact structure of `BRIEF.md` |
+| [`docs/script.schema.json`](docs/script.schema.json), [`marketing.schema.json`](docs/marketing.schema.json), [`upload.schema.json`](docs/upload.schema.json) | JSON file contracts |
+| [`docs/examples/yakhchal/`](docs/examples/yakhchal/) | reference brief and script |
+| [`videos/_template/TEMPLATE.md`](videos/_template/TEMPLATE.md) | how the template works, build and render commands |
+| [`videos/_template/kit/README.md`](videos/_template/kit/README.md) | kit components and assets |

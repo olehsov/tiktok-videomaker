@@ -22,8 +22,8 @@ Keys, ranges and defaults: `docs/style-guide.md` → "Look parameters". Everythi
    A failure (build, snapshot, ffmpeg) → log `error` with the message and stop.
 3. **Show the images** with Read: `compare.png` (or `grid.png`) first, then `day.png` / `night.png` / `tense.png` when there is no comparison.
    Check and say in one line each: white caption words readable on all three states, snow still distinct from white (callout card, `ui-white` chip), UI colours unchanged.
-4. `--apply`: the tool already wrote `config.json → look` and regenerated `videos/_template/kit/tokens.css`. Commit
-   `git add config.json videos/_template/kit/tokens.css && git commit -m "style: look <changed keys>"` (keys from the tool's `applied` list; nothing to commit → say so).
+4. `--apply`: the tool already wrote `config.json → look` (local, git-ignored; created if missing) and regenerated `videos/_template/kit/tokens.css`. Commit
+   `git add videos/_template/kit/tokens.css && git commit -m "style: look <changed keys>"` (keys from the tool's `applied` list; nothing to commit → say so).
    Existing videos keep their own copy of `kit/` and are not changed.
 5. Log the end: `node tools/log.mjs --run style-preview - ok "<look summary>"` (or `error`).
 6. Finish with one line: what changed versus the previous preview (the tool's `summary`), and the preview folder path.

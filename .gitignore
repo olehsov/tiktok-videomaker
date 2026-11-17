@@ -34,3 +34,11 @@ videos/*/logs/
 # style previews and specimen builds (generated)
 videos/_template/style/previews/
 videos/_template/style/specimen/build/
+
+# owner data: generated videos, topic registry, personal config (voice ids).
+# The repo ships only the tool; each user keeps their own data locally.
+videos/*
+!videos/_template/
+!videos/.gitkeep
+topics.md
+config.json

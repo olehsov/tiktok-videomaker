@@ -65,7 +65,8 @@ Agents do not spawn other agents (their tool lists exclude `Agent`).
 ## 3. Repository layout
 
 ```
-CLAUDE.md  config.json  topics.md  .env (git-ignored)  .env.example  .gitignore
+CLAUDE.md  config-template.json  topics-template.md  .env.example  .gitignore
+config.json  topics.md  .env  # local owner data, git-ignored (config.json overrides the template; topics.md is created from topics-template.md)
 assets/                      # optional music.mp3: fallback when no per-video music (git-ignored)
 docs/  PRD.md  ARCHITECTURE.md  style-guide.md  tech-requirements.md  storytelling.md
        brief-template.md  script.schema.json  marketing.schema.json  upload.schema.json  examples/yakhchal/
@@ -80,6 +81,8 @@ videos/<slug>/
 ```
 
 ## 4. Video folder contract
+
+The whole `videos/<slug>/` folder is local owner data (git-ignored); only `videos/_template/` is in the repo. "git-ignored" notes below mark files that are also generated or heavy.
 
 ```
 videos/<slug>/
@@ -141,7 +144,7 @@ Defined by `docs/script.schema.json`. Key ideas:
 - Video duration = `durationSec + config.tailSec`.
 
 ### 5.2b `music.json` and `audio/music.meta.json`
-- `music.json` (brief-writer, committed): `{ "topic": "<≤ 25 words: what the video is about + era/region + 1–2 traditional instruments>" }`. `validate.mjs` requires it for videos still at `selected`/`briefed` (a warning for older videos) and rejects a topic over 25 words.
+- `music.json` (brief-writer): `{ "topic": "<≤ 25 words: what the video is about + era/region + 1–2 traditional instruments>" }`. `validate.mjs` requires it for videos still at `selected`/`briefed` (a warning for older videos) and rejects a topic over 25 words.
 - Prompt sent to ElevenLabs Music = `config.json → music.promptTemplate` with `{{topic}}` replaced by `music.json → topic`.
 - `audio/music.meta.json` (music-gen, git-ignored): `{ "prompt", "model", "lengthSec", "generatedAt" }`.
 - `music.source`: `elevenlabs` (generate per video), `file` (no generation: `audio/music.source.mp3` placed by the owner, else `assets/music.*`), `off` (no music). `music-loop` always prefers `audio/music.source.mp3`, then `assets/music.*`.

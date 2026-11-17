@@ -22,7 +22,8 @@ const deepMerge = (base, over) => {
 /** config.json on top of config-template.json: a key missing from config.json falls back to the template default. */
 export const config = () => {
   const tpl = join(ROOT, "config-template.json");
-  const user = readJson(join(ROOT, "config.json"));
+  const userPath = join(ROOT, "config.json");
+  const user = existsSync(userPath) ? readJson(userPath) : {};
   return existsSync(tpl) ? deepMerge(readJson(tpl), user) : user;
 };
 export const videoDir = (slug) => join(ROOT, "videos", slug);

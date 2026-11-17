@@ -11,7 +11,7 @@ Arguments: `$ARGUMENTS` → first token(s) = topic name or slug, trailing tokens
 Logging (orchestrator only; skip the run-log lines when `/generate` or another command already wraps this): `node tools/log.mjs --run brief <slug|-> start "<args>"`; per-video: `node tools/log.mjs <slug> brief start|done|error "<details>"`; end: `node tools/log.mjs --run brief <slug> <result> ""` (the tool adds the duration).
 
 ## Steps
-1. **Resolve** the topic in `topics.md` (by name, slug or number from the last batch). Slug = lowercase ASCII with hyphens. If the topic is not in `topics.md`, add it with status `selected`.
+1. **Resolve** the topic in `topics.md` (if the file is missing, copy `topics-template.md` to `topics.md` first) (by name, slug or number from the last batch). Slug = lowercase ASCII with hyphens. If the topic is not in `topics.md`, add it with status `selected`.
 2. **Template check:** `videos/_template/` must exist. If not → stop and tell the owner to run `BOOTSTRAP_PROMPT.md` first.
 3. **Folder:**
    - New video: `node tools/new-video.mjs <slug>` (copies the template without generated folders and the showcase/style tooling, writes `STATUS` = `selected`; needs no `rm`, so an unattended run is not interrupted by a permission prompt).
@@ -25,5 +25,5 @@ Logging (orchestrator only; skip the run-log lines when `/generate` or another c
    - "Run `node tools/validate.mjs <slug>` before finishing and fix every error."
 5. **Verify:** run `node tools/validate.mjs <slug>`. If it fails, send the errors back to `brief-writer` once. If it still fails, stop and show the errors.
 6. **Status:** `topics.md` row → `briefed` + languages; `STATUS` → `briefed`.
-7. **Commit:** `git add -A videos/<slug> topics.md && git commit -m "<slug>: brief"` (skip silently if not a git repo).
+7. **No commit:** the video folder and `topics.md` are local owner data (git-ignored), so this step commits nothing.
 8. **Report** to the owner in ≤ 6 lines: title, target duration, number of steps and threats, languages, word count per language, and the next command: `/produce <slug>`.

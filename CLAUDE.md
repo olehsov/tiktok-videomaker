@@ -31,11 +31,11 @@ Default language is `en`. Extra languages (`uk`, `ru`) are optional and named at
 - `docs/brief-template.md` — the exact structure of every `BRIEF.md`.
 - `docs/script.schema.json` — contract for `script.<lang>.json`.
 - `docs/examples/yakhchal/` — a reference brief + script showing the expected quality.
-- `config.json` — voices, TTS model, duration limits, music settings, `pipeline` gate flags, `marketing` post settings.
-- `topics.md` — registry of every topic ever proposed, with status.
+- `config.json` — local, git-ignored overrides on top of `config-template.json` (defaults): voices, TTS model, duration limits, music settings, `pipeline` gate flags, `marketing` post settings.
+- `topics.md` — registry of every topic ever proposed, with status. Local and git-ignored; created from `topics-template.md` on first use.
 - `tools/` — Node scripts (no npm deps): TTS with timestamps, silence-based timings, music generation (ElevenLabs Music), music loop with ducking.
 - `videos/_template/` — HyperFrames project + shared kit (overlay components, palette tokens, low-poly assets).
-- `videos/<slug>/` — one folder per video (copy of `_template`).
+- `videos/<slug>/` — one folder per video (copy of `_template`). Local owner data, git-ignored.
 
 ## Hard rules
 
@@ -50,7 +50,7 @@ Default language is `en`. Extra languages (`uk`, `ru`) are optional and named at
 - Update `topics.md` status at every step (see ARCHITECTURE → Topic lifecycle).
 - Logs: only skills write them, via `node tools/log.mjs` (video log `videos/<slug>/logs/pipeline.log`, run log `logs/runs.log`); agents never log. Both are git-ignored.
 - A final review FAIL after `pipeline.maxReviewLoops` always stops the run (`needs-owner`); no flag or `--unattended` bypasses it.
-- Commit after each completed step with a message like `igloo: brief`, `igloo: rendered`. Never commit `.env`, audio or renders.
+- Generated content (`videos/<slug>/`, `topics.md`, `config.json`) is local owner data and is never committed: the repo ships only the tool. Commit only changes to the tool itself (skills, agents, docs, `tools/`, `videos/_template/`). Never commit `.env`, audio or renders.
 
 ## Model routing
 

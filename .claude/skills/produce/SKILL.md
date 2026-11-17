@@ -82,7 +82,7 @@ Show: draft path, live preview command from `PLAN.md`, the reviewer verdict and 
 - Delegate to `video-builder` (mode: final, languages): renders `out/<slug>.L.mp4` and `out/cover.L.png` for every language (no post text; marketing replaces it).
 - **Finishing** (look: sharpen / grain / vignette, CRF, x264 tune): for each language run `node tools/finish.mjs videos/<slug>/out/<slug>.L.mp4` and `node tools/finish.mjs videos/<slug>/out/cover.L.png` (once per render; drafts are never finished). Log it.
 - Verify each MP4 with ffprobe: 1080×1920, ~30 fps, has audio, duration 60–120 s. Fix via builder if not.
-- Status → `rendered`. Commit `"<slug>: rendered"` (renders, audio and logs are git-ignored).
+- Status → `rendered`. No commit: video folders are local owner data (git-ignored).
 
 ## P7 Marketing
 Per language: `node tools/script-hash.mjs <slug> L`. If `marketing.L.json` exists with this hash → skip.
@@ -94,6 +94,6 @@ Per language: `node tools/script-hash.mjs <slug> L`. If `marketing.L.json` exist
 For every language: `node tools/prepare-upload.mjs <slug> L`. Exit code 3 (stale marketing) → recompute the hash, rerun `marketing-writer` **once**, run `prepare-upload` again; still failing → error, stop. Then `node tools/validate.mjs <slug>`.
 
 ## P9 Publish stub and finish
-For every language `node tools/publish-tiktok.mjs <slug> L` (with `publish: "off"` it only says the upload file is ready). Status → `ready` (`STATUS`, `topics.md`). Commit `"<slug>: ready"`.
+For every language `node tools/publish-tiktok.mjs <slug> L` (with `publish: "off"` it only says the upload file is ready). Status → `ready` (`STATUS`, `topics.md`). No commit (video folders and `topics.md` are git-ignored).
 Kit: if `pipeline.autoPromoteKit` is true → read `.claude/skills/promote/SKILL.md` and follow its **Auto mode** for `<slug>` (shared instructions; the `promote` skill itself stays owner-only and is not invoked); otherwise, if `KIT_CHANGES.md` is not empty, suggest `/promote <slug>`.
 Report: output paths per language (`mp4`, `cover`, `upload.<lang>.json`, `MARKETING.md`), final durations, open minor issues. Wait for background agents, then write the run-log end line.

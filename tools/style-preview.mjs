@@ -126,7 +126,7 @@ if (multiKeys.length) {
 
 // ---------------------------------------------------------------- --apply
 if (apply) {
-  const cfgPath = join(ROOT, "config.json"), cfg = readJson(cfgPath);
+  const cfgPath = join(ROOT, "config.json"), cfg = existsSync(cfgPath) ? readJson(cfgPath) : {};
   const look = effectiveLook(over), changed = [];
   cfg.look = { ...(cfg.look || {}) };
   for (const k of Object.keys(over)) { if (cfg.look[k] !== look[k]) changed.push(k); cfg.look[k] = look[k]; }

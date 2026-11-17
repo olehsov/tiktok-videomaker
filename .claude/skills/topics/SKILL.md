@@ -11,7 +11,7 @@ Goal: 10 topics the average TikTok viewer would stop scrolling for, each explain
 Logging (orchestrator only, see ARCHITECTURE → Logging): `node tools/log.mjs --run topics - start "<args>"` first; at the end `node tools/log.mjs --run topics <slug|-> <result> ""` (the tool adds the duration).
 
 ## Steps
-1. Read `topics.md` and `docs/storytelling.md` (categories, good-topic test).
+1. If `topics.md` is missing, copy `topics-template.md` to `topics.md`. Read `topics.md` and `docs/storytelling.md` (categories, good-topic test).
 2. Generate candidates. If `$ARGUMENTS` names a theme or category, bias toward it but keep variety.
 3. Filter out anything already in `topics.md` with a status other than `proposed`, plus every `rejected` topic. Treat synonyms as the same topic (katana = Japanese sword; dugout = earth shelter).
 4. Keep exactly 10 that pass the good-topic test, max 2 per category.
